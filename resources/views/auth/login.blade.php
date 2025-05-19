@@ -54,7 +54,7 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1); /* transparan */
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
             transition: background-color 0.3s ease;
         }
@@ -75,26 +75,55 @@
 
     <div class="login-card">
         <h2>Login</h2>
-        <form action="/login" method="POST">
-            <!-- Tambahkan CSRF jika di Laravel -->
+
+        <!-- Session Status -->
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <!-- Error Message -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="email" name="email"
+                       value="{{ old('email') }}" placeholder="Enter email" required autofocus>
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Password" required>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                <label class="form-check-label" for="remember">Remember me</label>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
+
         <div class="mt-3 d-flex justify-content-between">
-            <a href="#" class="text-decoration-none" style="color: #194376;">Forgot password?</a>
-            <a href="/signup" class="text-decoration-none" style="color: #194376; ">Don't have an account?</a>
+            @if (Route::has('password.request'))
+                <a href="{{ route('password.request') }}" class="text-decoration-none" style="color: #194376;">Forgot password?</a>
+            @endif
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="text-decoration-none" style="color: #194376;">Don't have an account?</a>
+            @endif
         </div>
     </div>
-
 </body>
 </html>

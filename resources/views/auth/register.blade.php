@@ -70,32 +70,46 @@
 <body>
 
     <!-- Tombol Kembali -->
-    <a href="/login" class="position-absolute top-0 start-0 m-4 back-button">
+    <a href="{{ route('login') }}" class="position-absolute top-0 start-0 m-4 back-button">
         <i class="bi bi-arrow-left" style="font-size: 1.2rem;"></i>
     </a>
 
     <div class="register-card">
         <h2>Register</h2>
-        <form action="/register" method="POST">
+
+        <form method="POST" action="{{ route('register') }}">
             @csrf
+
             <div class="mb-3">
                 <label for="name" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter full name" required>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Enter full name" required>
+                @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Enter email" required>
+                @error('email')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Create password" required>
+                @error('password')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="password_confirmation" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Repeat password" required>
+                @error('password_confirmation')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -103,7 +117,7 @@
 
         <div class="mt-3 d-flex justify-content-between">
             <span class="text-muted">Already have an account?</span>
-            <a href="/login" class="text-decoration-none" style="color: #194376;">Login</a>
+            <a href="{{ route('login') }}" class="text-decoration-none" style="color: #194376;">Login</a>
         </div>
     </div>
 
