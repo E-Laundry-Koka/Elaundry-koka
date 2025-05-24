@@ -9591,3 +9591,66 @@ h6,
     color: #194376 !important;
     font-weight: 600;
 }
+
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default; /* agar terlihat tidak bisa diklik */
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.process-circle {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.process-step {
+  transition: transform 0.3s ease;
+}
+
+.process-step:hover {
+  transform: scale(1.1);
+}
+
+.price-circle {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.price-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.contact-info .col-md-4 {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  /* Supaya posisi transformasi rapi */
+  transform-origin: center bottom;
+}
+
+.contact-info .col-md-4:hover {
+  transform: scale(1.05) translateY(-10px); /* Membesarkan dan geser ke atas */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Tambahkan bayangan agar terlihat naik */
+  z-index: 10; /* Supaya card hover tidak tertutup elemen lain */
+}
+
+.rounded-navbar {
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* efek lembut */
+    overflow: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
+}
