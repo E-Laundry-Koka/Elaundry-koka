@@ -10,6 +10,7 @@ class Pesanan extends Model
     
     protected $fillable = [
         'nama_pemesan', 
+        'nomor_resi',
         'no_hp',
         'alamat',
         'id_layanan',  // Tambahkan field ini

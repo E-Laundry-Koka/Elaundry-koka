@@ -18,6 +18,46 @@
         </div>
 
         <!-- Table Section -->
+        <form method="GET" action="{{ route('orders.create') }}" class="mb-3">
+            <div class="row g-2 align-items-center">
+
+                <div class="col-auto">
+                    <label for="per_page" class="col-form-label fw-semibold">Tampilkan:</label>
+                </div>
+                <div class="col-auto">
+                    <select name="per_page" id="per_page" class="form-select" onchange="this.form.submit()">
+                        <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                        <option value="15" {{ $perPage == 15 ? 'selected' : '' }}>15</option>
+                        <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>20</option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <label for="sort_by" class="col-form-label fw-semibold">Urutkan berdasarkan:</label>
+                </div>
+                <div class="col-auto">
+                    <select name="sort_by" id="sort_by" class="form-select" onchange="this.form.submit()">
+                        @if (empty($sortOrder))
+                            <option value="" selected hidden>Pilih Urutan</option>
+                        @endif
+                        <option value="created_at" {{ $sortBy == 'created_at' ? 'selected' : '' }}>Tanggal</option>
+                        <option value="nama_pemesan" {{ $sortBy == 'nama_pemesan' ? 'selected' : '' }}>Nama Pemesan</option>
+                        <option value="id_layanan" {{ $sortBy == 'id_layanan' ? 'selected' : '' }}>Layanan</option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <select name="sort_order" class="form-select" onchange="this.form.submit()">
+                        @if (empty($sortOrder))
+                            <option value="" selected hidden>Pilih Urutan</option>
+                        @endif
+                        <option value="asc" {{ $sortOrder == 'asc' ? 'selected' : '' }}>Terendah ke Tertinggi</option>
+                        <option value="desc" {{ $sortOrder == 'desc' ? 'selected' : '' }}>Tertinggi ke Terendah</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
         <div class="table-responsive rounded-3 overflow-hidden">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-dark text-center">
@@ -27,7 +67,7 @@
                         <th>No. Handphone</th>
                         <th>Alamat</th>
                         <th>Berat (Kg)</th>
-                        <th>Diskon</th>
+                        <th>Layanan</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -35,12 +75,12 @@
                 <tbody>
                     @forelse ($pesanan as $history => $item)
                         <tr class="animate__animated animate__fadeIn">
-                            <td class="text-center">{{ $history + 1 }}</td>
+                            <td class="text-center">{{ $pesanan->firstItem() + $history }}</td>
                             <td>{{ $item->nama_pemesan }}</td>
                             <td class="text-center">{{ $item->no_hp }}</td>
                             <td>{{ $item->alamat }}</td>
                             <td class="text-center">{{ $item->berat }}</td>
-                            <td class="text-center">{{ $item->diskon ?? '0' }}%</td>
+                            <td class="text-center">{{ $item->layanan->nama_layanan ?? '-'}}</td>
                             <td class="text-center">
                                 @if ($item->status == 'Selesai')
                                     <span class="badge bg-success rounded-pill">Selesai</span>
@@ -177,11 +217,13 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="row mb-3">
+                        <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
                         <div class="col-md-6"><strong>Nama Pemesan:</strong> {{ $item->nama_pemesan }}</div>
                         <div class="col-md-6"><strong>No. Handphone:</strong> {{ $item->no_hp }}</div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-12"><strong>Alamat:</strong> {{ $item->alamat }}</div>
+                        <div class="col-md-6"><strong>Alamat:</strong> {{ $item->alamat }}</div>
+                        <div class="col-md-6"><strong>Catatan:</strong> {{ $item->catatan }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6"><strong>Jenis Layanan:</strong>
@@ -193,7 +235,7 @@
                         </div>
                         <div class="col-md-6"><strong>Harga Per Kg:</strong>
                             @if ($item->layanan)
-                                Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}
+                               <b style="color: #28a745;">Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</b>
                             @else
                                 -
                             @endif
@@ -205,6 +247,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6"><strong>Total Bayar:</strong>
+                        <b style="color: #28a745;">
                             @php
                                 if ($item->layanan) {
                                     $total = $item->berat * $item->layanan->harga;
@@ -214,6 +257,7 @@
                                     echo '-';
                                 }
                             @endphp
+                        </b>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6"><strong>Metode Pembayaran:</strong>

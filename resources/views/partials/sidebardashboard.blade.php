@@ -1,8 +1,8 @@
 <!-- Sidebar -->
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a href="{{ route('dashboard') }}" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"><i class="fa fa-soap me-2"></i>Dashboard</h3>
+        <a href="/" class="navbar-brand mx-4 mb-3" >
+            <h3 class="text-primary" style="color: rgb(0, 126, 205) !important;"><i class="fa fa-soap me-2"></i>KOKA LAUNDRY</h3>
         </a>
 
         <div class="d-flex align-items-center ms-4 mb-4">
@@ -21,6 +21,10 @@
                 <i class="fa fa-home me-2"></i>Beranda
             </a>
 
+            <a href="{{ route('admin.management') }}" class="nav-item nav-link {{ request()->routeIs('admin.management') ? 'active' : '' }}">
+                <i class="fa fa-user-cog me-2"></i>Admin
+            </a>
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('orders.*') ? 'active' : '' }}" data-bs-toggle="dropdown">
                     <i class="fa fa-shopping-basket me-2"></i>Pesanan
@@ -31,11 +35,11 @@
                 </div>
             </div>
 
-            <a href="#" class="nav-item nav-link">
+            <a href="javascript:void(0);" class="nav-item nav-link disabled" aria-disabled="true" style="pointer-events: none; opacity: 0.6;">
                 <i class="fa fa-file-download me-2"></i>Unduh Tagihan
             </a>
 
-            <a href="#" class="nav-item nav-link">
+            <a href="javascript:void(0);" class="nav-item nav-link disabled" aria-disabled="true" style="pointer-events: none; opacity: 0.6;">
                 <i class="fa fa-cog me-2"></i>Setting
             </a>
 

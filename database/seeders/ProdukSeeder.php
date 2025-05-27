@@ -14,9 +14,10 @@ class ProdukSeeder extends Seeder
     public function run(): void
     {
         Layanan::insert([
-            ['nama_layanan' => 'Cuci Kiloan', 'harga' => 10000],
-            ['nama_layanan' => 'Setrika', 'harga' => 8000],
-            ['nama_layanan' => 'Cuci Satuan', 'harga' => 15000],
+            ['nama_layanan' => 'Cuci Komplit', 'harga' => 7000],
+            ['nama_layanan' => 'Cuci + Lipat', 'harga' => 5000],
+            ['nama_layanan' => 'Setrika', 'harga' => 5000],
+            ['nama_layanan' => 'Koka Express', 'harga' => 10000],
         ]);
     }
 }

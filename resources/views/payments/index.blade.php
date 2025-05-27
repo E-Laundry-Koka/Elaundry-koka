@@ -7,7 +7,7 @@
         <!-- Header Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="text-primary fw-bold">Riwayat Pembayaran</h3>
-            <div>
+            <!-- <div>
                 <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalTambahPembayaran">
                     <i class="bi bi-plus-circle"></i> Tambah Pembayaran
                 </button>
@@ -17,7 +17,7 @@
                 <button type="button" class="btn btn-danger" id="btnHapusSemua">
                     <i class="bi bi-trash"></i> Hapus Semua
                 </button>
-            </div>
+            </div> -->
         </div>
         <!-- Table Section -->
         <div class="table-responsive rounded-3 overflow-hidden">
@@ -53,9 +53,9 @@
                                     <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#modalDetailPembayaran{{ $item->id }}">
                                         <i class="bi bi-eye"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('{{ $item->id }}')">
+                                    <!-- <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('')"> //
                                         <i class="bi bi-trash"></i>
-                                    </button>
+                                    </button> -->
                                 </td>
                             </tr>
                         @endif

@@ -19,10 +19,10 @@
     <div class="navbar-nav align-items-center ms-auto">
         <!-- Messages Dropdown -->
         <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <!-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="bi bi-chat-left-text me-lg-2"></i>
                 <span class="d-none d-lg-inline-flex">Pesan</span>
-            </a>
+            </a> -->
             <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded shadow m-0">
                 <a href="#" class="dropdown-item">
                     <div class="d-flex align-items-center">
@@ -72,7 +72,11 @@
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded shadow m-0">
                 <a href="{{ route('profile.edit') }}" class="dropdown-item">Profil Saya</a>
-                <a href="{{ route('settings') }}" class="dropdown-item">Pengaturan</a>
+                <a href="javascript:void(0);" class="dropdown-item disabled" aria-disabled="true" style="pointer-events: none; opacity: 0.6;">
+                    <i class=""></i>Pengaturan
+                </a> 
+                <!-- fa fa-cog me-2 -->
+                <!-- <a href="" class="dropdown-item">Pengaturan</a> // -->
                 <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Keluar
                 </a>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId("id_pesanan")->constrained("pesanan")->onDelete('cascade');
             $table->enum("metode_pembayaran", ['Tunai', 'Transfer']);   
             $table->integer("jumlah_pembayaran");
-            $table->date("tanggal_pembayaran");
+            $table->date("tanggal_pembayaran")->nullable();
             $table->enum("status_pembayaran", ['Belum Bayar', 'Lunas'])->default('Belum Bayar');
             $table->timestamps();
         });

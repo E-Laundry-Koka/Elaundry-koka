@@ -10,12 +10,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $pesanan = Pesanan::latest()->take(5)->get();
         // Hitung jumlah pesanan
         $totalPesanan = Pesanan::count();
 
         // Hitung total penjualan (jumlah_pembayaran dari tabel pembayaran)
         $totalPenjualan = Pembayaran::sum('jumlah_pembayaran');
 
-        return view('admin.dashboard', compact('totalPesanan', 'totalPenjualan'));
+
+        return view('admin.dashboard', compact('pesanan', 'totalPesanan', 'totalPenjualan'));
     }
 }

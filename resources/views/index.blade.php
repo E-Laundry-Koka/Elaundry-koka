@@ -51,10 +51,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="/" class="nav-item nav-link">Home</a>
-                        <a href="#about" class="nav-item nav-link">About</a>
-                        <a href="#services" class="nav-item nav-link">Services</a>
-                        <a href="#prices" class="nav-item nav-link">Pricing</a>
+                        <a href="/" class="nav-item nav-link">Halaman Utama</a>
                         <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu border-0 rounded-0 m-0">
@@ -62,10 +59,11 @@
                                 <a href="single.html" class="dropdown-item">Blog Detail</a>
                             </div>
                         </div> -->
-                        <a href="#contact" class="nav-item nav-link">Contact</a>
-                        <a href="{{ route('user.order') }}" class="nav-item nav-link">Pesan</a>
+                        <a href="#contact" class="nav-item nav-link">Kontak</a>
+                        <a href="{{ route('user.form_pemesanan') }}" class="nav-item nav-link">Pesan</a>
+                        <a href="{{ route('check-status') }}" class="nav-item nav-link">Cek Pesanan</a>
                         <x-nav-link>
-                            <a href="/login" class="nav-item nav-link active">Admin</a>
+                            <a href="{{ route('login') }}" class="nav-item nav-link active">Admin</a>
                         </x-nav-link>
                     </div>
                 </div>
@@ -83,9 +81,9 @@
                     <img class="w-100" src="img/carousel-1.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h4 class="text-white text-uppercase mb-md-3">Laundry & Dry Cleaning</h4>
-                            <h1 class="display-3 text-white mb-md-4">Best For Laundry Services</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Learn More</a>
+                            <h4 class="text-white text-uppercase mb-md-3">Laundry & Setrika</h4>
+                            <h1 class="display-3 text-white mb-md-4">Siap Cepat 1 Hari Selesai</h1>
+                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -93,9 +91,9 @@
                     <img class="w-100" src="img/carousel-2.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h4 class="text-white text-uppercase mb-md-3">Laundry & Dry Cleaning</h4>
-                            <h1 class="display-3 text-white mb-md-4">Highly Professional Staff</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Learn More</a>
+                            <h4 class="text-white text-uppercase mb-md-3">Laundry & Setrika</h4>
+                            <h1 class="display-3 text-white mb-md-4">Gratis Antar Jemput Minimal 5 Kg</h1>
+                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -123,7 +121,7 @@
                     <div class="d-inline-flex">
                         <i class="fa fa-2x fa-map-marker-alt text-white m-0 mr-3"></i>
                         <div class="d-flex flex-column">
-                            <h5 class="text-white font-weight-medium">Our Location</h5>
+                            <h5 class="text-white font-weight-medium">Lokasi Kami (Pusat)</h5>
                             <p class="m-0 text-white">JL. Serma Ishak Ahmad, Mayang Mangurai, Jambi City 36126</p>
                         </div>
                     </div>
@@ -132,8 +130,8 @@
                     <div class="d-inline-flex text-left">
                         <i class="fa fa-2x fa-envelope text-white m-0 mr-3"></i>
                         <div class="d-flex flex-column">
-                            <h5 class="text-white font-weight-medium">Email Us</h5>
-                            <p class="m-0 text-white">info@example.com</p>
+                            <h5 class="text-white font-weight-medium">Instagram Kami</h5>
+                            <p class="m-0 text-white">@kokalaundryjbi_</p>
                         </div>
                     </div>
                 </div>
@@ -141,8 +139,8 @@
                     <div class="d-inline-flex text-left">
                         <i class="fa fa-2x fa-phone-alt text-white m-0 mr-3"></i>
                         <div class="d-flex flex-column">
-                            <h5 class="text-white font-weight-medium">Call Us</h5>
-                            <p class="m-0 text-white">0811 - 7443 - 553</p> 
+                            <h5 class="text-white font-weight-medium">Telepon Kami</h5>
+                            <p class="m-0 text-white">+62 811-7443-553</p> 
                         </div>
                     </div>
                 </div>
@@ -160,33 +158,33 @@
                     <img class="img-fluid" src="img/about.jpg" alt="" style="border-radius: 15px;">
                 </div>
                 <div class="col-lg-7 mt-5 mt-lg-0 pl-lg-5">
-                    <h6 class="text-secondary text-uppercase font-weight-medium mb-3">Learn About Us</h6>
-                    <h1 class="mb-4">Your Trusted Laundry Solution in the City</h1>
-                    <h5 class="font-weight-medium font-italic mb-4">Clita sit et ipsum sed. Volup duo sea dolor rebum ea rebum kasd stet. Dolor at duo dolor sit stet.</h5>
-                    <p class="mb-2">Say goodbye to laundry hassles! We provide fast, reliable, and high-quality laundry services designed to make your life easier. With cutting-edge technology and a professional team, we treat your clothes with the care they deserve.</p>
+                    <h6 class="text-secondary text-uppercase font-weight-medium mb-3">Tentang Kami</h6>
+                    <h1 class="mb-4">Laundry & Setrika Kekinian Buat Kamu yang Anti Ribet</h1>
+                    <h5 class="font-weight-medium font-italic mb-4">Cepat, praktis, dan tanpa ribet. Biar kamu lebih fokus buat hal seru lainnya!</h5>
+                    <p class="mb-2">Bosen sama cucian yang gak kelar-kelar? Serahin aja ke kita! Layanan laundry dan setrika kita cepat, praktis, dan bikin hidup kamu makin santuy. Dengan teknologi modern dan karyawan kece, baju kamu bakal kinclong tanpa drama.</p>
                     <div class="row">
                         <div class="col-sm-6 pt-3">
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-check text-primary mr-2"></i>
-                                <p class="text-primary font-weight-medium m-0">🧺 Premium Laundry Services</p>
+                                <p class="text-primary font-weight-medium m-0">🧺 Layanan Laundry & Setrika Kekinian</p>
                             </div>
                         </div>
                         <div class="col-sm-6 pt-3">
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-check text-primary mr-2"></i>
-                                <p class="text-primary font-weight-medium m-0">🚚 Fast & Reliable Pickup & Delivery</p>
+                                <p class="text-primary font-weight-medium m-0">🚚 Jemput & Antar Cepat, Gak Perlu Repot Jalan</p>
                             </div>
                         </div>
                         <div class="col-sm-6 pt-3">
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-check text-primary mr-2"></i>
-                                <p class="text-primary font-weight-medium m-0">👕 Skilled & Professional Staff</p>
+                                <p class="text-primary font-weight-medium m-0">👕 Karyawan yang Jago Rawat Baju</p>
                             </div>
                         </div>
                         <div class="col-sm-6 pt-3">
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-check text-primary mr-2"></i>
-                                <p class="text-primary font-weight-medium m-0">🌟 100% Satisfaction Guaranteed</p>
+                                <p class="text-primary font-weight-medium m-0">🌟 Garansi Puas atau Uang Kembali!</p>
                             </div>
                         </div>
                     </div>
@@ -200,15 +198,20 @@
     <!-- Services Start -->
     <div class="container-fluid pt-5 pb-3" id="services">
         <div class="container">
-            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Our Services</h6>
-            <h1 class="display-4 text-center mb-5">What We Offer</h1>
+            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Layanan</h6>
+            <h1 class="display-4 text-center mb-5">Layanan yang Kami Sediakan</h1>
             <div class="row">
                 <div class="col-lg-3 col-md-6 pb-1">
                     <div class="d-flex flex-column align-items-center justify-content-center text-center bg-light mb-4 px-4 service-card" style="height: 300px; border-radius: 15px;">
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4" style="width: 100px; height: 100px;">
                             <i class="fa fa-3x fa-cloud-sun text-secondary"></i>
                         </div>
-                        <h4 class="font-weight-bold m-0">Dry Cleaning</h4>
+                        <h4 class="font-weight-bold m-0">Cuci Komplit</h4>
+                        <p class="mt-2" style="color: #6c757d; font-size: 0.95rem; line-height: 1.5; font-weight: 400;">
+                            Harga : Rp 7.000 / Kg<br>
+                            Termasuk cuci, kering, setrika, & lipat<br>
+                            Estimasi : 1 Hari (Reguler)
+                            </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 pb-1">
@@ -216,7 +219,11 @@
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4" style="width: 100px; height: 100px;">
                             <i class="fas fa-3x fa-soap text-secondary"></i>
                         </div>
-                        <h4 class="font-weight-bold m-0">Wash & Laundry</h4>
+                        <h4 class="font-weight-bold m-0">Cuci + Lipat</h4>
+                        <p class="mt-2" style="color: #6c757d; font-size: 0.95rem; line-height: 1.5; font-weight: 400;">
+                            Harga: Rp 5.000 / Kg<br>
+                            Cocok untuk pakaian sehari-hari yang tidak perlu disetrika
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 pb-1">
@@ -224,7 +231,11 @@
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4" style="width: 100px; height: 100px;">
                             <i class="fa fa-3x fa-burn text-secondary"></i>
                         </div>
-                        <h4 class="font-weight-bold m-0">Curtain Laundry</h4>
+                        <h4 class="font-weight-bold m-0">Setrika Saja</h4>
+                        <p class="mt-2" style="color: #6c757d; font-size: 0.95rem; line-height: 1.5; font-weight: 400;">
+                            Harga: Rp 5.000 / Kg<br>
+                            Untuk pakaian yang sudah dicuci sendiri dari rumah pelanggan
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 pb-1">
@@ -232,7 +243,12 @@
                         <div class="d-inline-flex align-items-center justify-content-center bg-white shadow rounded-circle mb-4" style="width: 100px; height: 100px;">
                             <i class="fa fa-3x fa-tshirt text-secondary"></i>
                         </div>
-                        <h4 class="font-weight-bold m-0">Suits Cleaning</h4>
+                        <h4 class="font-weight-bold m-0">Cuci Karpet</h4>
+                        <p class="mt-2" style="color: #6c757d; font-size: 0.95rem; line-height: 1.5; font-weight: 400;">
+                            Harga tidak tercantum<br>
+                            Dikhususkan untuk karpet rumah/toko<br>
+                            Bisa ditanyakan via kontak
+                        </p>
                     </div>
                 </div>
             </div>
@@ -246,33 +262,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 m-0 my-lg-5 pt-0 pt-lg-5 pr-lg-5">
-                    <h6 class="text-secondary text-uppercase font-weight-medium mb-3">Our Features</h6>
-                    <h1 class="mb-4">Why Choose Us</h1>
-                    <p>We combine advanced laundry technology, eco-friendly practices, and a team of dedicated professionals to deliver top-notch results. Whether it's your daily wear or delicate garments, we treat every piece with exceptional care—so you don’t have to worry about a thing.</p>
+                    <h6 class="text-secondary text-uppercase font-weight-medium mb-3">Fitur Kami</h6>
+                    <h1 class="mb-4">Kenapa Memilih Kami</h1>
+                    <p>Kami memadukan teknologi laundry terkini, cara yang ramah lingkungan, dan karywana yang profesional untuk memberikan hasil terbaik. Baik pakaian sehari-hari maupun yang paling halus, kami merawatnya dengan sepenuh hati, jadi Anda bisa tenang tanpa khawatir.</p>
                     <div class="row">
                         <div class="col-sm-6 mb-4">
-                            <h1 class="text-secondary" data-toggle="counter-up">8</h1>
-                            <h5 class="font-weight-bold">Years Expereince</h5>
+                            <h1 class="text-secondary" data-toggle="counter-up">6</h1>
+                            <h5 class="font-weight-bold">Tahun Pengalaman</h5>
                         </div>
                         <div class="col-sm-6 mb-4">
-                            <h1 class="text-secondary" data-toggle="counter-up">250</h1>
-                            <h5 class="font-weight-bold">Expert Worker</h5>
-                        </div>
-                        <div class="col-sm-6 mb-4">
-                            <h1 class="text-secondary" data-toggle="counter-up">1250</h1>
-                            <h5 class="font-weight-bold">Happy Clients</h5>
+                            <h1 class="text-secondary" data-toggle="counter-up">18</h1>
+                            <h5 class="font-weight-bold">Karyawan</h5>
                         </div>
                         <div class="col-sm-6 mb-4">
                             <h1 class="text-secondary" data-toggle="counter-up">9550</h1>
-                            <h5 class="font-weight-bold">Dry Cleaning</h5>
+                            <h5 class="font-weight-bold">Pelanggan Puas</h5>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <h1 class="text-secondary" data-toggle="counter-up">9550</h1>
+                            <h5 class="font-weight-bold">Laundry</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="d-flex flex-column align-items-center justify-content-center bg-secondary h-100 py-5 px-3" style="border-radius: 15px;">
                         <i class="fa fa-5x fa-certificate text-white mb-5"></i>
-                        <h1 class="display-1 text-white mb-3">5+</h1>
-                        <h1 class="text-white m-0">Years Experience</h1>
+                        <h1 class="display-1 text-white mb-3">6</h1>
+                        <h1 class="text-white m-0">Tahun Pengalaman</h1>
                     </div>
                 </div>
             </div>
@@ -281,18 +297,84 @@
     <!-- Features End -->
 
 
+    <!-- Location Start -->        
+    <div class="container-fluid py-5">
+        <div class="container">
+            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Cabang Kami</h6>
+            <h1 class="display-4 text-center mb-5">Temukan Koka Laundry di Lokasi Berikut</h1>
+            <div class="owl-carousel testimonial-carousel">
+                <div class="testimonial-item" onclick="window.open('https://maps.app.goo.gl/d8UBc4fRkwkJYy148', '_blank')" style="cursor:pointer;">
+                    <img class="position-relative bg-white shadow mx-auto" src="{{ asset('img/cb1.jpg') }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" alt="">
+                    <div class="bg-light text-center p-4 pt-0" style="border-radius: 0 0 15px 15px;">
+                        <h5 class="font-weight-medium mt-2">Cabang 1 (Pusat)</h5>
+                        <p class="m-0">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                            Jl. Serma Ishak Ahmad, Mayang Mangurai, Kec. Kota Baru, Kota Jambi, Jambi 36361
+                        </p>
+                    </div>
+                </div>
+
+                <div class="testimonial-item" onclick="window.open('https://maps.app.goo.gl/8D5JCzdAW2hbXZcm6', '_blank')" style="cursor:pointer;">
+                    <img class="position-relative bg-white shadow mx-auto" src="img/cb2.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" alt="">
+                    <div class="bg-light text-center p-4 pt-0" style="border-radius: 0 0 15px 15px;">
+                        <h5 class="font-weight-medium mt-2">Cabang 2</h5>
+                        <p class="m-0">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                            Jl. Kapten A Hasan, Pematang Sulur, Arah Ke Pemancar TVRI Depan TK AL-Aqsha, Kec. Telanaipura, Kota Jambi, Jambi 36361</p>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="testimonial-item" onclick="window.open('https://maps.app.goo.gl/CJAVUmAuSj9qnakE8', '_blank')" style="cursor:pointer;">
+                    <img class="position-relative bg-white shadow mx-auto" src="img/cb3.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" alt="">
+                    <div class="bg-light text-center p-4 pt-0" style="border-radius: 0 0 15px 15px;">
+                        <h5 class="font-weight-medium mt-2">Cabang 3</h5>
+                        <p class="m-0">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                            Jl. Letmud Sarniem, Kenali Asam Bawah, Kec. Kota Baru, Kota Jambi, Jambi 36129</p>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="testimonial-item" onclick="window.open('https://maps.app.goo.gl/8v4GsPuA6jd5eyr96', '_blank')" style="cursor:pointer;">
+                    <img class="position-relative bg-white shadow mx-auto" src="img/cb4.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" alt="">
+                    <div class="bg-light text-center p-4 pt-0" style="border-radius: 0 0 15px 15px;">
+                        <h5 class="font-weight-medium mt-2">Cabang 4</h5>
+                        <p class="m-0">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                            Jl. Sari Bakti, Bagan Pete, Kec. Kota Baru, Kota Jambi, Jambi 36361</p>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="testimonial-item" onclick="window.open('https://maps.app.goo.gl/8D5JCzdAW2hbXZcm6', '_blank')" style="cursor:pointer;">
+                    <img class="position-relative bg-white shadow mx-auto" src="img/cb1.jpg" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" alt="">
+                    <div class="bg-light text-center p-4 pt-0" style="border-radius: 0 0 15px 15px;">
+                        <h5 class="font-weight-medium mt-2">Cabang 5</h5>
+                        <p class="m-0">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                            Simpang Rimbo</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Location End -->
+
+
     <!-- Working Process Start -->
     <div class="container-fluid pt-5">
         <div class="container">
-            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Working Process</h6>
-            <h1 class="display-4 text-center mb-5">How We Work</h1>
+            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Proses Pelayanan</h6>
+            <h1 class="display-4 text-center mb-5">Tahapan Layanan</h1>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="process-step d-flex flex-column align-items-center justify-content-center text-center mb-5">
                         <div class="process-circle d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4" style="width: 150px; height: 150px; border-width: 15px !important;">
                             <h2 class="display-2 text-secondary m-0">1</h2>
                         </div>
-                        <h3 class="font-weight-bold m-0 mt-2">Order Place</h3>
+                        <h3 class="font-weight-bold m-0 mt-2">Pesan Layanan</h3>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -300,7 +382,7 @@
                         <div class="process-circle d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4" style="width: 150px; height: 150px; border-width: 15px !important;">
                             <h2 class="display-2 text-secondary m-0">2</h2>
                         </div>
-                        <h3 class="font-weight-bold m-0 mt-2">Free Pick Up</h3>
+                        <h3 class="font-weight-bold m-0 mt-2">Penjemputan Gratis</h3>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -308,7 +390,7 @@
                         <div class="process-circle d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4" style="width: 150px; height: 150px; border-width: 15px !important;">
                             <h2 class="display-2 text-secondary m-0">3</h2>
                         </div>
-                        <h3 class="font-weight-bold m-0 mt-2">Dry Cleaning</h3>
+                        <h3 class="font-weight-bold m-0 mt-2">Proses Laundry</h3>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -316,7 +398,7 @@
                         <div class="process-circle d-inline-flex align-items-center justify-content-center bg-white border border-light shadow rounded-circle mb-4" style="width: 150px; height: 150px; border-width: 15px !important;">
                             <h2 class="display-2 text-secondary m-0">4</h2>
                         </div>
-                        <h3 class="font-weight-bold m-0 mt-2">Free Delivery</h3>
+                        <h3 class="font-weight-bold m-0 mt-2">Pengantaran Gratis</h3>
                     </div>
                 </div>
             </div>
@@ -327,61 +409,52 @@
 
     <!-- Pricing Plan Start -->
     <div class="container-fluid pt-5 pb-3" id="prices">
-        <div class="container">
-            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Our Pricing Plan</h6>
-            <h1 class="display-4 text-center mb-5">The Best Price</h1>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="bg-light text-center mb-2 pt-4" style="border-radius: 15px;">
-                        <div class="price-circle d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4" style="width: 250px; height: 250px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Basic</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">Rp</small>10.000<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                        </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Free Pickup & Delivery</p>
-                            <p>Standard Wash</p>
-                            <p>2 Days Service</p>
-                            <p>Support via Chat</p>
-                        </div>
-                        <a href="#" class="btn btn-secondary py-2 px-4" style="border-radius: 15px;">Signup Now</a>
+    <div class="container">
+        <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Paket Harga Kami</h6>
+        <h1 class="display-4 text-center mb-5">Penawaran Terbaik</h1>
+        <div class="row justify-content-center">
+
+            <!-- Koka Reguler -->
+            <div class="col-md-6 col-lg-5 mb-4">
+                <div class="bg-light text-center mb-2 pt-4" style="border-radius: 15px;">
+                    <div class="price-circle d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4"
+                        style="width: 310px; height: 310px; border: 15px solid #ffffff;">
+                        <h3 class="text-white">Koka Reguler</h3>
+                        <h1 class="display-4 text-white mb-0">
+                            <small class="align-top" style="font-size: 22px; line-height: 45px;">Rp</small>
+                            7.000
+                            <small class="align-bottom" style="font-size: 16px; line-height: 40px;">/Kg</small>
+                        </h1>
                     </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="bg-light text-center mb-2 pt-4" style="border-radius: 15px;">
-                        <div class="price-circle d-inline-flex flex-column align-items-center justify-content-center bg-primary rounded-circle shadow mt-2 mb-4" style="width: 250px; height: 250px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Standard</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">Rp</small>15.000<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                        </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Free Pickup & Delivery</p>
-                            <p>Premium Wash</p>
-                            <p>Next Day Service</p>
-                            <p>Email & Chat Support</p>
-                        </div>
-                        <a href="#" class="btn btn-primary py-2 px-4" style="border-radius: 15px;">Signup Now</a>
+                    <div class="d-flex flex-column align-items-center py-3">
+                        <p>Estimasi selesai: 1 hari</p>
+                        <p>Cuci Standar</p>
+                        <p>Bisa Hubungi Via Chat</p>
                     </div>
+                    <a href="{{ route('user.form_pemesanan') }}" class="btn btn-secondary py-2 px-4 mb-4" style="border-radius: 15px;">Cuci Sekarang</a>
                 </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="bg-light text-center mb-2 pt-4" style="border-radius: 15px;">
-                        <div class="price-circle d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4" style="width: 250px; height: 250px; border: 15px solid #ffffff;">
-                            <h3 class="text-white">Premium</h3>
-                            <h1 class="display-4 text-white mb-0">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">Rp</small>50.000<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                        </div>
-                        <div class="d-flex flex-column align-items-center py-3">
-                            <p>Express Pickup & Delivery</p>
-                            <p>Deep Clean & Ironing</p>
-                            <p>Same Day Service</p>
-                            <p>Priority Customer Support</p>
-                        </div>
-                        <a href="#" class="btn btn-secondary py-2 px-4" style="border-radius: 15px;">Signup Now</a>
+            </div>
+
+            <!-- Koka Express -->
+            <div class="col-md-6 col-lg-5 mb-4">
+                <div class="bg-light text-center mb-2 pt-4" style="border-radius: 15px;">
+                    <div class="price-circle d-inline-flex flex-column align-items-center justify-content-center bg-primary rounded-circle shadow mt-2 mb-4"
+                        style="width: 310px; height: 310px; border: 15px solid #ffffff;">
+                        <h3 class="text-white">Koka Express</h3>
+                        <h1 class="display-4 text-white mb-0">
+                            <small class="align-top" style="font-size: 22px; line-height: 45px;">Rp</small>
+                            10.000
+                            <small class="align-bottom" style="font-size: 16px; line-height: 40px;">/Kg</small>
+                        </h1>
                     </div>
+                    <div class="d-flex flex-column align-items-center py-3">
+                        <p>Estimasi selesai: 3 jam</p>
+                        <p>Cuci Premium</p>
+                        <p>Bisa Hubungi Via Chat</p>
+                    </div>
+                    <a href="{{ route('user.form_pemesanan') }}" class="btn btn-primary py-2 px-4 mb-4" style="border-radius: 15px;">Cuci Sekarang</a>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -391,23 +464,23 @@
     <!-- Testimonial Start -->
     <div class="container-fluid py-5">
         <div class="container">
-            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Testimonial</h6>
-            <h1 class="display-4 text-center mb-5">Our Clients Say</h1>
+            <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Testimoni</h6>
+            <h1 class="display-4 text-center mb-5">Ulasan Pelanggan</h1>
             <div class="owl-carousel testimonial-carousel">
                 <div class="testimonial-item">
                     <img class="position-relative rounded-circle bg-white shadow mx-auto" src="img/testimonial-1.jpg" style="width: 100px; height: 100px; padding: 12px; margin-bottom: -50px; z-index: 1;" alt="">
                     <div class="bg-light text-center p-4 pt-0" style="border-radius: 15px;">
                         <h5 class="font-weight-medium mt-5">Andi Prasetyo</h5>
-                        <p class="text-muted font-italic">Manajer Pemasaran</p>
-                        <p class="m-0">"Tim ini sangat profesional dan cepat tanggap. Hasil kerja mereka melebihi ekspektasi kami."</p>
+                        <p class="text-muted font-italic">Pelanggan Setia</p>
+                        <p class="m-0">"Pelayanan Koka Laundry sangat memuaskan! Pakaian saya selalu bersih dan rapi, plus pengantaran tepat waktu."</p>
                     </div>
                 </div>
                 <div class="testimonial-item">
                     <img class="position-relative rounded-circle bg-white shadow mx-auto" src="img/testimonial-2.jpg" style="width: 100px; height: 100px; padding: 12px; margin-bottom: -50px; z-index: 1;" alt="">
                     <div class="bg-light text-center p-4 pt-0" style="border-radius: 15px;">
-                        <h5 class="font-weight-medium mt-5">Dewi Lestari</h5>
-                        <p class="text-muted font-italic">Pengusaha</p>
-                        <p class="m-0">"Sangat puas dengan pelayanan dan hasilnya. Prosesnya mudah dan timnya sangat komunikatif."</p>
+                        <h5 class="font-weight-medium mt-5">Syahla Khairun</h5>
+                        <p class="text-muted font-italic">Mahasiswa</p>
+                        <p class="m-0">"Gak nyangka laundry bisa secepat ini. Baju wangi, bersih, dan nggak kusut. Recommended banget deh!"</p>
                     </div>
                 </div>
                 <div class="testimonial-item">
@@ -415,21 +488,20 @@
                     <div class="bg-light text-center p-4 pt-0" style="border-radius: 15px;">
                         <h5 class="font-weight-medium mt-5">Budi Santoso</h5>
                         <p class="text-muted font-italic">Desainer Produk</p>
-                        <p class="m-0">"Kerja mereka sangat detail dan hasilnya selalu memuaskan. Saya pasti akan merekomendasikan kepada teman."</p>
+                        <p class="m-0">"Koka Laundry selalu jadi andalan kalau buru-buru. Pelayanan ramah dan hasil cucian selalu oke!"</p>
                     </div>
                 </div>
                 <div class="testimonial-item">
                     <img class="position-relative rounded-circle bg-white shadow mx-auto" src="img/testimonial-4.jpg" style="width: 100px; height: 100px; padding: 12px; margin-bottom: -50px; z-index: 1;" alt="">
                     <div class="bg-light text-center p-4 pt-0" style="border-radius: 15px;">
                         <h5 class="font-weight-medium mt-5">Rina Savana</h5>
-                        <p class="text-muted font-italic">Insinyur Perangkat Lunak</p>
-                        <p class="m-0">"Pengalaman kerja sama yang menyenangkan dan hasil yang sangat memuaskan. Terima kasih!"</p>
+                        <p class="text-muted font-italic">Dosen</p>
+                        <p class="m-0">"Cucian selalu wangi dan bersih banget, plus karywannya ramah dan cepat. Koka Laundry emang juara!"</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Testimonial End -->
 
     <!-- Footer Start -->
@@ -450,16 +522,16 @@
                 <p>Jangan ragu untuk menghubungi kami untuk layanan laundry terbaik.</p>
                 <p><i class="fa fa-map-marker-alt mr-2"></i>JL. Serma Ishak Ahmad, Mayang Mangurai, Jambi City 36126</p>
                 <p><i class="fa fa-phone-alt mr-2"></i>+62 811-7443-553</p>
-                <p><i class="fa fa-envelope mr-2"></i>contact@kokalaundry.co.id</p>
+                <p><i class="fa fa-envelope mr-2"></i>@kokalaundryjbi_</p>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-white mb-4">Layanan Kami</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cuci Kering</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cuci Basah</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Setrika</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Dry Cleaning</a>
-                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Pickup & Delivery</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cuci Komplit</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cuci + Lipat</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Setrika Saja</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cuci Karpet</a>
+                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Antar & Jemput</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
@@ -481,5 +553,20 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('a[href^="#"]').on('click', function(e) {
+            var target = $(this.getAttribute('href'));
+            if (target.length) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 800); // 800ms durasi scroll
+            }
+        });
+    });
+    </script>
 
 @endsection

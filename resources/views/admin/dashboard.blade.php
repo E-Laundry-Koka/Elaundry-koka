@@ -1,244 +1,607 @@
 @extends('layouts.dashboard')
 @section('title', 'Dashboard | Koka Laundry')
 @section('content')
-            <!-- Sale & Revenue Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-line fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Pesanan</p>
-                                <h6 class="mb-0 pt-10" data-toggle="counter-up">{{ $totalPesanan ?? '0' }}</h6>
+<style>
+    /* Override Bootstrap Colors */
+    :root {
+        --bs-primary: rgb(0, 126, 205);
+        --bs-primary-rgb: 0, 126, 205;
+    }
+
+    .bg-primary {
+        background-color: var(--bs-primary) !important;
+    }
+
+    .text-primary {
+        color: var(--bs-primary) !important;
+    }
+
+    .border-primary {
+        border-color: var(--bs-primary) !important;
+    }
+
+    .btn-primary,
+    .btn-outline-primary {
+        background-color: var(--bs-primary) !important;
+        color: #fff !important;
+        border-color: var(--bs-primary) !important;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #fff !important;
+        color: var(--bs-primary) !important;
+    }
+
+    /* Custom Banner & Widgets */
+    .bg-primary.rounded.p-4.text-white {
+        background-color: var(--bs-primary) !important;
+        color: white !important;
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1rem rgba(var(--bs-primary-rgb), 0.3) !important;
+    }
+
+    /* Table Hover */
+    .table-hover tbody tr:hover {
+        background-color: rgba(var(--bs-primary-rgb), 0.05);
+    }
+
+    /* Modal Header Gradient */
+    .modal-header.bg-gradient {
+        background: linear-gradient(to right, var(--bs-primary), rgb(0, 90, 170)) !important;
+    }
+
+    /* Calendar Day Badge */
+    .badge.bg-primary {
+        background-color: var(--bs-primary) !important;
+    }
+</style>
+    <!-- Welcome Banner Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="bg-primary rounded p-4 text-white position-relative overflow-hidden">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="text-white mb-2">Selamat Datang di Dashboard Koka Laundry! 👋</h4>
+                            <p class="mb-0 text-light">Kelola bisnis laundry Anda dengan mudah dan efisien</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="d-inline-block">
+                                <i class="fa fa-tshirt fa-3x text-white opacity-25"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Penjualan</p>
-                                <h6 class="mb-0" data-toggle="counter-up">Rp {{ number_format($totalPenjualan ?? 0, 0, ',', '.') }}</h6>
-                            </div>
-                        </div>
+                    <!-- Decorative Elements -->
+                    <!-- <div class="position-absolute top-0 end-0 m-3">
+                        <div class="bg-white bg-opacity-10 rounded-circle" style="width: 60px; height: 60px;"></div>
                     </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-area fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Today Revenue</p>
-                                <h6 class="mb-0" data-toggle="counter-up">Rp.123.400,00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Revenue</p>
-                                <h6 class="mb-0" data-toggle="counter-up">Rp.123.400,00</h6>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="position-absolute bottom-0 start-0 m-3">
+                        <div class="bg-white bg-opacity-10 rounded-circle" style="width: 40px; height: 40px;"></div>
+                    </div> -->
                 </div>
             </div>
-            <!-- Sale & Revenue End -->
-
-
-            <!-- Sales Chart Start -->
-            <!-- <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Worldwide Sales</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <canvas id="worldwide-sales"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-light text-center rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Salse & Revenue</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <canvas id="salse-revenue"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Sales Chart End -->
-
-
-            <!-- Recent Sales Start -->
-            <!-- <div class="container-fluid pt-4 px-4">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Salse</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-dark">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Invoice</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Recent Sales End -->
-
-
-            <!-- Widgets Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Calender</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div id="calendar"></div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">To Do List</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Widgets End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        </div>
     </div>
+    <!-- Welcome Banner End -->
+
+    <!-- Sale & Revenue Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-primary border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="fa fa-chart-line fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Total Pesanan</p>
+                            <h4 class="mb-0 fw-bold text-primary" data-toggle="counter-up">{{ $totalPesanan ?? '0' }}</h4>
+                            <small class="text-success"><i class="fa fa-arrow-up me-1"></i>+12% dari bulan lalu</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-success border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="fa fa-chart-bar fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Total Penjualan</p>
+                            <h5 class="mb-0 fw-bold text-success" data-toggle="counter-up">Rp {{ number_format($totalPenjualan ?? 0, 0, ',', '.') }}</h5>
+                            <small class="text-success"><i class="fa fa-arrow-up me-1"></i>+8% dari bulan lalu</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-info border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="fa fa-chart-area fa-2x text-info"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Pendapatan Hari Ini</p>
+                            <h5 class="mb-0 fw-bold text-info" data-toggle="counter-up">Rp.123.400,00</h5>
+                            <small class="text-info"><i class="fa fa-calendar me-1"></i>{{ date('d M Y') }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-warning border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="fa fa-chart-pie fa-2x text-warning"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Total Pendapatan</p>
+                            <h5 class="mb-0 fw-bold text-warning" data-toggle="counter-up">Rp.123.400,00</h5>
+                            <small class="text-warning"><i class="fa fa-trending-up me-1"></i>Semua waktu</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sale & Revenue End -->
+
+    <!-- Quick Actions Start -->
+    <!-- <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="bg-light rounded p-4">
+                    <h6 class="mb-4"><i class="fa fa-bolt text-primary me-2"></i>Aksi Cepat</h6>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="#" class="btn btn-outline-primary w-100 p-3 text-start">
+                                <i class="fa fa-plus-circle fa-2x mb-2 d-block"></i>
+                                <div>
+                                    <strong>Pesanan Baru</strong>
+                                    <small class="d-block text-muted">Tambah pesanan laundry</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#" class="btn btn-outline-success w-100 p-3 text-start">
+                                <i class="fa fa-users fa-2x mb-2 d-block"></i>
+                                <div>
+                                    <strong>Data Pelanggan</strong>
+                                    <small class="d-block text-muted">Kelola data pelanggan</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#" class="btn btn-outline-info w-100 p-3 text-start">
+                                <i class="fa fa-cog fa-2x mb-2 d-block"></i>
+                                <div>
+                                    <strong>Layanan</strong>
+                                    <small class="d-block text-muted">Atur jenis layanan</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#" class="btn btn-outline-warning w-100 p-3 text-start">
+                                <i class="fa fa-chart-bar fa-2x mb-2 d-block"></i>
+                                <div>
+                                    <strong>Laporan</strong>
+                                    <small class="d-block text-muted">Lihat laporan lengkap</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Quick Actions End -->
+
+    <!-- Recent Orders Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0"><i class="fa fa-clock text-primary me-2"></i>Pesanan Terbaru</h6>
+                <a href="{{ route('orders.create') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID Pesanan</th>
+                            <th scope="col">Pelanggan</th>
+                            <th scope="col">Layanan</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($pesanan as $item)
+                            <tr>
+                                <!-- ID Pesanan -->
+                                <td><span class="badge bg-primary">{{ $item->nomor_resi }}</span></td>
+
+                                <!-- Pelanggan -->
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <strong>{{ $item->nama_pemesan }}</strong>
+                                    </div>
+                                </td>
+
+                                <!-- Layanan -->
+                                <td>{{ $item->layanan->nama_layanan ?? '-' }}</td>
+
+                                <!-- Status -->
+                                <td>
+                                    @if ($item->status == 'Selesai')
+                                        <span class="badge bg-success">Selesai</span>
+                                    @elseif ($item->status == 'Proses')
+                                        <span class="badge bg-warning">Proses</span>
+                                    @elseif ($item->status == 'Pickup')
+                                        <span class="badge bg-info">Pickup</span>
+                                    @else
+                                        <span class="badge bg-secondary">{{ $item->status }}</span>
+                                    @endif
+                                </td>
+
+                                <!-- Total -->
+                                <td>
+                                    <b>
+                                        @php
+                                            if ($item->layanan) {
+                                                $total = $item->berat * $item->layanan->harga;
+                                                $total -= $total * ($item->diskon / 100);
+                                                echo 'Rp ' . number_format($total, 0, ',', '.');
+                                            } else {
+                                                echo '-';
+                                            }
+                                        @endphp
+                                    </b>
+                                </td>
+
+                                <!-- Tanggal -->
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
+
+                                <!-- Aksi -->
+                                <td>
+                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal"
+                                            data-bs-target="#modalDetailPesanan{{ $item->id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+
+                                    @if ($item->status != 'Selesai')
+                                        <button class="btn btn-sm btn-success me-1" data-bs-toggle="modal"
+                                                data-bs-target="#modalEditPesanan{{ $item->id }}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    @else
+                                        <button class="btn btn-sm btn-info me-1">
+                                            <i class="fa fa-print"></i>
+                                        </button>
+                                    @endif
+
+                                    <form id="delete-form-{{ $item->id }}"
+                                        action="{{ route('orders.destroy', $item->id) }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                            onclick="confirmDelete('{{ $item->id }}')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    <i class="bi bi-inbox fs-3 mb-2"></i><br>
+                                    Belum ada data pesanan.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Recent Orders End -->
+
+    <!-- Widgets Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <!-- Messages Widget -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4 border-top border-primary border-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="mb-0"><i class="fa fa-envelope text-primary me-2"></i>Pesan Terbaru</h6>
+                        <a href="#" class="text-primary small">Lihat Semua</a>
+                    </div>
+                    <!-- Message Item -->
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="position-relative">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 0.5rem;">
+                                <span class="visually-hidden">online</span>
+                            </span>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Jhon Doe</h6>
+                                <small class="text-muted">15 menit lalu</small>
+                            </div>
+                            <span class="text-muted small">Kapan pesanan saya selesai?</span>
+                        </div>
+                    </div>
+                    <!-- Message Item -->
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="position-relative">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" style="font-size: 0.5rem;">
+                                <span class="visually-hidden">offline</span>
+                            </span>
+                        </div>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0">Jane Smith</h6>
+                                <small class="text-muted">1 jam lalu</small>
+                            </div>
+                            <span class="text-muted small">Terima kasih atas layanannya!</span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-sm btn-outline-primary">Balas Pesan</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Widget -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4 border-top border-success border-3">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0"><i class="fa fa-calendar text-success me-2"></i>Kalender</h6>
+                        <a href="#" class="text-success small">Jadwal Lengkap</a>
+                    </div>
+
+                    <div id="calendar" class="text-center">
+                        <!-- Bulan dan Tahun -->
+                        <div class="row g-1 mb-3">
+                            <div class="col text-center">
+                                <strong class="text-primary">{{ date('F Y') }}</strong>
+                            </div>
+                        </div>
+
+                        <!-- Header Hari -->
+                        <div class="row g-1 text-center small fw-bold text-muted">
+                            <div class="col">Sen</div>
+                            <div class="col">Sel</div>
+                            <div class="col">Rab</div>
+                            <div class="col">Kam</div>
+                            <div class="col">Jum</div>
+                            <div class="col">Sab</div>
+                            <div class="col">Min</div>
+                        </div>
+
+                        <!-- Tanggal -->
+                        @php
+                            $month = date('m');
+                            $year = date('Y');
+                            $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year); // timestamp hari pertama bulan ini
+                            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+                            $dayOfWeek = date('w', $firstDayOfMonth); // 0=minggu, 1=senin, dst...
+                            $dayOfWeek = ($dayOfWeek == 0) ? 6 : $dayOfWeek - 1; // sesuaikan agar Senin = 0
+                        @endphp
+
+                        <div class="row g-1 text-center small mt-2">
+                            <!-- Kosongkan awal sesuai dengan hari pertama -->
+                            @for($i = 0; $i < $dayOfWeek; $i++)
+                                <div class="col p-1"></div>
+                            @endfor
+
+                            <!-- Loop semua tanggal -->
+                            @for($date = 1; $date <= $daysInMonth; $date++)
+                                <div class="col p-1">
+                                    @if($date == date('d'))
+                                        <span class="badge bg-primary rounded-circle">{{ $date }}</span>
+                                    @else
+                                        {{ $date }}
+                                    @endif
+                                </div>
+                                @php
+                                    $currentDay = ($dayOfWeek + $date) % 7;
+                                @endphp
+                                <!-- Mulai baris baru jika mencapai Minggu -->
+                                @if($currentDay == 0 && $date != $daysInMonth)
+                                    </div><div class="row g-1 text-center small">
+                                @endif
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- To Do List Widget -->
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <!-- <div class="h-100 bg-light rounded p-4 border-top border-warning border-3">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0"><i class="fa fa-tasks text-warning me-2"></i>Daftar Tugas</h6>
+                        <a href="#" class="text-warning small">Kelola Tugas</a>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <input class="form-control bg-transparent border-2" type="text" placeholder="Tambah tugas baru...">
+                        <button type="button" class="btn btn-warning ms-2">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div> -->
+                    
+                    <!-- Task Items -->
+                    <!-- <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Cek stok deterjen</span>
+                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Kirim invoice ke pelanggan</span>
+                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" type="checkbox" checked>
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span class="text-decoration-line-through text-muted">Update harga layanan</span>
+                                <button class="btn btn-sm text-success"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Maintenance mesin cuci</span>
+                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center pt-2">
+                        <input class="form-check-input m-0" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Training karyawan baru</span>
+                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Widgets End -->
+    @foreach ($pesanan as $item)
+        <!-- Modal Detail Pesanan -->
+        <div class="modal fade" id="modalDetailPesanan{{ $item->id }}" tabindex="-1"
+            aria-labelledby="modalDetailPesananLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-header bg-gradient text-white" style="background: linear-gradient(to right, #28a745, #66bb6a);">
+                        <h5 class="modal-title" id="modalDetailPesananLabel{{ $item->id }}" style="color: white" >Detail Pesanan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
+                            <div class="col-md-6"><strong>Nama Pemesan:</strong> {{ $item->nama_pemesan }}</div>
+                            <div class="col-md-6"><strong>No. Handphone:</strong> {{ $item->no_hp }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Alamat:</strong> {{ $item->alamat }}</div>
+                            <div class="col-md-6"><strong>Catatan:</strong> {{ $item->catatan }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Jenis Layanan:</strong>
+                                @if ($item->layanan)
+                                    {{ $item->layanan->nama_layanan }}
+                                @else
+                                    - Tidak ditemukan -
+                                @endif
+                            </div>
+                            <div class="col-md-6"><strong>Harga Per Kg:</strong>
+                                @if ($item->layanan)
+                                <b style="color: #28a745;">Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</b>
+                                @else
+                                    -
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Berat:</strong> {{ $item->berat }} Kg</div>
+                            <div class="col-md-6"><strong>Diskon:</strong> {{ $item->diskon ?? '0' }}%</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Total Bayar:</strong>
+                            <b style="color: #28a745;">
+                                @php
+                                    if ($item->layanan) {
+                                        $total = $item->berat * $item->layanan->harga;
+                                        $total -= $total * ($item->diskon / 100);
+                                        echo 'Rp ' . number_format($total, 0, ',', '.');
+                                    } else {
+                                        echo '-';
+                                    }
+                                @endphp
+                            </b>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6"><strong>Metode Pembayaran:</strong>
+                                    @if ($item->pembayaran)
+                                        {{ $item->pembayaran->metode_pembayaran }}
+                                    @else
+                                        - Belum ada pembayaran -
+                                    @endif
+                                </div>
+                                <div class="col-md-6"><strong>Status Pembayaran:</strong>
+                                    @if ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar')
+                                        <span class="badge bg-warning text-dark">Belum Bayar</span>
+                                    @elseif ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas')
+                                        <span class="badge bg-success">Lunas</span>
+                                    @else
+                                        <span class="badge bg-secondary">Tidak Diketahui</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6"><strong>Tanggal Pemesanan:</strong>
+                                {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><strong>Status:</strong>
+                                @if ($item->status == 'Selesai')
+                                    <span class="badge bg-success">Selesai</span>
+                                @elseif ($item->status == 'Proses')
+                                    <span class="badge bg-warning text-dark">Proses</span>
+                                @else
+                                    <span class="badge bg-secondary">{{ $item->status }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Additional CSS for hover effects -->
+    <style>
+        .hover-shadow {
+            transition: all 0.3s ease;
+        }
+        .hover-shadow:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-2px);
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+    </style>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 @endsection
