@@ -159,6 +159,19 @@
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value="{{ auth()->user()->email }}" required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="foto_profile" class="form-label">Foto Profil</label>
+                    <input type="file" class="form-control" id="foto_profile" name="foto_profile" accept="image/*">
+                    <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto.</small>
+                    <div class="mt-2">
+                        @if(auth()->user()->foto_profile)
+                            <img src="{{ asset('storage/' . auth()->user()->foto_profile) }}" alt="Current Profile" class="rounded-circle" width="100">
+                        @else
+                            <img src="{{ asset('img/user.jpg') }}" alt="Default Profile" class="rounded-circle" width="100">
+                        @endif
+                    </div>
+                </div>
                 
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">

@@ -135,7 +135,7 @@
             <h3>Data Profile</h3>
             <input type="text" class="form-control" name="nama_pemesan" placeholder="Nama Lengkap" required>
             <input type="email" class="form-control" name="email" placeholder="Email" required>
-            <input type="tel" class="form-control" name="no_hp" placeholder="Nomor Telepon" required>
+            <input type="text" class="form-control" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
             <input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
         </div>
 
@@ -275,6 +275,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
 </script>
 
 <!-- SweetAlert untuk Success Message -->

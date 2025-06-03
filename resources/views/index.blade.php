@@ -83,7 +83,7 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Laundry & Setrika</h4>
                             <h1 class="display-3 text-white mb-md-4">Siap Cepat 1 Hari Selesai</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Selengkapnya</a>
+                           
                         </div>
                     </div>
                 </div>
@@ -92,8 +92,7 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Laundry & Setrika</h4>
-                            <h1 class="display-3 text-white mb-md-4">Gratis Antar Jemput Minimal 5 Kg</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Selengkapnya</a>
+                            <h1 class="display-3 text-white mb-md-4">Gratis Antar Jemput</h1>
                         </div>
                     </div>
                 </div>

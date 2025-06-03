@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
+// use App\Http\PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Models\Pembayaran;
 use App\Exports\OrdersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,7 +79,7 @@ class OrderController extends Controller
             'berat' => $validated['berat'],
             'diskon' => $validated['diskon'],
             'catatan' => $validated['catatan'] ?? null,
-            'status' => 'Proses' // default status baru
+            'status' => 'Konfirmasi Admin' // default status baru
         ]);
 
         // Hitung jumlah pembayaran berdasarkan berat dan diskon
@@ -129,7 +135,7 @@ class OrderController extends Controller
             'alamat' => 'required|string',
             'berat' => 'required|numeric|min:0.1',
             'diskon' => 'required|numeric|min:0',
-            'status' => 'required|string|in:Proses,Selesai',
+            'status' => 'required|string|in:Konfirmasi Admin,Dalam Penjemputan,Proses,Dalam Pengantaran,Selesai',
             'status_pembayaran' => 'required|string|in:Lunas,Belum Bayar',
         ]);
 
@@ -163,5 +169,128 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus pesanan: ' . $e->getMessage());
         }
+    }
+
+    public function export(Request $request)
+    {
+        // Ambil data pesanan dengan relasi
+        $pesanan = Pesanan::with(['layanan', 'pembayaran'])
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+
+        // Buat spreadsheet baru
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set judul dokumen
+        $sheet->setTitle('Data Pesanan Laundry');
+
+        // Header Excel
+        $sheet->setCellValue('A1', 'LAPORAN DATA PESANAN KOKA LAUNDRY');
+        $sheet->mergeCells('A1:K1');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Tanggal export
+        $sheet->setCellValue('A2', 'Tanggal Export: ' . date('d/m/Y H:i:s'));
+        $sheet->mergeCells('A2:K2');
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Header tabel
+        $headers = [
+            'A4' => 'No',
+            'B4' => 'Nomor Resi',
+            'C4' => 'Nama Pemesan',
+            'D4' => 'No. Handphone',
+            'E4' => 'Alamat',
+            'F4' => 'Layanan',
+            'G4' => 'Berat (Kg)',
+            'H4' => 'Harga/Kg',
+            'I4' => 'Diskon (%)',
+            'J4' => 'Total Bayar',
+            'K4' => 'Status',
+            'L4' => 'Metode Pembayaran',
+            'M4' => 'Status Pembayaran',
+            'N4' => 'Tanggal Pemesanan'
+        ];
+
+        foreach ($headers as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+        }
+
+        // Style header
+        $headerRange = 'A4:N4';
+        $sheet->getStyle($headerRange)->getFont()->setBold(true);
+        $sheet->getStyle($headerRange)->getFill()
+              ->setFillType(Fill::FILL_SOLID)
+              ->getStartColor()->setARGB('FF4472C4');
+        $sheet->getStyle($headerRange)->getFont()->getColor()->setARGB('FFFFFFFF');
+        $sheet->getStyle($headerRange)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Data pesanan
+        $row = 5;
+        $no = 1;
+        
+        foreach ($pesanan as $item) {
+            // Hitung total bayar
+            $total = 0;
+            if ($item->layanan) {
+                $total = $item->berat * $item->layanan->harga;
+                $total -= $total * (($item->diskon ?? 0) / 100);
+            }
+
+            $sheet->setCellValue('A' . $row, $no);
+            $sheet->setCellValue('B' . $row, $item->nomor_resi ?? '-');
+            $sheet->setCellValue('C' . $row, $item->nama_pemesan);
+            $sheet->setCellValue('D' . $row, $item->no_hp);
+            $sheet->setCellValue('E' . $row, $item->alamat);
+            $sheet->setCellValue('F' . $row, $item->layanan->nama_layanan ?? '-');
+            $sheet->setCellValue('G' . $row, $item->berat);
+            $sheet->setCellValue('H' . $row, $item->layanan ? 'Rp ' . number_format($item->layanan->harga, 0, ',', '.') : '-');
+            $sheet->setCellValue('I' . $row, $item->diskon ?? 0);
+            $sheet->setCellValue('J' . $row, $total > 0 ? 'Rp ' . number_format($total, 0, ',', '.') : '-');
+            $sheet->setCellValue('K' . $row, $item->status);
+            $sheet->setCellValue('L' . $row, $item->pembayaran->metode_pembayaran ?? '-');
+            $sheet->setCellValue('M' . $row, $item->pembayaran->status_pembayaran ?? 'Belum Bayar');
+            $sheet->setCellValue('N' . $row, $item->tanggal_pemesanan ? date('d/m/Y', strtotime($item->tanggal_pemesanan)) : '-');
+
+            $row++;
+            $no++;
+        }
+
+        // Auto size kolom
+        foreach (range('A', 'N') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Border untuk semua data
+        $dataRange = 'A4:N' . ($row - 1);
+        $sheet->getStyle($dataRange)->getBorders()->getAllBorders()
+              ->setBorderStyle(Border::BORDER_THIN);
+
+        // Center alignment untuk kolom tertentu
+        $centerColumns = ['A', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
+        foreach ($centerColumns as $col) {
+            $sheet->getStyle($col . '5:' . $col . ($row - 1))
+                  ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        }
+
+        // Set nama file
+        $filename = 'Data_Pesanan_Laundry_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+        // Response untuk download
+        $writer = new Xlsx($spreadsheet);
+        
+        return response()->streamDownload(function() use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Cache-Control' => 'max-age=0',
+            'Cache-Control' => 'max-age=1',
+            'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
+            'Last-Modified' => gmdate('D, d M Y H:i:s') . ' GMT',
+            'Cache-Control' => 'cache, must-revalidate',
+            'Pragma' => 'public',
+        ]);
     }
 }

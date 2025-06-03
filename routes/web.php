@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -10,14 +12,16 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AdminAuthController;
 
-// Halaman Web
+// Halaman Landing Page Web
 Route::get('/', function () {
     return view('index');
 });
 
-Route::view('/admin', 'admin.listAdmin')->name('admin.management');
-
+Route::get('/admin', [AdminController::class, 'index'])->middleware('isSupervisor')->name('admin.management');
+Route::post('/admin', [AdminController::class, 'store'])->middleware('isSupervisor')->name('admin-store');
+Route::post('/lokasi', [LokasiController::class, 'store'])->name('lokasi.store');
 // halaman dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -30,6 +34,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+
 // pemesanan User non-login
 Route::get('/user-order/create', [UserOrderController::class, 'index'])->name('user.form_pemesanan');
 Route::post('/user-order', [UserOrderController::class, 'store'])->name('user_order.store');
@@ -38,6 +44,8 @@ Route::get('/user-order/download-pesanan/{id}', [UserOrderController::class, 'do
 // Check status
 Route::get('/user-order/check-status', [UserOrderController::class, 'checkStatusShow'])->name('check-status');
 Route::post('/user-order/check-status', [UserOrderController::class, 'checkStatus'])->name('check-status-pesanan');
+
+
 
 
 // Login
@@ -59,8 +67,7 @@ Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.upd
 // Hapus Pesanan
 Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 // Untuk export Excel
-Route::get('/orders/export-excel', [OrderController::class, 'exportToExcel'])->name('orders.export');
-
+Route::get('/export/excel', [OrderController::class, 'export'])->name('orders.export');
 
 // Riwayat Pembayaran
 Route::get('/orders/payments', [PaymentController::class, 'history'])->name('payments.index');

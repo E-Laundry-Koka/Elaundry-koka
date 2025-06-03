@@ -93,26 +93,11 @@
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-primary border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
                         <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
-                            <i class="fa fa-chart-line fa-2x text-primary"></i>
+                            <i class="fas fa-shopping-cart fa-2x text-primary"></i>
                         </div>
                         <div>
                             <p class="mb-1 text-muted small">Total Pesanan</p>
                             <h4 class="mb-0 fw-bold text-primary" data-toggle="counter-up">{{ $totalPesanan ?? '0' }}</h4>
-                            <small class="text-success"><i class="fa fa-arrow-up me-1"></i>+12% dari bulan lalu</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-success border-4 hover-shadow transition-all">
-                    <div class="d-flex align-items-center">
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
-                            <i class="fa fa-chart-bar fa-2x text-success"></i>
-                        </div>
-                        <div>
-                            <p class="mb-1 text-muted small">Total Penjualan</p>
-                            <h5 class="mb-0 fw-bold text-success" data-toggle="counter-up">Rp {{ number_format($totalPenjualan ?? 0, 0, ',', '.') }}</h5>
-                            <small class="text-success"><i class="fa fa-arrow-up me-1"></i>+8% dari bulan lalu</small>
                         </div>
                     </div>
                 </div>
@@ -121,12 +106,27 @@
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-info border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
                         <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
-                            <i class="fa fa-chart-area fa-2x text-info"></i>
+                            <i class="fas fa-coins fa-2x text-info"></i>
                         </div>
                         <div>
                             <p class="mb-1 text-muted small">Pendapatan Hari Ini</p>
-                            <h5 class="mb-0 fw-bold text-info" data-toggle="counter-up">Rp.123.400,00</h5>
+                            <h5 class="mb-0 fw-bold text-info" data-toggle="counter-up">
+                                Rp {{ number_format($totalpendapatanhariini ?? 0, 0, ',', '.') }}
+                            </h5>
                             <small class="text-info"><i class="fa fa-calendar me-1"></i>{{ date('d M Y') }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-success border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Estimasi Total Pendapatan/hari</p>
+                            <h5 class="mb-0 fw-bold text-success" data-toggle="counter-up">Rp {{ number_format($estimasitotalPendapatanPerHari ?? 0, 0, ',', '.') }}</h5>
                         </div>
                     </div>
                 </div>
@@ -135,12 +135,11 @@
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-warning border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
                         <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
-                            <i class="fa fa-chart-pie fa-2x text-warning"></i>
+                            <i class="fas fa-wallet fa-2x text-warning"></i>
                         </div>
                         <div>
-                            <p class="mb-1 text-muted small">Total Pendapatan</p>
-                            <h5 class="mb-0 fw-bold text-warning" data-toggle="counter-up">Rp.123.400,00</h5>
-                            <small class="text-warning"><i class="fa fa-trending-up me-1"></i>Semua waktu</small>
+                            <p class="mb-1 text-muted small">Total Seluruh Pendapatan</p>
+                            <h5 class="mb-0 fw-bold text-warning" data-toggle="counter-up">Rp {{ number_format($totalPenjualan ?? 0, 0, ',', '.') }}</h5>
                         </div>
                     </div>
                 </div>
@@ -237,14 +236,33 @@
 
                                 <!-- Status -->
                                 <td>
-                                    @if ($item->status == 'Selesai')
-                                        <span class="badge bg-success">Selesai</span>
-                                    @elseif ($item->status == 'Proses')
-                                        <span class="badge bg-warning">Proses</span>
-                                    @elseif ($item->status == 'Pickup')
-                                        <span class="badge bg-info">Pickup</span>
+                                    @php
+                                        $status = $item->status;
+                                    @endphp
+                                    @if ($status == 'Selesai')
+                                        <span class="badge bg-success rounded-pill">
+                                            <i class="bi bi-check-circle me-1"></i> {{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Proses')
+                                        <span class="badge bg-warning text-dark rounded-pill">
+                                            <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Konfirmasi Admin')
+                                        <span class="badge bg-secondary rounded-pill">
+                                            <i class="bi bi-person-check me-1"></i> {{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Dalam Pengantaran')
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="bi bi-box-seam me-1"></i> {{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Dalam Penjemputan')
+                                        <span class="badge bg-info text-dark rounded-pill">
+                                            <i class="bi bi-truck me-1"></i> {{ $status }}
+                                        </span>
                                     @else
-                                        <span class="badge bg-secondary">{{ $item->status }}</span>
+                                        <span class="badge bg-light text-dark rounded-pill">
+                                            {{ $status }}
+                                        </span>
                                     @endif
                                 </td>
 
@@ -268,31 +286,9 @@
 
                                 <!-- Aksi -->
                                 <td>
-                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal"
+                                    <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal"
                                             data-bs-target="#modalDetailPesanan{{ $item->id }}">
                                         <i class="fa fa-eye"></i>
-                                    </button>
-
-                                    @if ($item->status != 'Selesai')
-                                        <button class="btn btn-sm btn-success me-1" data-bs-toggle="modal"
-                                                data-bs-target="#modalEditPesanan{{ $item->id }}">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    @else
-                                        <button class="btn btn-sm btn-info me-1">
-                                            <i class="fa fa-print"></i>
-                                        </button>
-                                    @endif
-
-                                    <form id="delete-form-{{ $item->id }}"
-                                        action="{{ route('orders.destroy', $item->id) }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <button type="button" class="btn btn-sm btn-danger"
-                                            onclick="confirmDelete('{{ $item->id }}')">
-                                        <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -423,69 +419,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- To Do List Widget -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <!-- <div class="h-100 bg-light rounded p-4 border-top border-warning border-3">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0"><i class="fa fa-tasks text-warning me-2"></i>Daftar Tugas</h6>
-                        <a href="#" class="text-warning small">Kelola Tugas</a>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <input class="form-control bg-transparent border-2" type="text" placeholder="Tambah tugas baru...">
-                        <button type="button" class="btn btn-warning ms-2">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    </div> -->
-                    
-                    <!-- Task Items -->
-                    <!-- <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Cek stok deterjen</span>
-                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Kirim invoice ke pelanggan</span>
-                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox" checked>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span class="text-decoration-line-through text-muted">Update harga layanan</span>
-                                <button class="btn btn-sm text-success"><i class="fa fa-check"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Maintenance mesin cuci</span>
-                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center pt-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Training karyawan baru</span>
-                                <button class="btn btn-sm text-danger"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
         </div>
     </div>
     <!-- Widgets End -->
@@ -577,31 +510,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
-    @endforeach
+    </div>
+@endforeach
 
-    <!-- Additional CSS for hover effects -->
-    <style>
-        .hover-shadow {
-            transition: all 0.3s ease;
-        }
-        .hover-shadow:hover {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-            transform: translateY(-2px);
-        }
-        .transition-all {
-            transition: all 0.3s ease;
-        }
-        .table-hover tbody tr:hover {
-            background-color: rgba(0, 123, 255, 0.05);
-        }
-    </style>
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 @endsection

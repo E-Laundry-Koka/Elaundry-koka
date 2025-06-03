@@ -82,12 +82,33 @@
                             <td class="text-center">{{ $item->berat }}</td>
                             <td class="text-center">{{ $item->layanan->nama_layanan ?? '-'}}</td>
                             <td class="text-center">
-                                @if ($item->status == 'Selesai')
-                                    <span class="badge bg-success rounded-pill">Selesai</span>
-                                @elseif ($item->status == 'Proses')
-                                    <span class="badge bg-warning text-dark rounded-pill">Proses</span>
+                                @php
+                                    $status = $item->status;
+                                @endphp
+                                @if ($status == 'Selesai')
+                                    <span class="badge bg-success rounded-pill">
+                                        <i class="bi bi-check-circle me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Proses')
+                                    <span class="badge bg-warning text-dark rounded-pill">
+                                        <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Konfirmasi Admin')
+                                    <span class="badge bg-secondary rounded-pill">
+                                        <i class="bi bi-person-check me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Dalam Pengantaran')
+                                    <span class="badge bg-primary rounded-pill">
+                                        <i class="bi bi-box-seam me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Dalam Penjemputan')
+                                    <span class="badge bg-info text-dark rounded-pill">
+                                        <i class="bi bi-truck me-1"></i> {{ $status }}
+                                    </span>
                                 @else
-                                    <span class="badge bg-secondary rounded-pill">{{ $item->status }}</span>
+                                    <span class="badge bg-light text-dark rounded-pill">
+                                        {{ $status }}
+                                    </span>
                                 @endif
                             </td>
                             <td class="text-center">
@@ -267,29 +288,39 @@
                                     - Belum ada pembayaran -
                                 @endif
                             </div>
-                            <div class="col-md-6"><strong>Status Pembayaran:</strong>
-                                @if ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar')
-                                    <span class="badge bg-warning text-dark">Belum Bayar</span>
-                                @elseif ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas')
-                                    <span class="badge bg-success">Lunas</span>
+                            <div class="col-md-6"><strong>Status Pemesanan:</strong>
+                                @php
+                                    $status = $item->status;
+                                @endphp
+                                @if ($status == 'Selesai')
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Proses')
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Konfirmasi Admin')
+                                    <span class="badge bg-secondary">
+                                        <i class="bi bi-person-check me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Dalam Pengantaran')
+                                    <span class="badge bg-primary">
+                                        <i class="bi bi-box-seam me-1"></i> {{ $status }}
+                                    </span>
+                                @elseif ($status == 'Dalam Penjemputan')
+                                    <span class="badge bg-info text-dark">
+                                        <i class="bi bi-truck me-1"></i> {{ $status }}
+                                    </span>
                                 @else
-                                    <span class="badge bg-secondary">Tidak Diketahui</span>
+                                    <span class="badge bg-light text-dark">
+                                        {{ $status }}
+                                    </span>
                                 @endif
                             </div>
                         </div>
                         <div class="col-md-6"><strong>Tanggal Pemesanan:</strong>
                             {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Status:</strong>
-                            @if ($item->status == 'Selesai')
-                                <span class="badge bg-success">Selesai</span>
-                            @elseif ($item->status == 'Proses')
-                                <span class="badge bg-warning text-dark">Proses</span>
-                            @else
-                                <span class="badge bg-secondary">{{ $item->status }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -365,7 +396,10 @@
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status" required>
+                                <option value="Konfirmasi Admin" {{ $item->status == 'Konfirmasi Admin' ? 'selected' : '' }}>Konfirmasi Admin</option>
+                                <option value="Dalam Penjemputan" {{ $item->status == 'Dalam Penjemputan' ? 'selected' : '' }}>Dalam Penjemputan</option>
                                 <option value="Proses" {{ $item->status == 'Proses' ? 'selected' : '' }}>Proses</option>
+                                <option value="Dalam Pengantaran" {{ $item->status == 'Dalam Pengantaran' ? 'selected' : '' }}>Dalam Pengantaran</option>
                                 <option value="Selesai" {{ $item->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                             </select>
                         </div>

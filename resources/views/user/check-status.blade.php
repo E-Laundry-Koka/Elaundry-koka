@@ -192,28 +192,52 @@
                     <span>{{ $pesanan->alamat }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Tanggal Pemesanan</strong>
+                    <span>{{ \Carbon\Carbon::parse($pesanan->tanggal_pemesanan)->format('d M Y') }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Jenis Layanan</strong>
                     <span>{{ optional($pesanan->layanan)->nama_layanan ?? '-' }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Harga per Kg</strong>
+                    <span>Rp {{ number_format(optional($pesanan->layanan)->harga ?? 0, 0, ',', '.') }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Berat</strong>
                     <span>{{ $pesanan->berat }} Kg</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>Diskon</strong>
-                    <span>{{ $pesanan->diskon ?? '0' }}%</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>Total Bayar</strong>
-                    <span>Rp {{ number_format($totalBayar, 0, ',', '.') }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Status Pesanan</strong>
                     <span>
-                        @if ($pesanan->status == 'Selesai')
-                            <span class="badge bg-success">{{ $pesanan->status }}</span>
+                        @php
+                            $status = $pesanan->status;
+                        @endphp
+
+                        @if ($status == 'Selesai')
+                            <span class="badge bg-success rounded-pill">
+                                <i class="bi bi-check-circle me-1"></i> {{ $status }}
+                            </span>
+                        @elseif ($status == 'Proses')
+                            <span class="badge bg-warning text-dark rounded-pill">
+                                <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
+                            </span>
+                        @elseif ($status == 'Konfirmasi Admin')
+                            <span class="badge bg-secondary rounded-pill">
+                                <i class="bi bi-person-check me-1"></i> {{ $status }}
+                            </span>
+                        @elseif ($status == 'Dalam Pengantaran')
+                            <span class="badge bg-primary rounded-pill">
+                                <i class="bi bi-box-seam me-1"></i> {{ $status }}
+                            </span>
+                        @elseif ($status == 'Dalam Penjemputan')
+                            <span class="badge bg-info text-dark rounded-pill">
+                                <i class="bi bi-truck me-1"></i> {{ $status }}
+                            </span>
                         @else
-                            <span class="badge bg-warning text-dark">{{ $pesanan->status }}</span>
+                            <span class="badge bg-light text-dark rounded-pill">
+                                {{ $status }}
+                            </span>
                         @endif
                     </span>
                 </li>
@@ -221,17 +245,20 @@
                     <strong>Status Pembayaran</strong>
                     <span>
                         @if ($pesanan->pembayaran && $pesanan->pembayaran->status_pembayaran == 'Lunas')
-                            <span class="badge bg-success">Lunas</span>
+                        <span class="badge bg-success">Lunas</span>
                         @elseif ($pesanan->pembayaran)
-                            <span class="badge bg-warning text-dark">Pending</span>
+                        <span class="badge bg-warning text-dark">Pending</span>
                         @else
-                            <span class="badge bg-secondary">Belum ada pembayaran</span>
+                        <span class="badge bg-secondary">Belum ada pembayaran</span>
                         @endif
                     </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>Tanggal Pemesanan</strong>
-                    <span>{{ \Carbon\Carbon::parse($pesanan->tanggal_pemesanan)->format('d M Y') }}</span>
+                <li class="list-group-item d-flex justify-content-between align-items-center rounded-3 shadow-sm" style="background-color: #194376; color: white;">
+                    <strong class="d-flex align-items-center">
+                        <i class="bi bi-cash me-2"></i>
+                        Total Bayar
+                    </strong>
+                    <span class="fs-5 fw-bold">Rp {{ number_format($totalBayar, 0, ',', '.') }}</span>
                 </li>
             </ul>
         </div>

@@ -25,11 +25,12 @@
                 <thead class="table-dark text-center">
                     <tr>
                         <th>No</th>
+                        <th>Nomor Resi</th>
                         <th>Tanggal Pembayaran</th>
                         <th>Nama Pemesan</th>
                         <th>Metode Pembayaran</th>
                         <th>Jumlah Bayar</th>
-                        <th>Status</th>
+                        <th>Status Pembayaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                         @if ($item->pembayaran)
                             <tr class="animate__animated animate__fadeIn">
                                 <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $item->nomor_resi }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}</td>
                                 <td>{{ $item->nama_pemesan }}</td>
                                 <td class="text-center">{{ $item->pembayaran->metode_pembayaran }}</td>
@@ -152,7 +154,7 @@
                             <div class="col-md-6"><strong>Jumlah Bayar:</strong> Rp {{ number_format($item->pembayaran->jumlah_pembayaran, 0, ',', '.') }}</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-md-6"><strong>Status:</strong>
+                            <div class="col-md-6"><strong>Status Pembayaran:</strong>
                                 @if ($item->pembayaran->status_pembayaran == 'Lunas')
                                     <span class="badge bg-success">Lunas</span>
                                 @else
@@ -160,6 +162,7 @@
                                 @endif
                             </div>
                             <div class="col-md-6"><strong>ID Transaksi:</strong> {{ $item->id }}</div>
+                            <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
                         </div>
                     </div>
                     <div class="modal-footer">

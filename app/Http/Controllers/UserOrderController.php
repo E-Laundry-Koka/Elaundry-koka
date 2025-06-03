@@ -29,7 +29,7 @@ class UserOrderController extends Controller
         // Validasi input
         $validated = $request->validate([
             'nama_pemesan' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:20',
+            'no_hp' => 'required|string|min:12|max:13',
             'alamat' => 'required|string',
             'id_layanan' => 'required|exists:layanan,id',
             'berat' => 'required|numeric|min:0.1',
@@ -53,7 +53,7 @@ class UserOrderController extends Controller
             'berat' => $validated['berat'],
             'diskon' => 0.0,
             'catatan' => $validated['catatan'] ?? ' ',
-            'status' => 'Proses' // default status baru
+            'status' => 'Konfirmasi Admin' // default status baru
         ]);
 
         // Hitung jumlah pembayaran berdasarkan berat dan diskon
@@ -131,19 +131,19 @@ class UserOrderController extends Controller
         $content .= "Nama Pemesan   : " . $pesanan->nama_pemesan . "\n";
         $content .= "No HP           : " . $pesanan->no_hp . "\n";
         $content .= "Alamat          : " . $pesanan->alamat . "\n";
+        $content .= "Tanggal         : " . $pesanan->created_at->format('d M Y') . "\n";
         $content .= "Jenis Layanan   : " . ($layanan ? $layanan->nama_layanan : 'Layanan tidak ditemukan') . "\n";
+        $content .= "Harga Layanan   : Rp. " . number_format($layanan->harga, 0, ',', '.') . "/kg\n";
         $content .= "Berat           : " . $pesanan->berat . " Kg\n";
-        $content .= "Diskon          : " . $pesanan->diskon . "%\n";
-        $content .= "Total Harga     : Rp " . number_format($jumlah_pembayaran, 0, ',', '.') . "\n";
         $content .= "Metode Bayar    : " . ($metode_pembayaran ?: 'Tidak tersedia') . "\n";
-        $content .= "Tanggal         : " . $pesanan->created_at->format('d M Y H:i:s') . "\n";
+        $content .= "Total Harga     : Rp. " . number_format($jumlah_pembayaran, 0, ',', '.') . "\n";
         $content .= "Catatan         : " . $pesanan->catatan;
 
         // Buat PDF
         // $pdf = Pdf::loadView('user.order.invoice', compact('pesanan', 'layanan', 'totalHarga'));
         
         // Simpan file menggunakan Storage facade
-        $fileName = 'detail_pesanan_' . $pesanan->id . '.txt';
+        $fileName = 'detail_pesanan_' . $pesanan->nama_pemesan . '.txt';
         $filePath = 'public/pesanan/' . $fileName;
 
         // Storage::put akan otomatis membuat direktori jika belum ada
@@ -159,7 +159,7 @@ class UserOrderController extends Controller
             $pesanan = Pesanan::with('layanan')->findOrFail($id);
             
             // Nama file yang akan didownload
-            $fileName = 'detail_pesanan_' . $pesanan->id . '.txt';
+            $fileName = 'detail_pesanan_' . $pesanan->nama_pemesan . '.txt';
             $filePath = 'public/pesanan/' . $fileName;
             
             // Cek apakah file exists
@@ -206,7 +206,7 @@ class UserOrderController extends Controller
             $content .= "Metode Bayar    : Tidak tersedia\n";
             $content .= "Tanggal         : " . $pesanan->created_at->format('d M Y H:i:s') . "\n";
             
-            $fileName = 'detail_pesanan_' . $pesanan->id . '.txt';
+            $fileName = 'detail_pesanan_' . $pesanan->nama_pemesan . '.txt';
             
             // Return response download langsung tanpa menyimpan file
             return response($content)

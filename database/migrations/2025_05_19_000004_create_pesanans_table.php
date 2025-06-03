@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('berat');
             $table->integer('diskon')->nullable();
             $table->string('catatan')->nullable();
-            $table->string('status')->default('Proses');
+            $table->string('status')->default('Konfirmasi Admin');
             $table->timestamps();
         });
     }
