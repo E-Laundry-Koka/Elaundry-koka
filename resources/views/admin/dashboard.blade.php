@@ -311,14 +311,14 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <!-- Messages Widget -->
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-light rounded p-4 border-top border-primary border-3">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
+            <!-- <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="h-100 bg-light rounded p-4 border-top border-primary border-3"> -->
+                    <!-- <div class="d-flex align-items-center justify-content-between mb-3">
                         <h6 class="mb-0"><i class="fa fa-envelope text-primary me-2"></i>Pesan Terbaru</h6>
                         <a href="#" class="text-primary small">Lihat Semua</a>
-                    </div>
+                    </div> -->
                     <!-- Message Item -->
-                    <div class="d-flex align-items-center border-bottom py-3">
+                    <!-- <div class="d-flex align-items-center border-bottom py-3">
                         <div class="position-relative">
                             <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 0.5rem;">
@@ -332,9 +332,9 @@
                             </div>
                             <span class="text-muted small">Kapan pesanan saya selesai?</span>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Message Item -->
-                    <div class="d-flex align-items-center border-bottom py-3">
+                    <!-- <div class="d-flex align-items-center border-bottom py-3">
                         <div class="position-relative">
                             <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" style="font-size: 0.5rem;">
@@ -348,12 +348,12 @@
                             </div>
                             <span class="text-muted small">Terima kasih atas layanannya!</span>
                         </div>
-                    </div>
-                    <div class="text-center mt-3">
+                    </div> -->
+                    <!-- <div class="text-center mt-3">
                         <button class="btn btn-sm btn-outline-primary">Balas Pesan</button>
-                    </div>
-                </div>
-            </div>
+                    </div> -->
+                <!-- </div>
+            </div> -->
 
             <!-- Calendar Widget -->
             <div class="col-sm-12 col-md-6 col-xl-4">

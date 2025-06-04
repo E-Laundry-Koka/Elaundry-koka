@@ -21,4 +21,9 @@ class Lokasi extends Model
     {
         return $this->hasMany(Admin::class, 'id_lokasi');
     }
+
+    public function pesanans()
+    {
+        return $this->hasMany(Pesanan::class, 'id_lokasi');
+    }
 }

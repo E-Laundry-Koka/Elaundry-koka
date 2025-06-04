@@ -115,15 +115,6 @@
 
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-
-        <div class="mt-3 d-flex justify-content-between">
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="text-decoration-none" style="color: #194376;">Forgot password?</a>
-            @endif
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="text-decoration-none" style="color: #194376;">Don't have an account?</a>
-            @endif
-        </div>
     </div>
 </body>
 </html>

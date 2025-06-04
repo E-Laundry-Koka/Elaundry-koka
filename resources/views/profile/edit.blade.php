@@ -146,7 +146,7 @@
             </h3>
             <p>{{ __("Perbarui informasi profil akun Anda.") }}</p>
             
-            <form method="POST" action="{{ route('profile.update') }}">
+            <form method="POST" action="{{ route('profile.update', ['id' => auth()->user()->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 

@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="no_hp" class="form-label">Nomor Handphone</label>
-                            <input type="text" class="form-control form-control-lg" id="no_hp" name="no_hp" required>
+                            <input type="text" class="form-control form-control-lg" id="no_hp" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -211,6 +211,15 @@
                                 <option value="Debit">Debit</option>
                             </select>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_lokasi" class="form-label">Lokasi Cabang</label>
+                            <select name="id_lokasi" id="id_lokasi" class="form-control" required>
+                                <option value="">Pilih Layanan</option>
+                                @foreach ($lokasiList as $location)
+                                    <option value="{{ $location->id }}">{{ $location->nama_lokasi }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="catatan" class="form-label">Catatan (Opsional)</label>
@@ -244,6 +253,14 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6"><strong>Alamat:</strong> {{ $item->alamat }}</div>
+                        <div class="col-md-6">
+                            <strong>Cabang:</strong> 
+                            @if ($item->lokasi)
+                                {{ $item->lokasi->nama_lokasi }}
+                            @else
+                                - Tidak ditemukan -
+                            @endif
+                        </div>
                         <div class="col-md-6"><strong>Catatan:</strong> {{ $item->catatan }}</div>
                     </div>
                     <div class="row mb-3">
@@ -360,16 +377,33 @@
                             <label for="alamat" class="form-label">Alamat</label>
                             <textarea name="alamat" class="form-control" rows="3" required>{{ $item->alamat }}</textarea>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="lokasi" class="form-label">Lokasi Cabang</label>
+                                <select class="form-select" id="id_lokasi" name="id_lokasi" required>
+                                    <option value="">Pilih Lokasi</option>
+                                    @foreach ($lokasiList as $location)
+                                        <option value="{{ $location->id }}" {{ $item->id_lokasi == $location->id ? 'selected' : '' }}>
+                                            {{ $location->nama_lokasi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_layanan" class="form-label">Jenis Layanan</label>
+                                <select name="id_layanan" id="id_layanan" class="form-select" required>
+                                    <option value="">Pilih Layanan</option>
+                                    @foreach ($layanans as $layanan)
+                                        <option value="{{ $layanan->id }}" {{ $item->id_layanan == $layanan->id ? 'selected' : '' }}>
+                                            {{ $layanan->nama_layanan }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="mb-3">
-                            <label for="id_layanan" class="form-label">Jenis Layanan</label>
-                            <select name="id_layanan" id="id_layanan" class="form-control form-control-lg" required>
-                                <option value="">Pilih Layanan</option>
-                                @foreach ($layanans as $layanan)
-                                    <option value="{{ $layanan->id }}" {{ $item->id_layanan == $layanan->id ? 'selected' : '' }}>
-                                        {{ $layanan->nama_layanan }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="no_hp" class="form-label">Nomor Handphone</label>
+                            <input type="text" class="form-control" name="no_hp" value="{{ $item->no_hp }}" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">

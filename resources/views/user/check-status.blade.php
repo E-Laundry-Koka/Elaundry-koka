@@ -153,14 +153,14 @@
     <div class="profile-card">
         <h3>
             <i class="bi bi-receipt me-2"></i>
-            {{ __('Masukkan ID Pesanan') }}
+            {{ __('Masukkan Nomor Resi Pesanan') }}
         </h3>
-        <p>{{ __('Silakan masukkan ID pesanan Anda untuk melihat statusnya.') }}</p>
+        <p>{{ __('Silakan masukkan Nomor Resi pesanan Anda untuk melihat statusnya.') }}</p>
 
         <form method="POST" action="{{ route('check-status-pesanan')}}">
             @csrf
             <div class="mb-3">
-                <label for="nomor_resi" class="form-label">ID Pesanan</label>
+                <label for="nomor_resi" class="form-label">Nomor Resi Pesanan</label>
                 <input type="text" name="nomor_resi" id="nomor_resi" class="form-control" placeholder="Contoh: 12345" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Cek Status</button>

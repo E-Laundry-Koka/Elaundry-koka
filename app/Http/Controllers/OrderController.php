@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pesanan;
 // use App\Http\PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -10,6 +11,8 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Models\Pembayaran;
+use App\Models\Lokasi;
+use App\Models\User;
 use App\Exports\OrdersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Layanan;
@@ -23,21 +26,29 @@ class OrderController extends Controller
         $sortBy = $request->input('sort_by', 'created_at'); // kolom pengurutan
         $sortOrder = $request->input('sort_order'); // arah pengurutan
 
+        $user = Auth::user();
         $layanans = Layanan::all();
+        $lokasiList = Lokasi::all();
 
-        $query = Pesanan::with('layanan');
+        // Query dasar
+        $query = Pesanan::with(['layanan', 'lokasi']);
+
+        // Tambahkan filter berdasarkan role
+        if ($user && $user->role_id != 1) {
+            // Bukan supervisor, filter berdasarkan lokasi
+            $query->where('id_lokasi', $user->id_lokasi);
+        }
 
         // Hanya gunakan orderBy jika sortOrder valid
         if (in_array($sortOrder, ['asc', 'desc'])) {
             $query->orderBy($sortBy, $sortOrder);
         } else {
-            // Jika tidak valid, gunakan default (desc)
             $query->orderBy($sortBy, 'desc');
         }
 
         $pesanan = $query->paginate($perPage);
 
-        return view('orders.create', compact('pesanan', 'layanans', 'perPage', 'sortBy', 'sortOrder'));
+        return view('orders.create', compact('pesanan', 'layanans', 'perPage', 'sortBy', 'sortOrder', 'lokasiList'));
     }
 
     // public function create(){
@@ -56,6 +67,7 @@ class OrderController extends Controller
             'no_hp' => 'required|string|max:20',
             'alamat' => 'required|string',
             'id_layanan' => 'required|exists:layanan,id',
+            'id_lokasi' => 'required|exists:lokasi,id',
             'tanggal_pemesanan' => 'required|date',
             'berat' => 'required|numeric|min:0.1',
             'diskon' => 'required|numeric|min:0',
@@ -75,6 +87,7 @@ class OrderController extends Controller
             'no_hp' => $validated['no_hp'],
             'alamat' => $validated['alamat'],
             'id_layanan' => $validated['id_layanan'],
+            'id_lokasi' => $validated['id_lokasi'],
             'tanggal_pemesanan' => $validated['tanggal_pemesanan'],
             'berat' => $validated['berat'],
             'diskon' => $validated['diskon'],
@@ -133,6 +146,8 @@ class OrderController extends Controller
             'nama_pemesan' => 'required|string|max:255',
             'no_hp' => 'required|string|max:20',
             'alamat' => 'required|string',
+            'id_layanan' => 'required|exists:layanan,id',
+            'id_lokasi' => 'required|exists:lokasi,id',
             'berat' => 'required|numeric|min:0.1',
             'diskon' => 'required|numeric|min:0',
             'status' => 'required|string|in:Konfirmasi Admin,Dalam Penjemputan,Proses,Dalam Pengantaran,Selesai',
@@ -144,9 +159,12 @@ class OrderController extends Controller
             'nama_pemesan' => $validated['nama_pemesan'],
             'no_hp' => $validated['no_hp'],
             'alamat' => $validated['alamat'],
+            'id_layanan' => $validated['id_layanan'],
+            'id_lokasi' => $validated['id_lokasi'],
             'berat' => $validated['berat'],
             'diskon' => $validated['diskon'],
             'status' => $validated['status'],
+            'status_pembayaran' => $validated['status_pembayaran'],
         ]);
 
         // Update pembayaran jika ada
@@ -204,14 +222,15 @@ class OrderController extends Controller
             'D4' => 'No. Handphone',
             'E4' => 'Alamat',
             'F4' => 'Layanan',
-            'G4' => 'Berat (Kg)',
-            'H4' => 'Harga/Kg',
-            'I4' => 'Diskon (%)',
-            'J4' => 'Total Bayar',
-            'K4' => 'Status',
-            'L4' => 'Metode Pembayaran',
-            'M4' => 'Status Pembayaran',
-            'N4' => 'Tanggal Pemesanan'
+            'G4' => 'Lokasi',
+            'H4' => 'Berat (Kg)',
+            'I4' => 'Harga/Kg',
+            'J4' => 'Diskon (%)',
+            'K4' => 'Total Bayar',
+            'L4' => 'Status',
+            'M4' => 'Metode Pembayaran',
+            'N4' => 'Status Pembayaran',
+            'O4' => 'Tanggal Pemesanan'
         ];
 
         foreach ($headers as $cell => $value) {
@@ -219,7 +238,7 @@ class OrderController extends Controller
         }
 
         // Style header
-        $headerRange = 'A4:N4';
+        $headerRange = 'A4:O4';
         $sheet->getStyle($headerRange)->getFont()->setBold(true);
         $sheet->getStyle($headerRange)->getFill()
               ->setFillType(Fill::FILL_SOLID)
@@ -245,31 +264,32 @@ class OrderController extends Controller
             $sheet->setCellValue('D' . $row, $item->no_hp);
             $sheet->setCellValue('E' . $row, $item->alamat);
             $sheet->setCellValue('F' . $row, $item->layanan->nama_layanan ?? '-');
-            $sheet->setCellValue('G' . $row, $item->berat);
-            $sheet->setCellValue('H' . $row, $item->layanan ? 'Rp ' . number_format($item->layanan->harga, 0, ',', '.') : '-');
-            $sheet->setCellValue('I' . $row, $item->diskon ?? 0);
-            $sheet->setCellValue('J' . $row, $total > 0 ? 'Rp ' . number_format($total, 0, ',', '.') : '-');
-            $sheet->setCellValue('K' . $row, $item->status);
-            $sheet->setCellValue('L' . $row, $item->pembayaran->metode_pembayaran ?? '-');
-            $sheet->setCellValue('M' . $row, $item->pembayaran->status_pembayaran ?? 'Belum Bayar');
-            $sheet->setCellValue('N' . $row, $item->tanggal_pemesanan ? date('d/m/Y', strtotime($item->tanggal_pemesanan)) : '-');
+            $sheet->setCellValue('G' . $row, $item->lokasi->nama_lokasi ?? '-');
+            $sheet->setCellValue('H' . $row, $item->berat);
+            $sheet->setCellValue('I' . $row, $item->layanan ? 'Rp ' . number_format($item->layanan->harga, 0, ',', '.') : '-');
+            $sheet->setCellValue('J' . $row, $item->diskon ?? 0);
+            $sheet->setCellValue('K' . $row, $total > 0 ? 'Rp ' . number_format($total, 0, ',', '.') : '-');
+            $sheet->setCellValue('L' . $row, $item->status);
+            $sheet->setCellValue('M' . $row, $item->pembayaran->metode_pembayaran ?? '-');
+            $sheet->setCellValue('N' . $row, $item->pembayaran->status_pembayaran ?? 'Belum Bayar');
+            $sheet->setCellValue('O' . $row, $item->tanggal_pemesanan ? date('d/m/Y', strtotime($item->tanggal_pemesanan)) : '-');
 
             $row++;
             $no++;
         }
 
         // Auto size kolom
-        foreach (range('A', 'N') as $col) {
+        foreach (range('A', 'O') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
         // Border untuk semua data
-        $dataRange = 'A4:N' . ($row - 1);
+        $dataRange = 'A4:O' . ($row - 1);
         $sheet->getStyle($dataRange)->getBorders()->getAllBorders()
               ->setBorderStyle(Border::BORDER_THIN);
 
         // Center alignment untuk kolom tertentu
-        $centerColumns = ['A', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
+        $centerColumns = ['A', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
         foreach ($centerColumns as $col) {
             $sheet->getStyle($col . '5:' . $col . ($row - 1))
                   ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);

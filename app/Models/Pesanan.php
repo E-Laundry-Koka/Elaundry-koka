@@ -13,7 +13,8 @@ class Pesanan extends Model
         'nomor_resi',
         'no_hp',
         'alamat',
-        'id_layanan',  // Tambahkan field ini
+        'id_layanan',
+        'id_lokasi',
         'tanggal_pemesanan',
         'berat', 
         'diskon',
@@ -30,6 +31,11 @@ class Pesanan extends Model
     public function pembayaran()
     {
         return $this->hasOne(Pembayaran::class, 'id_pesanan');
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'id_lokasi');
     }
 
     // Method untuk menghitung total harga

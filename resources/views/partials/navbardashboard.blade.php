@@ -39,7 +39,7 @@
         </div>
 
         <!-- Notifications Dropdown -->
-        <div class="nav-item dropdown">
+        <!-- <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="bi bi-bell me-lg-2"></i>
                 <span class="d-none d-lg-inline-flex">Notifikasi</span>
@@ -62,12 +62,18 @@
                 <hr class="dropdown-divider">
                 <a href="#" class="dropdown-item text-center">Lihat semua notifikasi</a>
             </div>
-        </div>
+        </div> -->
 
         <!-- Profile Dropdown -->
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-                <img class="rounded-circle me-lg-2" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                @if(Auth::user()->foto_profile)
+                    <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . Auth::user()->foto_profile) }}" alt="" style="width: 40px; height: 40px;">
+                @else
+                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fa fa-user text-white"></i>
+                    </div>
+                @endif
                 <span class="d-none d-lg-inline-flex">{{ Auth::user()->name }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded shadow m-0">

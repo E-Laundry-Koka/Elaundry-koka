@@ -164,7 +164,6 @@
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
                             <th scope="col">Lokasi</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -186,30 +185,24 @@
                                         $roleLabels = [
                                             'super_admin' => ['text' => 'Super Admin', 'class' => 'bg-danger'],
                                             'admin' => ['text' => 'Admin', 'class' => 'bg-primary'],
-                                            'operator' => ['text' => 'Operator', 'class' => 'bg-info']
                                         ];
-                                        $role = $roleLabels[$user->role] ?? ['text' => 'Tidak Diketahui', 'class' => 'bg-secondary'];
+                                        $role = $roleLabels[($user->role)->role_name] ?? ['text' => 'Tidak Diketahui', 'class' => 'bg-secondary'];
                                     @endphp
                                     <span class="badge {{ $role['class'] }}">{{ $role['text'] }}</span>
                                 </td>
                                 <td>{{ optional($user->lokasi)->nama_lokasi ?? '-' }}</td>
                                 <td>
-                                    <span class="badge {{ ($user->status ?? 'aktif') == 'aktif' ? 'bg-success' : 'bg-warning' }}">
-                                        {{ ucfirst($user->status ?? 'aktif') }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editAdminModal">
+                                    @foreach($admin as $adm)
+                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editAdminModal{{ $adm->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#detailAdminModal">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-warning me-1">
-                                        <i class="fa fa-ban"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash"></i>
+                                    @endforeach
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('admin.destroy', $user->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger me-1" onclick="confirmDelete('{{ $user->id }}')">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -252,21 +245,28 @@
                                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                 <i class="fa fa-cog"></i>
                                             </button>
+                                            @foreach ($lokasiList as $lokasi)
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a class="dropdown-item" href="">
+                                                    
+                                                    <button class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#editLokasiModal{{ $lokasi->id }}">
                                                         <i class="fa fa-edit me-2"></i>Edit
-                                                    </a>
+                                                    </button>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="">
+                                                    <form id="delete-form-{{ $lokasi->id }}" action="{{ route('lokasi.destroy', $lokasi->id) }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                    <button class="dropdown-item" onclick="confirmDelete('{{ $lokasi->id }}')">
                                                         <i class="fa fa-trash me-2"></i>Hapus
-                                                    </a>
+                                                    </button>
                                                 </li>
                                             </ul>
+                                            @endforeach
                                         </div>
                                     </div>
-                                    <p class="text-muted mb-2">{{ $location->alamat }}, {{ $location->kota }}</p>
+                                    <p class="text-muted mb-2">{{ $location->alamat }}, {{ $location->kota }}, {{ $location->kode_pos }}</p>
                                 </div>
                             </div>
                         @empty
@@ -290,7 +290,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin-store') }}" method="POST" enctype="multipart/form-data" id="addAdminForm">
+                    <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" id="addAdminForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -376,6 +376,152 @@
         </div>
     </div>
 
+    <!-- Modal Edit Admin -->
+    @foreach ($admin as $adm)
+    <div class="modal fade" id="editAdminModal{{ $adm->id }}" tabindex="-1" aria-labelledby="editAdminModalLabel{{ $adm->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient text-white">
+                    <h5 class="modal-title" id="editAdminModalLabel" style="color: white;">Edit Data Admin</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.update', ['id' => $adm->id]) }}" method="POST" enctype="multipart/form-data" id="editAdminForm">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="name" value="{{ $adm->name }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ $adm->email }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password</label>
+                                    <input type="password" class="form-control" id="konfirmasi_password">
+                                    <div id="passwordError" class="text-danger mt-1" style="display: none;">
+                                        Password tidak cocok
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-select" id="role" name="role_id" required>
+                                        <option value="">Pilih Role</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}" {{ $adm->role_id == $role->id ? 'selected' : '' }}>
+                                                {{ $role->role_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="lokasi" class="form-label">Lokasi</label>
+                                    <select class="form-select" id="id_lokasi" name="id_lokasi" required>
+                                        <option value="">Pilih Lokasi</option>
+                                        @foreach ($lokasiList as $location)
+                                            <option value="{{ $location->id }}" {{ $adm->id_lokasi == $location->id ? 'selected' : '' }}>
+                                                {{ $location->nama_lokasi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="telepon" class="form-label">No. Telepon</label>
+                                    <input type="tel" class="form-control" id="telepon" name="no_hp" value="{{ $adm->no_hp }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="foto" class="form-label">Foto Profil</label>
+                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*"value="{{ $adm->foto_profile }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ $adm->alamat }}</textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan Admin</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+    
+    <!-- Modal Edit Lokasi -->
+    @foreach ($lokasiList as $lokasi)
+    <div class="modal fade" id="editLokasiModal{{ $lokasi->id }}" tabindex="-1" aria-labelledby="editLokasiModalLabel{{ $lokasi->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient text-white">
+                    <h5 class="modal-title" id="editLokasiModalLabel" style="color: white;">Edit Data Lokasi</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('lokasi.update', ['id' => $lokasi->id]) }}" method="POST" enctype="multipart/form-data" id="editAdminForm">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
+                                <input type="text" class="form-control" id="nama_lokasi" name="nama_lokasi" value="{{ $lokasi->nama_lokasi }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="kota" class="form-label">Kota</label>
+                                <input type="text" class="form-control" id="kota" name="kota" value="{{ $lokasi->kota }}" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ $lokasi->alamat }}</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="kode_pos" class="form-label">Kode Pos</label>
+                                <input type="text" class="form-control" id="kode_pos" name="kode_pos" value="{{ $lokasi->kode_pos }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan Admin</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
     <!-- Modal Add Location -->
     <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -450,3 +596,11 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
 @endsection
+
+<script>
+function confirmDelete(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+        document.getElementById('delete-form-' + id).submit();
+    }
+}
+</script>

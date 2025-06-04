@@ -7,12 +7,24 @@
 
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-                <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="User" style="width: 40px; height: 40px;">
+                @if(Auth::user()->foto_profile)
+                    <img class="rounded-circle" src="{{ asset('storage/' . Auth::user()->foto_profile) }}" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
+                @else
+                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fa fa-user text-white"></i>
+                    </div>
+                @endif
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">{{ Auth::user()->name }}</h6>
-                <span>{{ Auth::user()->role ?? 'Admin' }}</span>
+                <span>
+                    @if(Auth::user()->role)
+                        {{ Auth::user()->role->display_name ?? Auth::user()->role->role_name ?? 'Admin' }}
+                    @else
+                        Admin
+                    @endif
+                </span>
             </div>
         </div>
 
