@@ -58,11 +58,11 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admin,email',
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
             'role_id' => 'required|exists:roles,id',
             'id_lokasi' => 'required|exists:lokasi,id',
             'no_hp' => 'required|string|min:12|max:13',
-            'foto_profile' => 'string',
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'alamat' => 'required|max:255',
         ]);
 
@@ -76,16 +76,15 @@ class AdminController extends Controller
             $validated['foto_profile'] = $admin->foto_profile;
         }
 
-        $admin->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'role_id' => $validated['role_id'],
-            'id_lokasi' => $validated['id_lokasi'],
-            'no_hp' => $validated['no_hp'],
-            'foto_profile' => $validated['foto_profile'],
-            'alamat' => $validated['alamat'],
-        ]);
+        // Jika password tidak diisi, hapus dari array agar tidak diupdate
+        if (!$request->filled('password')) {
+            unset($validated['password']);
+        } else {
+            // Jika password diisi, hash dulu sebelum disimpan
+            $validated['password'] = bcrypt($validated['password']);
+        }
+
+        $admin->update($validated);
 
         return redirect()->back()->with('success', 'Admin berhasil diperbarui!');
     }

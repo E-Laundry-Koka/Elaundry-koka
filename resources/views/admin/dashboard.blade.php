@@ -92,12 +92,13 @@
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-primary border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                        <div class="p-3 me-3">
                             <i class="fas fa-shopping-cart fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <p class="mb-1 text-muted small">Total Pesanan</p>
+                            <p class="mb-1 text-muted small">Total Pesanan Hari Ini</p>
                             <h4 class="mb-0 fw-bold text-primary" data-toggle="counter-up">{{ $totalPesanan ?? '0' }}</h4>
+                            <small class="text-primary"><i class="fa fa-calendar me-1"></i>{{ date('d M Y') }}</small>
                         </div>
                     </div>
                 </div>
@@ -105,7 +106,7 @@
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-info border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
-                        <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
+                        <div class="p-3 me-3">
                             <i class="fas fa-coins fa-2x text-info"></i>
                         </div>
                         <div>
@@ -121,12 +122,13 @@
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-success border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                        <div class="p-3 me-3">
                             <i class="fas fa-chart-line fa-2x text-success"></i>
                         </div>
                         <div>
-                            <p class="mb-1 text-muted small">Estimasi Total Pendapatan/hari</p>
+                            <p class="mb-1 text-muted small">Est. Pendapatan/hari</p>
                             <h5 class="mb-0 fw-bold text-success" data-toggle="counter-up">Rp {{ number_format($estimasitotalPendapatanPerHari ?? 0, 0, ',', '.') }}</h5>
+                            <small class="text-success"><i class="fa fa-calendar me-1"></i>{{ date('d M Y') }}</small>
                         </div>
                     </div>
                 </div>
@@ -134,7 +136,7 @@
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-warning border-4 hover-shadow transition-all">
                     <div class="d-flex align-items-center">
-                        <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
+                        <div class="p-3 me-3">
                             <i class="fas fa-wallet fa-2x text-warning"></i>
                         </div>
                         <div>

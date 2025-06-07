@@ -11,9 +11,9 @@
     </a>
 
     <!-- Search Bar (Hidden on small screens) -->
-    <form class="d-none d-md-flex ms-4">
+    <!-- <form class="d-none d-md-flex ms-4">
         <input class="form-control border-0 shadow-sm" type="search" placeholder="Cari...">
-    </form>
+    </form> -->
 
     <!-- Right Side Navbar -->
     <div class="navbar-nav align-items-center ms-auto">

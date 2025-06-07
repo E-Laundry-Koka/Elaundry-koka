@@ -133,7 +133,7 @@
         <!-- Step 4 -->
         <div class="form-step" id="step4">
             <h3>Data Profile</h3>
-            <input type="text" class="form-control" name="nama_pemesan" placeholder="Nama Lengkap" required>
+            <input type="text" class="form-control" name="nama_pemesan" placeholder="Nama Lengkap" pattern="[A-Za-z\s]+" title="Hanya huruf dan spasi yang diperbolehkan" required>
             <input type="email" class="form-control" name="email" placeholder="Email" required>
             <input type="text" class="form-control" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
             <input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
@@ -158,6 +158,16 @@
 
             <!-- Input Berat -->
             <input type="number" class="form-control" name="berat" id="inputBerat" placeholder="Berat (Kg)" min="5.0" step="0.1" required disabled>
+
+            <!-- Input Lokasi Cabang -->
+            <select name="id_lokasi" class="form-control" id="lokasiSelect" required>
+                <option value="">Pilih Cabang</option>
+                @foreach ($lokasiList as $lokasi)
+                    <option value="{{ $lokasi->id }}">
+                        {{ $lokasi->nama_lokasi }}
+                    </option>
+                @endforeach
+            </select>
             
             <!-- Catatan -->
             <textarea name="catatan" class="form-control" id="catatan" placeholder="Catatan" rows="2"></textarea>

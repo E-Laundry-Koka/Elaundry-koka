@@ -192,11 +192,9 @@
                                 </td>
                                 <td>{{ optional($user->lokasi)->nama_lokasi ?? '-' }}</td>
                                 <td>
-                                    @foreach($admin as $adm)
-                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editAdminModal{{ $adm->id }}">
+                                    <button class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editAdminModal{{ $user->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    @endforeach
                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.destroy', $user->id) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -245,25 +243,23 @@
                                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                 <i class="fa fa-cog"></i>
                                             </button>
-                                            @foreach ($lokasiList as $lokasi)
+                                            <!-- Dropdown menu untuk setiap lokasi individual -->
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    
-                                                    <button class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#editLokasiModal{{ $lokasi->id }}">
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editLokasiModal{{ $location->id }}">
                                                         <i class="fa fa-edit me-2"></i>Edit
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <form id="delete-form-{{ $lokasi->id }}" action="{{ route('lokasi.destroy', $lokasi->id) }}" method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $location->id }}" action="{{ route('lokasi.destroy', $location->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <button class="dropdown-item" onclick="confirmDelete('{{ $lokasi->id }}')">
+                                                    <button class="dropdown-item" onclick="confirmDelete('{{ $location->id }}')">
                                                         <i class="fa fa-trash me-2"></i>Hapus
                                                     </button>
                                                 </li>
                                             </ul>
-                                            @endforeach
                                         </div>
                                     </div>
                                     <p class="text-muted mb-2">{{ $location->alamat }}, {{ $location->kota }}, {{ $location->kode_pos }}</p>
@@ -351,7 +347,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="telepon" class="form-label">No. Telepon</label>
-                                    <input type="tel" class="form-control" id="telepon" name="no_hp">
+                                    <input type="tel" class="form-control" id="telepon" name="no_hp" minlength="12" maxlength="13" pattern="^08\d{10,11}$">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -407,7 +403,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <input type="password" class="form-control" id="password" name="password">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -452,13 +448,20 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="telepon" class="form-label">No. Telepon</label>
-                                    <input type="tel" class="form-control" id="telepon" name="no_hp" value="{{ $adm->no_hp }}">
+                                    <input type="tel" class="form-control" id="telepon" name="no_hp" value="{{ $adm->no_hp }}" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan Nomor Telepon dengan Benar">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="foto" class="form-label">Foto Profil</label>
-                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*"value="{{ $adm->foto_profile }}">
+                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*">
+                                    <!-- Tampilkan foto lama jika ada -->
+                                    @if($adm->foto_profile)
+                                        <div class="mt-2">
+                                            <img src="{{ asset('storage/' . $adm->foto_profile) }}" alt="Foto Profil" width="100" class="img-thumbnail">
+                                            <p class="text-muted">Foto saat ini</p>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -529,7 +532,7 @@
                 <form action="{{ route('lokasi.store') }}" method="POST">
                     @csrf
                     <div class="modal-header bg-gradient text-white">
-                        <h5 class="modal-title" id="addLocationModalLabel">Tambah Lokasi Baru</h5>
+                        <h5 class="modal-title" id="addLocationModalLabel" style="color: white;">Tambah Lokasi Baru</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

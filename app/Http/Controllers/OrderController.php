@@ -22,16 +22,23 @@ class OrderController extends Controller
     // Tampilkan halaman form buat pesanan
     public function create(Request $request)
     {
+        $user = Auth::user();
         $perPage = $request->input('per_page', 10); // jumlah data per halaman
         $sortBy = $request->input('sort_by', 'created_at'); // kolom pengurutan
         $sortOrder = $request->input('sort_order'); // arah pengurutan
-
-        $user = Auth::user();
+        $search = $request->input('search');
+        $query = Pesanan::with(['layanan', 'lokasi']);
         $layanans = Layanan::all();
         $lokasiList = Lokasi::all();
 
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('nama_pemesan', 'like', "%$search%")
+                ->orWhere('nomor_resi', 'like', "%$search%")
+                ->orWhere('no_hp', 'like', "%$search%");
+            });
+        }
         // Query dasar
-        $query = Pesanan::with(['layanan', 'lokasi']);
 
         // Tambahkan filter berdasarkan role
         if ($user && $user->role_id != 1) {
@@ -46,9 +53,14 @@ class OrderController extends Controller
             $query->orderBy($sortBy, 'desc');
         }
 
-        $pesanan = $query->paginate($perPage);
+        $pesanan = $query->paginate($perPage)->appends([
+            'per_page' => $perPage,
+            'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
+            'search' => $search,
+        ]);
 
-        return view('orders.create', compact('pesanan', 'layanans', 'perPage', 'sortBy', 'sortOrder', 'lokasiList'));
+        return view('orders.create', compact('pesanan', 'layanans', 'perPage', 'sortBy', 'sortOrder', 'lokasiList', 'search'));
     }
 
     // public function create(){

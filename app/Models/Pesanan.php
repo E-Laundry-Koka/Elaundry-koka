@@ -30,12 +30,12 @@ class Pesanan extends Model
 
     public function pembayaran()
     {
-        return $this->hasOne(Pembayaran::class, 'id_pesanan');
+        return $this->hasOne(Pembayaran::class, 'id_pesanan', 'id');
     }
 
     public function lokasi()
     {
-        return $this->belongsTo(Lokasi::class, 'id_lokasi');
+        return $this->belongsTo(Lokasi::class, 'id_lokasi', 'id');
     }
 
     // Method untuk menghitung total harga

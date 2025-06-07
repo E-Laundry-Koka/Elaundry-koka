@@ -51,9 +51,13 @@
                         @if (empty($sortOrder))
                             <option value="" selected hidden>Pilih Urutan</option>
                         @endif
-                        <option value="asc" {{ $sortOrder == 'asc' ? 'selected' : '' }}>Terendah ke Tertinggi</option>
-                        <option value="desc" {{ $sortOrder == 'desc' ? 'selected' : '' }}>Tertinggi ke Terendah</option>
+                        <option value="asc" {{ $sortOrder == 'asc' ? 'selected' : '' }}>A-Z/Terendah ke Tertinggi</option>
+                        <option value="desc" {{ $sortOrder == 'desc' ? 'selected' : '' }}>Z-A/Tertinggi ke Terendah</option>
                     </select>
+                </div>
+
+                <div class="col-auto ms-auto">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Cari ..." value="{{ request('search') }}" oninput="this.form.submit()">
                 </div>
             </div>
         </form>
@@ -62,20 +66,22 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-dark text-center">
                     <tr>
-                        <th>No</th>
-                        <th>Nama Pemesan</th>
-                        <th>No. Handphone</th>
-                        <th>Alamat</th>
-                        <th>Berat (Kg)</th>
-                        <th>Layanan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th style="width: 5%">No</th>
+                        <th style="width: 15%">No. Resi</th>
+                        <th style="width: 15%">Nama Pemesan</th>
+                        <th style="width: 12%">No. Handphone</th>
+                        <th style="width: 10%">Alamat</th>
+                        <th style="width: 8%">Berat (Kg)</th>
+                        <th style="width: 12%">Layanan</th>
+                        <th style="width: 10%">Status</th>
+                        <th style="width: 13%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($pesanan as $history => $item)
                         <tr class="animate__animated animate__fadeIn">
                             <td class="text-center">{{ $pesanan->firstItem() + $history }}</td>
+                            <td>{{$item->nomor_resi }}</td>
                             <td>{{ $item->nama_pemesan }}</td>
                             <td class="text-center">{{ $item->no_hp }}</td>
                             <td>{{ $item->alamat }}</td>
@@ -138,6 +144,199 @@
                 </tbody>
             </table>
         </div>
+        </div>    
+            <!-- Pagination Section -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="text-muted">
+                    Menampilkan {{ $pesanan->firstItem() }} sampai {{ $pesanan->lastItem() }} 
+                    dari {{ $pesanan->total() }} hasil
+                </div>
+                
+                <!-- Custom Pagination -->
+                @if ($pesanan->hasPages())
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            {{-- Previous Page Link --}}
+                            @if ($pesanan->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $pesanan->appends(request()->query())->previousPageUrl() }}">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
+                                </li>
+                            @endif
+
+                            {{-- Pagination Elements --}}
+                            @php
+                                $start = max($pesanan->currentPage() - 2, 1);
+                                $end = min($start + 4, $pesanan->lastPage());
+                                $start = max($end - 4, 1);
+                            @endphp
+
+                            @if ($start > 1)
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $pesanan->appends(request()->query())->url(1) }}">1</a>
+                                </li>
+                                @if ($start > 2)
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                @endif
+                            @endif
+
+                            @for ($i = $start; $i <= $end; $i++)
+                                @if ($i == $pesanan->currentPage())
+                                    <li class="page-item active">
+                                        <span class="page-link bg-primary border-primary">{{ $i }}</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $pesanan->appends(request()->query())->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endif
+                            @endfor
+
+                            @if ($end < $pesanan->lastPage())
+                                @if ($end < $pesanan->lastPage() - 1)
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                @endif
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $pesanan->appends(request()->query())->url($pesanan->lastPage()) }}">
+                                        {{ $pesanan->lastPage() }}
+                                    </a>
+                                </li>
+                            @endif
+
+                            {{-- Next Page Link --}}
+                            @if ($pesanan->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $pesanan->appends(request()->query())->nextPageUrl() }}">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- CSS untuk styling pagination -->
+    <style>
+    .pagination {
+        --bs-pagination-padding-x: 0.75rem;
+        --bs-pagination-padding-y: 0.5rem;
+        --bs-pagination-font-size: 0.875rem;
+        --bs-pagination-color: #6c757d;
+        --bs-pagination-bg: #fff;
+        --bs-pagination-border-width: 1px;
+        --bs-pagination-border-color: #dee2e6;
+        --bs-pagination-border-radius: 0.375rem;
+        --bs-pagination-hover-color: #0056b3;
+        --bs-pagination-hover-bg: #e9ecef;
+        --bs-pagination-hover-border-color: #dee2e6;
+        --bs-pagination-focus-color: #0056b3;
+        --bs-pagination-focus-bg: #e9ecef;
+        --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        --bs-pagination-active-color: #fff;
+        --bs-pagination-active-bg: #0d6efd;
+        --bs-pagination-active-border-color: #0d6efd;
+        --bs-pagination-disabled-color: #6c757d;
+        --bs-pagination-disabled-bg: #fff;
+        --bs-pagination-disabled-border-color: #dee2e6;
+    }
+
+    .pagination .page-link {
+        position: relative;
+        display: block;
+        color: var(--bs-pagination-color);
+        text-decoration: none;
+        background-color: var(--bs-pagination-bg);
+        border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .pagination .page-link:hover {
+        z-index: 2;
+        color: var(--bs-pagination-hover-color);
+        background-color: var(--bs-pagination-hover-bg);
+        border-color: var(--bs-pagination-hover-border-color);
+    }
+
+    .pagination .page-link:focus {
+        z-index: 3;
+        color: var(--bs-pagination-focus-color);
+        background-color: var(--bs-pagination-focus-bg);
+        outline: 0;
+        box-shadow: var(--bs-pagination-focus-box-shadow);
+    }
+
+    .pagination .page-item:not(:first-child) .page-link {
+        margin-left: -1px;
+    }
+
+    .pagination .page-item:first-child .page-link {
+        border-top-left-radius: var(--bs-pagination-border-radius);
+        border-bottom-left-radius: var(--bs-pagination-border-radius);
+    }
+
+    .pagination .page-item:last-child .page-link {
+        border-top-right-radius: var(--bs-pagination-border-radius);
+        border-bottom-right-radius: var(--bs-pagination-border-radius);
+    }
+
+    .pagination .page-item.active .page-link {
+        z-index: 3;
+        color: var(--bs-pagination-active-color);
+        background-color: var(--bs-pagination-active-bg);
+        border-color: var(--bs-pagination-active-border-color);
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: var(--bs-pagination-disabled-color);
+        pointer-events: none;
+        background-color: var(--bs-pagination-disabled-bg);
+        border-color: var(--bs-pagination-disabled-border-color);
+    }
+
+    .pagination-sm {
+        --bs-pagination-padding-x: 0.5rem;
+        --bs-pagination-padding-y: 0.25rem;
+        --bs-pagination-font-size: 0.875rem;
+        --bs-pagination-border-radius: 0.25rem;
+    }
+
+    /* Responsive untuk mobile */
+    @media (max-width: 576px) {
+        .pagination {
+            justify-content: center;
+        }
+        
+        .d-flex.justify-content-between {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .pagination .page-link {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+    }</style>
     </div>
 </div>
 

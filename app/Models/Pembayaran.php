@@ -19,7 +19,7 @@ class Pembayaran extends Model
     // Relasi ke pesanan
     public function pesanan()
     {
-        return $this->belongsTo(Pesanan::class, 'id_pesanan');
+        return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id');
     }
 }
 

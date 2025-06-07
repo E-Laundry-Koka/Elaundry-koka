@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Layanan;
+use App\Models\Lokasi;
 use App\Models\Pesanan;
 use App\Models\Pembayaran;
 
@@ -15,11 +16,12 @@ class UserOrderController extends Controller
     public function index()
     {
         $layanans = Layanan::all();
+        $lokasiList = Lokasi::all();
         
         // Debug: tampilkan data lengkap dengan attributes (hapus setelah selesai)
         // dd($layanans->toArray());
         
-        return view('user.form_pemesanan', compact('layanans'));
+        return view('user.form_pemesanan', compact('layanans', 'lokasiList'));
     }
 
     public function store(Request $request)
@@ -32,23 +34,22 @@ class UserOrderController extends Controller
             'no_hp' => 'required|string|min:12|max:13',
             'alamat' => 'required|string',
             'id_layanan' => 'required|exists:layanan,id',
+            'id_lokasi' => 'required|exists:lokasi,id',
             'berat' => 'required|numeric|min:0.1',
             'catatan' => 'nullable|string|max:200',
             'metode_pembayaran' => 'required|string|max:255',
         ]);
 
-        // Berikan nilai default untuk catatan jika kosong
-        $validatedData['catatan'] = $validatedData['catatan'] ?? 'Tidak ada catatan';
-
         $nomorResi = $this->generateNomorResi();
 
         // Simpan pesanan ke database menggunakan create() method
-        $pesanan=Pesanan::create([
+        $pesanan = Pesanan::create([
             'nomor_resi' => $nomorResi,
             'nama_pemesan' => $validated['nama_pemesan'],
             'no_hp' => $validated['no_hp'],
             'alamat' => $validated['alamat'],
             'id_layanan' => $validated['id_layanan'],
+            'id_lokasi' => $validated['id_lokasi'],
             'tanggal_pemesanan' => now(),
             'berat' => $validated['berat'],
             'diskon' => 0.0,
@@ -58,6 +59,7 @@ class UserOrderController extends Controller
 
         // Hitung jumlah pembayaran berdasarkan berat dan diskon
         $layanan = Layanan::findOrFail($validated['id_layanan']);
+        $lokasi = Lokasi::findOrFail($validated['id_lokasi']);
         $harga_per_kg = (float)$layanan->harga;
 
         // Hitung pembayaran
@@ -75,7 +77,7 @@ class UserOrderController extends Controller
         ]);
 
         // Generate file pesanan
-        $this->generatePesananFile($pesanan, $layanan, $jumlah_pembayaran, $validated['metode_pembayaran']);
+        $this->generatePesananFile($pesanan, $layanan, $lokasi, $jumlah_pembayaran, $validated['metode_pembayaran']);
 
         // Redirect dengan SweetAlert
         return redirect()->back()->with([
@@ -105,15 +107,18 @@ class UserOrderController extends Controller
         return "{$randomLetters}{$tanggal}-{$urutan}";
     }
 
-
     /**
      * Method helper untuk generate file pesanan
      */
-    private function generatePesananFile($pesanan, $layanan = null, $jumlah_pembayaran = null, $metode_pembayaran = null)
+    private function generatePesananFile($pesanan, $layanan = null, $lokasi = null, $jumlah_pembayaran = null, $metode_pembayaran = null)
     {
         // Jika parameter tidak diberikan, hitung ulang
         if (!$layanan) {
             $layanan = Layanan::find($pesanan->id_layanan);
+        }
+
+        if (!$lokasi) {
+            $lokasi = Lokasi::find($pesanan->id_lokasi);
         }
         
         if (!$jumlah_pembayaran) {
@@ -128,10 +133,11 @@ class UserOrderController extends Controller
         $content = "Detail Pesanan\n";
         $content .= "==============\n";
         $content .= "Nomor Resi      : " . $pesanan->nomor_resi . "\n";
-        $content .= "Nama Pemesan   : " . $pesanan->nama_pemesan . "\n";
+        $content .= "Nama Pemesan    : " . $pesanan->nama_pemesan . "\n";
         $content .= "No HP           : " . $pesanan->no_hp . "\n";
         $content .= "Alamat          : " . $pesanan->alamat . "\n";
         $content .= "Tanggal         : " . $pesanan->created_at->format('d M Y') . "\n";
+        $content .= "Cabang          : " . ($lokasi ? $lokasi->nama_lokasi : 'Lokasi tidak ditemukan') . "\n";
         $content .= "Jenis Layanan   : " . ($layanan ? $layanan->nama_layanan : 'Layanan tidak ditemukan') . "\n";
         $content .= "Harga Layanan   : Rp. " . number_format($layanan->harga, 0, ',', '.') . "/kg\n";
         $content .= "Berat           : " . $pesanan->berat . " Kg\n";
@@ -155,8 +161,8 @@ class UserOrderController extends Controller
     public function downloadPesanan($id)
     {
         try {
-            // Cari pesanan berdasarkan ID
-            $pesanan = Pesanan::with('layanan')->findOrFail($id);
+            // Cari pesanan berdasarkan ID dengan relasi layanan dan lokasi
+            $pesanan = Pesanan::with(['layanan', 'lokasi'])->findOrFail($id);
             
             // Nama file yang akan didownload
             $fileName = 'detail_pesanan_' . $pesanan->nama_pemesan . '.txt';
@@ -218,19 +224,19 @@ class UserOrderController extends Controller
         }
     }
 
-    public function downloadPdf($id)
-    {
-        $pesanan = Pesanan::with(['layanan', 'pembayaran'])->findOrFail($id);
+    // public function downloadPdf($id)
+    // {
+    //     $pesanan = Pesanan::with(['layanan', 'pembayaran'])->findOrFail($id);
         
-        // Hitung total bayar
-        $totalBayar = ($pesanan->berat * $pesanan->layanan->harga) - 
-                    ($pesanan->berat * $pesanan->layanan->harga * ($pesanan->diskon / 100));
+    //     // Hitung total bayar
+    //     $totalBayar = ($pesanan->berat * $pesanan->layanan->harga) - 
+    //                 ($pesanan->berat * $pesanan->layanan->harga * ($pesanan->diskon / 100));
 
-        // Kirim ke view PDF
-        $pdf = Pdf::loadView('user.tagihan.tagihan', compact('pesanan', 'totalBayar'));
+    //     // Kirim ke view PDF
+    //     $pdf = Pdf::loadView('user.tagihan.tagihan', compact('pesanan', 'totalBayar'));
 
-        return $pdf->download("Detail_pesanan_{$id}.pdf");
-    }
+    //     return $pdf->download("Detail_pesanan_{$id}.pdf");
+    // }
 
     // public function export()
     // {
@@ -248,7 +254,7 @@ class UserOrderController extends Controller
         ]);
 
         try {
-            $pesanan = Pesanan::with(['layanan', 'pembayaran'])
+            $pesanan = Pesanan::with(['layanan', 'pembayaran', 'lokasi'])
                 ->where('nomor_resi', $validated['nomor_resi'])
                 ->firstOrFail();
 

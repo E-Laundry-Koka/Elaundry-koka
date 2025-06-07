@@ -65,13 +65,13 @@ Route::middleware('auth')->group(function () {
 });
 
 // Order Management (Admin)
-Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::get('/dashboard/orders/create', [OrderController::class, 'create'])->name('orders.create');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::put('/orders/update/{id}', [OrderController::class, 'update'])->name('orders.update');
 Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
 // Payment Management
-Route::get('/orders/payments', [PaymentController::class, 'history'])->name('payments.index');
+Route::get('/dashboard/orders/payments', [PaymentController::class, 'history'])->name('payments.index');
 Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payments.show');
 Route::post('/payments/{id}/pay', [PaymentController::class, 'pay'])->name('payments.pay');
 Route::get('/payments/{id}/download', [PaymentController::class, 'download'])->name('payments.download');
@@ -89,7 +89,7 @@ Route::get('/settings', [SettingController::class, 'index'])->name('settings');
 */
 
 // Admin Management
-Route::get('/admin', [AdminController::class, 'index'])->middleware('isSupervisor')->name('admin.management');
+Route::get('dashboard/management/admin', [AdminController::class, 'index'])->middleware('isSupervisor')->name('admin.management');
 Route::post('/admin/add', [AdminController::class, 'store'])->middleware('isSupervisor')->name('admin.store');
 Route::put('/admin/update/{id}', [AdminController::class, 'update'])->middleware('isSupervisor')->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->middleware('isSupervisor')->name('admin.destroy');

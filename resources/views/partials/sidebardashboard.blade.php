@@ -18,6 +18,7 @@
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">{{ Auth::user()->name }}</h6>
+                <!-- <i class="fas fa-user fa-0.5x text-primary"></i> -->
                 <span>
                     @if(Auth::user()->role)
                         {{ Auth::user()->role->display_name ?? Auth::user()->role->role_name ?? 'Admin' }}

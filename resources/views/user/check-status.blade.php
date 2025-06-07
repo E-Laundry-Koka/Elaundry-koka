@@ -176,8 +176,8 @@
             </h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>ID Pesanan</strong>
-                    <span>{{ $pesanan->id }}</span>
+                    <strong>No. Resi Pesanan</strong>
+                    <span>{{ $pesanan->nomor_resi }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Nama Pemesan</strong>
@@ -190,6 +190,10 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Alamat</strong>
                     <span>{{ $pesanan->alamat }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Lokasi Cabang</strong>
+                    <span>{{ optional($pesanan->lokasi)->nama_lokasi ?? '-' }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Tanggal Pemesanan</strong>
