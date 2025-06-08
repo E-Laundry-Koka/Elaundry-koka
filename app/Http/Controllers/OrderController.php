@@ -116,7 +116,7 @@ class OrderController extends Controller
         Pembayaran::create([
             'id_pesanan' => $pesanan->id,
             'jumlah_pembayaran' => $jumlah_pembayaran,
-            'tanggal_pembayaran' => $validated['tanggal_pemesanan'],
+            'metode_pembayaran' => $validated['metode_pembayaran']
         ]);
 
         // Redirect dengan SweetAlert

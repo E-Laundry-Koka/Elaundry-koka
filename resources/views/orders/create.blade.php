@@ -405,9 +405,8 @@
                             <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
                             <select name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
                                 <option value="">Pilih Metode</option>
-                                <option value="Cash">Cash</option>
+                                <option value="Tunai">Cash</option>
                                 <option value="Transfer">Transfer</option>
-                                <option value="Debit">Debit</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">

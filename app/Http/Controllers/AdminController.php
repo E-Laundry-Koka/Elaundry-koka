@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\Lokasi;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -27,7 +27,7 @@ class AdminController extends Controller
         // Validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admin,email',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
             'role_id' => 'required|exists:roles,id',
             'id_lokasi' => 'required|exists:lokasi,id',
@@ -57,7 +57,13 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admin,email',
+            'email' => [
+                'nullable',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($admin->id)
+            ],
             'password' => 'nullable|string|min:8',
             'role_id' => 'required|exists:roles,id',
             'id_lokasi' => 'required|exists:lokasi,id',
@@ -83,6 +89,11 @@ class AdminController extends Controller
             // Jika password diisi, hash dulu sebelum disimpan
             $validated['password'] = bcrypt($validated['password']);
         }
+
+        // Jika email tidak diisi, hapus dari array agar tidak diupdate
+        if (!$request->filled('email') || $request->input('email') === $admin->email) {
+            unset($validated['email']);
+        } 
 
         $admin->update($validated);
 

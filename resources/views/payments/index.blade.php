@@ -79,10 +79,12 @@
                             <td class="text-center">{{ $payments->firstItem() + $index }}</td>
                             <td class="text-center">{{ $item->nomor_resi }}</td>
                             <td>
-                                @if ($item->pembayaran && $item->pembayaran->tanggal_pembayaran)
+                                @if ($item->pembayaran && 
+                                    $item->pembayaran->status_pembayaran == 'Lunas' && 
+                                    $item->pembayaran->tanggal_pembayaran)
                                     {{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}
                                 @else
-                                    -
+                                    <span class="text-muted">-</span>
                                 @endif
                             </td>
                             <td>{{ $item->nama_pemesan }}</td>

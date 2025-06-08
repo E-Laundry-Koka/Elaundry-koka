@@ -21,6 +21,29 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id');
     }
+
+    // Mutator - untuk set data
+    public function setStatusPembayaranAttribute($value)
+    {
+        $this->attributes['status_pembayaran'] = $value;
+        
+        if ($value === 'Lunas' && empty($this->attributes['tanggal_pembayaran'])) {
+            $this->attributes['tanggal_pembayaran'] = now();
+        } elseif ($value !== 'Lunas') {
+            $this->attributes['tanggal_pembayaran'] = null;
+        }
+    }
+
+    // Accessor - untuk get/tampilkan data
+    public function getTanggalPembayaranAttribute($value)
+    {
+        // Hanya return tanggal jika status Lunas
+        if ($this->attributes['status_pembayaran'] === 'Lunas') {
+            return $value;
+        }
+        
+        return null;
+    }
 }
 
 class MetodePembayaran extends Model
