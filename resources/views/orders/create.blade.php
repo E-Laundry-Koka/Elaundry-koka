@@ -62,8 +62,8 @@
             </div>
         </form>
 
-        <div class="table-responsive rounded-3 overflow-hidden">
-            <table class="table table-hover align-middle mb-0">
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead class="table-dark text-center">
                     <tr>
                         <th style="width: 5%">No</th>
