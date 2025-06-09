@@ -353,7 +353,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="foto" class="form-label">Foto Profil</label>
-                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*">
+                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*" required>
                                 </div>
                             </div>
                         </div>
@@ -516,7 +516,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan Admin</button>
+                            <button type="submit" class="btn btn-primary">Simpan Lokasi</button>
                         </div>
                     </form>
                 </div>
