@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
         // Hitung total pesanan
         $totalPesanan = $isSupervisor
-            ? Pesanan::whereDate('created_at', today())->count()
+            ? Pesanan::whereDate('tanggal_pemesanan', today())->count()
             : Pesanan::where('id_lokasi', $user->id_lokasi)->whereDate('created_at', today())->count();
 
         // Total penjualan seluruh pembayaran yang sudah lunas
