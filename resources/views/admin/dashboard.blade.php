@@ -284,7 +284,7 @@
                                 </td>
 
                                 <!-- Tanggal -->
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}</td>
 
                                 <!-- Aksi -->
                                 <td>
