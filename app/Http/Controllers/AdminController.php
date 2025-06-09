@@ -32,7 +32,7 @@ class AdminController extends Controller
             'role_id' => 'required|exists:roles,id',
             'id_lokasi' => 'required|exists:lokasi,id',
             'no_hp' => 'required|string|min:12|max:13',
-            'foto_profile' => 'required',
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'alamat' => 'required|max:255',
         ]);
 
