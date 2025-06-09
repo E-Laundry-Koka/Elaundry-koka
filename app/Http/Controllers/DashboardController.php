@@ -43,11 +43,13 @@ class DashboardController extends Controller
 
         // Estimasi total pendapatan hari ini (semua pembayaran hari ini)
         $estimasitotalPendapatanPerHari = $isSupervisor
-            ? Pembayaran::whereDate('updated_at', $today)->sum('jumlah_pembayaran')
-            : Pembayaran::whereDate('updated_at', $today)
-                ->whereHas('pesanan', function ($query) use ($user) {
-                    $query->where('id_lokasi', $user->id_lokasi);
-                })->sum('jumlah_pembayaran');
+            ? Pembayaran::whereHas('pesanan', function ($query) use ($today) {
+                $query->whereDate('tanggal_pemesanan', $today);
+            })->sum('jumlah_pembayaran')
+            : Pembayaran::whereHas('pesanan', function ($query) use ($user, $today) {
+                $query->where('id_lokasi', $user->id_lokasi)
+                    ->whereDate('tanggal_pemesanan', $today);
+            })->sum('jumlah_pembayaran');
 
         // Pendapatan hari ini yang sudah lunas
         $totalpendapatanhariini = $isSupervisor
