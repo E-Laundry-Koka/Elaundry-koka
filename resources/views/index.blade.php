@@ -16,20 +16,11 @@
                 </div>
                 <div class="col-md-6 text-center text-lg-right">
                     <div class="d-inline-flex align-items-center">
-                        <a class="text-white px-3" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-white px-3" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-white px-3" href="">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a class="text-white px-3" href="https://wa.me/628117443553">
+                            <i class="fab fa-whatsapp"> Contact us</i>
                         </a>
                         <a class="text-white px-3" href="https://www.instagram.com/kokalaundryjbi_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a class="text-white pl-3" href="">
-                            <i class="fab fa-youtube"></i>
+                            <i class="fab fa-instagram"> Follow Us</i>
                         </a>
                     </div>
                 </div>
@@ -510,9 +501,7 @@
                 <a href=""><h1 class="text-secondary mb-3"><span class="text-white">KO</span>KA Laundry</h1></a>
                 <p>Koka Laundry siap memberikan layanan terbaik untuk pakaian Anda. Cepat, bersih, dan ramah lingkungan dengan harga terjangkau.</p>
                 <div class="d-flex justify-content-start mt-4">
-                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="https://wa.me/628117443553"><i class="fab fa-whatsapp"></i></a>
                     <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="https://www.instagram.com/kokalaundryjbi_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
