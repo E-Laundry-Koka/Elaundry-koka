@@ -37,8 +37,16 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('foto_profile')) {
-            $path = $request->file('foto_profile')->store('profile_pictures', 'public');
-            $validated['foto_profile'] = $path;
+            $file = $request->file('foto_profile');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('img');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $file->move($destinationPath, $filename);
+            $validated['foto_profile'] = 'img/' . $filename;
         }
 
         // Enkripsi password sebelum disimpan
@@ -74,11 +82,17 @@ class AdminController extends Controller
 
         // Jika ada foto baru, upload dan simpan path
         if ($request->hasFile('foto_profile')) {
-            // Simpan foto baru
-            $path = $request->file('foto_profile')->store('profile_pictures', 'public');
-            $validated['foto_profile'] = $path;
+            $file = $request->file('foto_profile');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('img');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $file->move($destinationPath, $filename);
+            $validated['foto_profile'] = 'img/' . $filename;
         } else {
-            // Jika tidak ada foto baru, gunakan foto lama
             $validated['foto_profile'] = $admin->foto_profile;
         }
 
