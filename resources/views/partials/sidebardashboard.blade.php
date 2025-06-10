@@ -8,7 +8,7 @@
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
                 @if(Auth::user()->foto_profile)
-                    <img class="rounded-circle" src="{{ asset('storage/' . Auth::user()->foto_profile) }}" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
+                    <img class="rounded-circle" src="{{ asset(Auth::user()->foto_profile) }}" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
                 @else
                     <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                         <i class="fa fa-user text-white"></i>
