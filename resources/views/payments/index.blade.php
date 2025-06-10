@@ -58,7 +58,7 @@
             </div>
         </form>
         <!-- Table Section -->
-        <div class="table-responsive rounded-3 overflow-hidden">
+        <div class="table-responsive">
             <table class="table align-middle table-hover mb-0">
                 <thead class="bg-primary text-white text-center">
                     <tr>
