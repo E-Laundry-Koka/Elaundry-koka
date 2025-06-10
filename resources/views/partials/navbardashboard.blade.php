@@ -68,9 +68,9 @@
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
                 @if(Auth::user()->foto_profile)
-                    <img class="rounded-circle me-lg-2" src="{{ asset(Auth::user()->foto_profile) }}" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle me-lg-2" src="{{ asset(Auth::user()->foto_profile) }}" alt="" style="width: 40px; height: 40px; object-fit: cover;">
                 @else
-                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-lg-2" style="width: 40px; height: 40px;">
                         <i class="fa fa-user text-white"></i>
                     </div>
                 @endif

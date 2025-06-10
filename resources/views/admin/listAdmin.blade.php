@@ -170,7 +170,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>
                                     @if($user->foto_profile)
-                                        <img class="rounded-circle" src="{{ asset($user->foto_profile) }}" alt="Foto Profil" style="width: 40px; height: 40px;">
+                                        <img class="rounded-circle" src="{{ asset('storage/' . $user->foto_profile) }}" alt="Foto Profil" style="width: 40px; height: 40px;">
                                     @else
                                         <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="Default" style="width: 40px; height: 40px;">
                                     @endif
