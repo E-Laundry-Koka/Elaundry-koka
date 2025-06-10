@@ -162,6 +162,7 @@
 
             <!-- Input Berat -->
             <input type="number" class="form-control" name="berat" id="inputBerat" placeholder="Berat (Kg)" min="5.0" step="0.1" required disabled>
+            <small>Masukkan berat minimal 5kg. Contoh: 5.0</small>
 
             <!-- Input Lokasi Cabang -->
             <select name="id_lokasi" class="form-control" id="lokasiSelect" required>
