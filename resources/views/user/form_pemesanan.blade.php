@@ -43,7 +43,7 @@
     .form-control {
       border-radius: 8px;
       padding: 12px 15px;
-      margin-bottom: 15px;
+      margin-top: 10px;
     }
 
     .back-button {
@@ -134,13 +134,13 @@
         <div class="form-step" id="step4">
             <h3>Data Profile</h3>
             <input type="text" class="form-control" name="nama_pemesan" placeholder="Nama Lengkap" pattern="[A-Za-z\s]+" title="Hanya huruf dan spasi yang diperbolehkan" required>
-            <small>contoh: Budi Santoso.</small>
+            <small class="text-muted"><i> contoh: Budi Santoso.</i></small>
             <input type="email" class="form-control" name="email" placeholder="Email" required>
-            <small>contoh: budi@example.com</small>
+            <small class="text-muted"><i> contoh: budi@example.com</i></small>
             <input type="tel" class="form-control" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
-            <small>contoh: 08xxxxxxx</small>
+            <small class="text-muted"><i>contoh: 08xxxxxxx</i></small>
             <input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
-            <small>Tulis alamat lengkap dan kode pos jika ada.</small>
+            <small class="text-muted"><i>Tulis alamat lengkap dan kode pos jika ada.</i></small>
         </div>
 
         <!-- Step 5 -->
@@ -162,7 +162,7 @@
 
             <!-- Input Berat -->
             <input type="number" class="form-control" name="berat" id="inputBerat" placeholder="Berat (Kg)" min="5.0" step="0.1" required disabled>
-            <small>Masukkan berat minimal 5kg. Contoh: 5.0</small>
+            <small class="text-muted"><i>Masukkan berat minimal 5kg. Contoh: 5.0</i></small>
 
             <!-- Input Lokasi Cabang -->
             <select name="id_lokasi" class="form-control" id="lokasiSelect" required>

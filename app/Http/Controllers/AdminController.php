@@ -37,8 +37,21 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('foto_profile')) {
-            $path = $request->file('foto_profile')->store('profile_pictures', 'public');
-            $validated['foto_profile'] = $path;
+            // Pastikan folder img ada
+            $destinationPath = public_path('img');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Generate nama file unik
+            $file = $request->file('foto_profile');
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Pindahkan file ke public/img
+            $file->move($destinationPath, $fileName);
+            
+            // Simpan path relatif ke database
+            $validated['foto_profile'] = 'img/' . $fileName;
         }
 
         // Enkripsi password sebelum disimpan
@@ -74,9 +87,26 @@ class AdminController extends Controller
 
         // Jika ada foto baru, upload dan simpan path
         if ($request->hasFile('foto_profile')) {
-            // Simpan foto baru
-            $path = $request->file('foto_profile')->store('profile_pictures', 'public');
-            $validated['foto_profile'] = $path;
+            // Hapus foto lama jika ada
+            if ($admin->foto_profile && file_exists(public_path($admin->foto_profile))) {
+                unlink(public_path($admin->foto_profile));
+            }
+
+            // Pastikan folder img ada
+            $destinationPath = public_path('img');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Generate nama file unik
+            $file = $request->file('foto_profile');
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Pindahkan file ke public/img
+            $file->move($destinationPath, $fileName);
+            
+            // Simpan path relatif ke database
+            $validated['foto_profile'] = 'img/' . $fileName;
         } else {
             // Jika tidak ada foto baru, gunakan foto lama
             $validated['foto_profile'] = $admin->foto_profile;
