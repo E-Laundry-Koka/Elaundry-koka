@@ -134,9 +134,13 @@
         <div class="form-step" id="step4">
             <h3>Data Profile</h3>
             <input type="text" class="form-control" name="nama_pemesan" placeholder="Nama Lengkap" pattern="[A-Za-z\s]+" title="Hanya huruf dan spasi yang diperbolehkan" required>
+            <small>contoh: Budi Santoso.</small>
             <input type="email" class="form-control" name="email" placeholder="Email" required>
+            <small>contoh: budi@example.com</small>
             <input type="tel" class="form-control" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
+            <small>contoh: 08xxxxxxx</small>
             <input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
+            <small>Tulis alamat lengkap dan kode pos jika ada.</small>
         </div>
 
         <!-- Step 5 -->
