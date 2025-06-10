@@ -166,7 +166,7 @@
                     <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto.</small>
                     <div class="mt-2">
                         @if(auth()->user()->foto_profile)
-                            <img src="{{ asset('storage/' . auth()->user()->foto_profile) }}" alt="Current Profile" class="rounded-circle" width="100">
+                            <img src="{{ asset(auth()->user()->foto_profile) }}" alt="Current Profile" class="rounded-circle" width="100">
                         @else
                             <img src="{{ asset('img/user.jpg') }}" alt="Default Profile" class="rounded-circle" width="100">
                         @endif

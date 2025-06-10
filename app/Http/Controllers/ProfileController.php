@@ -38,13 +38,16 @@ class ProfileController extends Controller
 
         // Jika ada foto baru, upload dan simpan path
         if ($request->hasFile('foto_profile')) {
-            
-            // Simpan foto baru
-            $path = $request->file('foto_profile')->store('profile_pictures', 'public');
-            $validated['foto_profile'] = $path;
-        } else {
-            // Jika tidak ada foto baru, gunakan foto lama
-            $validated['foto_profile'] = $user->foto_profile;
+            $file = $request->file('foto_profile');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('img');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $file->move($destinationPath, $filename);
+            $validated['foto_profile'] = 'img/' . $filename;
         }
 
         // Update user data
