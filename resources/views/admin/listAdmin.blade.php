@@ -4,17 +4,6 @@
 
     <style>
         /* Override Bootstrap Colors */
-        :root {
-            --bs-primary: rgb(0, 126, 205);
-            --bs-primary-rgb: 0, 126, 205;
-        }
-        .bg-primary,
-        .btn-primary,
-        .badge.bg-primary,
-        .modal-header.bg-gradient,
-        .hover-shadow:hover {
-            background-color: var(--bs-primary) !important;
-        }
         .text-primary,
         a.text-primary,
         .nav-link.active,
@@ -277,202 +266,268 @@
     <!-- Modal Add Admin -->
     <div class="modal fade" id="addAdminModal" tabindex="-1" aria-labelledby="addAdminModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient text-white">
-                    <h5 class="modal-title" id="addAdminModalLabel" style="color: white;">Tambah Admin Baru</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" id="addAdminForm">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nama" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="nama" name="name" required>
-                                </div>
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" id="addAdminForm">
+                    @csrf
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="addAdminModalLabel">
+                            <i class="bi bi-person-plus me-2 text-white"> Tambah Admin Baru</i>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body p-4">
+
+                        <!-- Informasi Akun -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-person me-2"></i>Informasi Akun
+                                </h6>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" class="form-control" id="konfirmasi_password">
-                                    <div id="passwordError" class="text-danger mt-1" style="display: none;">
-                                        Password tidak cocok
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nama" class="form-label">Nama Lengkap</label>
+                                        <input type="text" class="form-control form-control-lg" id="nama" name="name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="password" name="password" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="konfirmasi_password" class="form-label">Konfirmasi Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="konfirmasi_password">
+                                        <div id="passwordError" class="text-danger mt-1" style="display: none;">
+                                            Password tidak cocok
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" id="role" name="role_id" required>
-                                        <option value="">Pilih Role</option>
-                                        @foreach($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->role_name }}</option>
-                                        @endforeach
-                                    </select>
+
+                        <!-- Detail Profil -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Detail Profil
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-select form-select-lg" id="role" name="role_id" required>
+                                            <option value="">Pilih Role</option>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_lokasi" class="form-label">Lokasi</label>
+                                        <select class="form-select form-select-lg" id="id_lokasi" name="id_lokasi" required>
+                                            <option value="">Pilih Lokasi</option>
+                                            @foreach ($lokasiList as $location)
+                                                <option value="{{ $location->id }}">{{ $location->nama_lokasi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telepon" class="form-label">No. Telepon</label>
+                                        <input type="tel" class="form-control form-control-lg" id="telepon" name="no_hp"
+                                            minlength="12" maxlength="13" pattern="^08\d{10,11}$">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="foto" class="form-label">Foto Profil</label>
+                                        <input type="file" class="form-control form-control-lg" id="foto" name="foto_profile"
+                                            accept="image/*" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="lokasi" class="form-label">Lokasi</label>
-                                    <select class="form-select" id="id_lokasi" name="id_lokasi" required>
-                                        <option value="">Pilih Lokasi</option>
-                                        @foreach ($lokasiList as $location)
-                                            <option value="{{ $location->id }}">{{ $location->nama_lokasi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="telepon" class="form-label">No. Telepon</label>
-                                    <input type="tel" class="form-control" id="telepon" name="no_hp" minlength="12" maxlength="13" pattern="^08\d{10,11}$">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="foto" class="form-label">Foto Profil</label>
-                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan Admin</button>
+                        <!-- Alamat -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-house-door me-2"></i>Alamat
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-2"></i>Simpan Admin
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- Modal Edit Admin -->
     @foreach ($admin as $adm)
-    <div class="modal fade" id="editAdminModal{{ $adm->id }}" tabindex="-1" aria-labelledby="editAdminModalLabel{{ $adm->id }}" aria-hidden="true">
+    <div class="modal fade" id="editAdminModal{{ $adm->id }}" tabindex="-1"
+    aria-labelledby="editAdminModalLabel{{ $adm->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient text-white">
-                    <h5 class="modal-title" id="editAdminModalLabel" style="color: white;">Edit Data Admin</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('admin.update', ['id' => $adm->id]) }}" method="POST" enctype="multipart/form-data" id="editAdminForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nama" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="nama" name="name" value="{{ $adm->name }}" required>
-                                </div>
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <form action="{{ route('admin.update', ['id' => $adm->id]) }}" method="POST"
+                    enctype="multipart/form-data" id="editAdminForm">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="editAdminModalLabel{{ $adm->id }}">
+                            <i class="bi bi-person me-2 text-white"> Edit Data Admin</i>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body p-4">
+
+                        <!-- Informasi Akun -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-person me-2"></i>Informasi Akun
+                                </h6>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="{{ $adm->email }}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" class="form-control" id="konfirmasi_password">
-                                    <div id="passwordError" class="text-danger mt-1" style="display: none;">
-                                        Password tidak cocok
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nama" class="form-label">Nama Lengkap</label>
+                                        <input type="text" class="form-control form-control-lg" id="nama"
+                                            name="name" value="{{ $adm->name }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control form-control-lg" id="email"
+                                            name="email" value="{{ $adm->email }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label">Password (Opsional)</label>
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="password">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="konfirmasi_password" class="form-label">Konfirmasi Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="konfirmasi_password">
+                                        <div id="passwordError" class="text-danger mt-1" style="display: none;">
+                                            Password tidak cocok
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" id="role" name="role_id" required>
-                                        <option value="">Pilih Role</option>
-                                        @foreach($roles as $role)
-                                            <option value="{{ $role->id }}" {{ $adm->role_id == $role->id ? 'selected' : '' }}>
-                                                {{ $role->role_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+
+                        <!-- Detail Profil -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Detail Profil
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-select form-select-lg" id="role" name="role_id" required>
+                                            <option value="">Pilih Role</option>
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}"
+                                                    {{ $adm->role_id == $role->id ? 'selected' : '' }}>
+                                                    {{ $role->role_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_lokasi" class="form-label">Lokasi</label>
+                                        <select class="form-select form-select-lg" id="id_lokasi" name="id_lokasi" required>
+                                            <option value="">Pilih Lokasi</option>
+                                            @foreach ($lokasiList as $location)
+                                                <option value="{{ $location->id }}"
+                                                    {{ $adm->id_lokasi == $location->id ? 'selected' : '' }}>
+                                                    {{ $location->nama_lokasi }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telepon" class="form-label">No. Telepon</label>
+                                        <input type="tel" class="form-control form-control-lg" id="telepon"
+                                            name="no_hp" value="{{ $adm->no_hp }}" minlength="12"
+                                            maxlength="13" pattern="^08\d{10,11}$"
+                                            title="Masukkan Nomor Telepon dengan Benar">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="foto" class="form-label">Foto Profil</label>
+                                        <input type="file" class="form-control form-control-lg" id="foto"
+                                            name="foto_profile" accept="image/*">
+                                        @if ($adm->foto_profile)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $adm->foto_profile) }}"
+                                                    alt="Foto Profil" width="100" class="img-thumbnail">
+                                                <p class="text-muted mt-1">Foto saat ini</p>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="lokasi" class="form-label">Lokasi</label>
-                                    <select class="form-select" id="id_lokasi" name="id_lokasi" required>
-                                        <option value="">Pilih Lokasi</option>
-                                        @foreach ($lokasiList as $location)
-                                            <option value="{{ $location->id }}" {{ $adm->id_lokasi == $location->id ? 'selected' : '' }}>
-                                                {{ $location->nama_lokasi }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="telepon" class="form-label">No. Telepon</label>
-                                    <input type="tel" class="form-control" id="telepon" name="no_hp" value="{{ $adm->no_hp }}" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan Nomor Telepon dengan Benar">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="foto" class="form-label">Foto Profil</label>
-                                    <input type="file" class="form-control" id="foto" name="foto_profile" accept="image/*">
-                                    <!-- Tampilkan foto lama jika ada -->
-                                    @if($adm->foto_profile)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $adm->foto_profile) }}" alt="Foto Profil" width="100" class="img-thumbnail">
-                                            <p class="text-muted">Foto saat ini</p>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ $adm->alamat }}</textarea>
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan Admin</button>
+                        <!-- Alamat -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-house-door me-2"></i>Alamat
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <textarea class="form-control" id="alamat" name="alamat"
+                                                rows="3">{{ $adm->alamat }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-2"></i>Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -480,85 +535,136 @@
     
     <!-- Modal Edit Lokasi -->
     @foreach ($lokasiList as $lokasi)
-    <div class="modal fade" id="editLokasiModal{{ $lokasi->id }}" tabindex="-1" aria-labelledby="editLokasiModalLabel{{ $lokasi->id }}" aria-hidden="true">
+    <div class="modal fade" id="editLokasiModal{{ $lokasi->id }}" tabindex="-1"
+    aria-labelledby="editLokasiModalLabel{{ $lokasi->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient text-white">
-                    <h5 class="modal-title" id="editLokasiModalLabel" style="color: white;">Edit Data Lokasi</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('lokasi.update', ['id' => $lokasi->id]) }}" method="POST" enctype="multipart/form-data" id="editAdminForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
-                                <input type="text" class="form-control" id="nama_lokasi" name="nama_lokasi" value="{{ $lokasi->nama_lokasi }}" required>
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <form action="{{ route('lokasi.update', ['id' => $lokasi->id]) }}" method="POST"
+                    enctype="multipart/form-data" id="editAdminForm">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="editLokasiModalLabel{{ $lokasi->id }}">
+                            <i class="bi bi-geo-alt me-2 text-white">Edit Data Lokasi</i>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body p-4">
+
+                        <!-- Informasi Lokasi -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Informasi Lokasi
+                                </h6>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="kota" class="form-label">Kota</label>
-                                <input type="text" class="form-control" id="kota" name="kota" value="{{ $lokasi->kota }}" required>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
+                                        <input type="text" class="form-control form-control-lg" id="nama_lokasi"
+                                            name="nama_lokasi" value="{{ $lokasi->nama_lokasi }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="kota" class="form-label">Kota</label>
+                                        <input type="text" class="form-control form-control-lg" id="kota" name="kota"
+                                            value="{{ $lokasi->kota }}" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <textarea class="form-control" id="alamat" name="alamat"
+                                                rows="3">{{ $lokasi->alamat }}</textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="kode_pos" class="form-label">Kode Pos</label>
+                                        <input type="text" class="form-control form-control-lg" id="kode_pos"
+                                            name="kode_pos" value="{{ $lokasi->kode_pos }}" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ $lokasi->alamat }}</textarea>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="kode_pos" class="form-label">Kode Pos</label>
-                                <input type="text" class="form-control" id="kode_pos" name="kode_pos" value="{{ $lokasi->kode_pos }}" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan Lokasi</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-2"></i>Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     @endforeach
 
     <!-- Modal Add Location -->
-    <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal fade" id="addLocationModal" tabindex="-1"
+    aria-labelledby="addLocationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4">
                 <form action="{{ route('lokasi.store') }}" method="POST">
                     @csrf
-                    <div class="modal-header bg-gradient text-white">
-                        <h5 class="modal-title" id="addLocationModalLabel" style="color: white;">Tambah Lokasi Baru</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="addLocationModalLabel">
+                            <i class="bi bi-geo-alt me-2 text-white"> Tambah Lokasi Baru</i>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
-                            <input type="text" name="nama_lokasi" class="form-control" id="nama_lokasi" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alamat_lokasi" class="form-label">Alamat Lengkap</label>
-                            <textarea name="alamat" class="form-control" id="alamat_lokasi" rows="3" required></textarea>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="kota" class="form-label">Kota</label>
-                                    <input type="text" name="kota" class="form-control" id="kota" required>
+
+                    <!-- Body -->
+                    <div class="modal-body p-4">
+
+                        <!-- Informasi Lokasi -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Informasi Lokasi
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
+                                        <input type="text" name="nama_lokasi" class="form-control form-control-lg"
+                                            id="nama_lokasi" placeholder="Contoh: Cabang Utama Jakarta" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="alamat_lokasi" class="form-label">Alamat Lengkap</label>
+                                        <textarea name="alamat" class="form-control" id="alamat_lokasi" rows="3" required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="kota" class="form-label">Kota</label>
+                                        <input type="text" name="kota" class="form-control form-control-lg" id="kota"
+                                            placeholder="Masukkan nama kota" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="kode_pos" class="form-label">Kode Pos</label>
+                                        <input type="text" name="kode_pos" class="form-control form-control-lg" id="kode_pos"
+                                            placeholder="Contoh: 12345">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="kode_pos" class="form-label">Kode Pos</label>
-                                    <input type="text" name="kode_pos" class="form-control" id="kode_pos">
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan Lokasi</button>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-2"></i>Simpan Lokasi
+                        </button>
                     </div>
                 </form>
             </div>

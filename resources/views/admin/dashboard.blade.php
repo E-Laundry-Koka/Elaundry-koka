@@ -146,6 +146,71 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-secondary border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 me-3">
+                            <i class="fas fa-hourglass-start fa-2x text-secondary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Konfirmasi Admin</p>
+                            <h4 class="mb-0 fw-bold text-secondary">{{ $totalKonfirmasi ?? '0' }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-primary border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 me-3">
+                            <i class="fas fa-truck-pickup fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Pesanan Dalam Penjemputan</p>
+                            <h4 class="mb-0 fw-bold text-primary">{{ $totalPenjemputan ?? '0' }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-dark border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 me-3">
+                            <i class="fas fa-cog fa-2x text-dark"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Pesanan Dalam Proses</p>
+                            <h4 class="mb-0 fw-bold text-dark">{{ $totalProses ?? '0' }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-info border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 me-3">
+                            <i class="fas fa-shipping-fast fa-2x text-info"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Pesanan Dalam Pengantaran</p>
+                            <h4 class="mb-0 fw-bold text-info">{{ $totalPengantaran ?? '0' }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4 border-start border-success border-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 me-3">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-muted small">Pesanan Selesai</p>
+                            <h4 class="mb-0 fw-bold text-success">{{ $totalSelesai ?? '0' }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Sale & Revenue End -->
@@ -312,50 +377,6 @@
     <!-- Widgets Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <!-- Messages Widget -->
-            <!-- <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-light rounded p-4 border-top border-primary border-3"> -->
-                    <!-- <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="mb-0"><i class="fa fa-envelope text-primary me-2"></i>Pesan Terbaru</h6>
-                        <a href="#" class="text-primary small">Lihat Semua</a>
-                    </div> -->
-                    <!-- Message Item -->
-                    <!-- <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="position-relative">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 0.5rem;">
-                                <span class="visually-hidden">online</span>
-                            </span>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jhon Doe</h6>
-                                <small class="text-muted">15 menit lalu</small>
-                            </div>
-                            <span class="text-muted small">Kapan pesanan saya selesai?</span>
-                        </div>
-                    </div> -->
-                    <!-- Message Item -->
-                    <!-- <div class="d-flex align-items-center border-bottom py-3">
-                        <div class="position-relative">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" style="font-size: 0.5rem;">
-                                <span class="visually-hidden">offline</span>
-                            </span>
-                        </div>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jane Smith</h6>
-                                <small class="text-muted">1 jam lalu</small>
-                            </div>
-                            <span class="text-muted small">Terima kasih atas layanannya!</span>
-                        </div>
-                    </div> -->
-                    <!-- <div class="text-center mt-3">
-                        <button class="btn btn-sm btn-outline-primary">Balas Pesan</button>
-                    </div> -->
-                <!-- </div>
-            </div> -->
 
             <!-- Calendar Widget -->
             <div class="col-sm-12 col-md-6 col-xl-4">
@@ -374,7 +395,7 @@
                         </div>
 
                         <!-- Header Hari -->
-                        <div class="row g-1 text-center small fw-bold text-muted">
+                        <div class="row g-1 text-center small fw-bold text-muted mb-2">
                             <div class="col">Sen</div>
                             <div class="col">Sel</div>
                             <div class="col">Rab</div>
@@ -388,36 +409,38 @@
                         @php
                             $month = date('m');
                             $year = date('Y');
-                            $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year); // timestamp hari pertama bulan ini
+                            $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
                             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
                             $dayOfWeek = date('w', $firstDayOfMonth); // 0=minggu, 1=senin, dst...
                             $dayOfWeek = ($dayOfWeek == 0) ? 6 : $dayOfWeek - 1; // sesuaikan agar Senin = 0
+                            $totalCells = $dayOfWeek + $daysInMonth;
+                            $totalRows = ceil($totalCells / 7);
                         @endphp
 
-                        <div class="row g-1 text-center small mt-2">
-                            <!-- Kosongkan awal sesuai dengan hari pertama -->
-                            @for($i = 0; $i < $dayOfWeek; $i++)
-                                <div class="col p-1"></div>
-                            @endfor
-
-                            <!-- Loop semua tanggal -->
-                            @for($date = 1; $date <= $daysInMonth; $date++)
-                                <div class="col p-1">
-                                    @if($date == date('d'))
-                                        <span class="badge bg-primary rounded-circle">{{ $date }}</span>
-                                    @else
-                                        {{ $date }}
-                                    @endif
-                                </div>
-                                @php
-                                    $currentDay = ($dayOfWeek + $date) % 7;
-                                @endphp
-                                <!-- Mulai baris baru jika mencapai Minggu -->
-                                @if($currentDay == 0 && $date != $daysInMonth)
-                                    </div><div class="row g-1 text-center small">
-                                @endif
-                            @endfor
-                        </div>
+                        <!-- Loop untuk setiap baris minggu -->
+                        @for($week = 0; $week < $totalRows; $week++)
+                            <div class="row g-1 text-center small mb-1">
+                                @for($day = 0; $day < 7; $day++)
+                                    @php
+                                        $cellIndex = ($week * 7) + $day;
+                                        $date = $cellIndex - $dayOfWeek + 1;
+                                    @endphp
+                                    
+                                    <div class="col p-1">
+                                        @if($cellIndex < $dayOfWeek || $date > $daysInMonth)
+                                            <!-- Sel kosong untuk hari di luar bulan -->
+                                            &nbsp;
+                                        @else
+                                            @if($date == date('d'))
+                                                <span class="badge bg-primary rounded-circle">{{ $date }}</span>
+                                            @else
+                                                {{ $date }}
+                                            @endif
+                                        @endif
+                                    </div>
+                                @endfor
+                            </div>
+                        @endfor
                     </div>
                 </div>
             </div>
@@ -427,94 +450,208 @@
     @foreach ($pesanan as $item)
         <!-- Modal Detail Pesanan -->
         <div class="modal fade" id="modalDetailPesanan{{ $item->id }}" tabindex="-1"
-            aria-labelledby="modalDetailPesananLabel{{ $item->id }}" aria-hidden="true">
+        aria-labelledby="modalDetailPesananLabel{{ $item->id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content border-0 shadow-lg rounded-4">
+                    <!-- Header -->
                     <div class="modal-header bg-gradient text-white" style="background: linear-gradient(to right, #28a745, #66bb6a);">
-                        <h5 class="modal-title" id="modalDetailPesananLabel{{ $item->id }}" style="color: white" >Detail Pesanan</h5>
+                        <h5 class="modal-title" id="modalDetailPesananLabel{{ $item->id }}">
+                            <i class="bi bi-receipt me-2 text-white"> Detail Pesanan</i>
+                        </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
+                    <!-- Body -->
                     <div class="modal-body p-4">
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
-                            <div class="col-md-6"><strong>Nama Pemesan:</strong> {{ $item->nama_pemesan }}</div>
-                            <div class="col-md-6"><strong>No. Handphone:</strong> {{ $item->no_hp }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Alamat:</strong> {{ $item->alamat }}</div>
-                            <div class="col-md-6"><strong>Catatan:</strong> {{ $item->catatan }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Jenis Layanan:</strong>
-                                @if ($item->layanan)
-                                    {{ $item->layanan->nama_layanan }}
-                                @else
-                                    - Tidak ditemukan -
-                                @endif
+
+                        <!-- Informasi Pesanan -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Informasi Pesanan
+                                </h6>
                             </div>
-                            <div class="col-md-6"><strong>Harga Per Kg:</strong>
-                                @if ($item->layanan)
-                                <b style="color: #28a745;">Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</b>
-                                @else
-                                    -
-                                @endif
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Berat:</strong> {{ $item->berat }} Kg</div>
-                            <div class="col-md-6"><strong>Diskon:</strong> {{ $item->diskon ?? '0' }}%</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Total Bayar:</strong>
-                            <b style="color: #28a745;">
-                                @php
-                                    if ($item->layanan) {
-                                        $total = $item->berat * $item->layanan->harga;
-                                        $total -= $total * ($item->diskon / 100);
-                                        echo 'Rp ' . number_format($total, 0, ',', '.');
-                                    } else {
-                                        echo '-';
-                                    }
-                                @endphp
-                            </b>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6"><strong>Metode Pembayaran:</strong>
-                                    @if ($item->pembayaran)
-                                        {{ $item->pembayaran->metode_pembayaran }}
-                                    @else
-                                        - Belum ada pembayaran -
-                                    @endif
-                                </div>
-                                <div class="col-md-6"><strong>Status Pembayaran:</strong>
-                                    @if ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar')
-                                        <span class="badge bg-warning text-dark">Belum Bayar</span>
-                                    @elseif ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas')
-                                        <span class="badge bg-success">Lunas</span>
-                                    @else
-                                        <span class="badge bg-secondary">Tidak Diketahui</span>
-                                    @endif
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <strong>Nomor Resi:</strong><br>
+                                        <span class="text-primary">{{ $item->nomor_resi }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Nama Pemesan:</strong><br>
+                                        {{ $item->nama_pemesan }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>No. Handphone:</strong><br>
+                                        {{ $item->no_hp }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6"><strong>Tanggal Pemesanan:</strong>
-                                {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
+                        </div>
+
+                        <!-- Alamat & Catatan -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-house me-2"></i>Alamat & Catatan
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <strong>Alamat:</strong><br>
+                                        {{ $item->alamat }}
+                                    </div>
+                                    <div class="col-12">
+                                        <strong>Catatan:</strong><br>
+                                        {{ $item->catatan ?: '-' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Status:</strong>
-                                @if ($item->status == 'Selesai')
-                                    <span class="badge bg-success">Selesai</span>
-                                @elseif ($item->status == 'Proses')
-                                    <span class="badge bg-warning text-dark">Proses</span>
-                                @else
-                                    <span class="badge bg-secondary">{{ $item->status }}</span>
-                                @endif
+
+                        <!-- Detail Layanan -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-gear me-2"></i>Detail Layanan
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <strong>Jenis Layanan:</strong><br>
+                                        @if ($item->layanan)
+                                            {{ $item->layanan->nama_layanan }}
+                                        @else
+                                            <span class="text-muted">- Tidak ditemukan -</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Harga Per Kg:</strong><br>
+                                        @if ($item->layanan)
+                                            <span class="text-success fw-bold">
+                                                Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}
+                                            </span>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Berat:</strong><br>
+                                        {{ $item->berat }} Kg
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Diskon:</strong><br>
+                                        {{ $item->diskon ?? '0' }}%
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Total Bayar:</strong><br>
+                                        <span class="text-success fw-bold fs-5">
+                                            @php
+                                                if ($item->layanan) {
+                                                    $total = $item->berat * $item->layanan->harga;
+                                                    $total -= $total * ($item->diskon / 100);
+                                                    echo 'Rp ' . number_format($total, 0, ',', '.');
+                                                } else {
+                                                    echo '-';
+                                                }
+                                            @endphp
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informasi Pembayaran -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-credit-card me-2"></i>Informasi Pembayaran
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <strong>Metode Pembayaran:</strong><br>
+                                        @if ($item->pembayaran)
+                                            {{ $item->pembayaran->metode_pembayaran }}
+                                        @else
+                                            <span class="text-muted">- Belum ada pembayaran -</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Status Pembayaran:</strong><br>
+                                        @if ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar')
+                                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                                                <i class="bi bi-hourglass-split me-1"></i>Belum Bayar
+                                            </span>
+                                        @elseif ($item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas')
+                                            <span class="badge bg-success rounded-pill px-3 py-2">
+                                                <i class="bi bi-check-circle me-1"></i>Lunas
+                                            </span>
+                                        @else
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">
+                                                Tidak Diketahui
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Tanggal Pemesanan:</strong><br>
+                                        {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Pesanan -->
+                        <div class="card border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-flag me-2"></i>Status Pesanan
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    @php
+                                        $status = $item->status;
+                                    @endphp
+                                    @if ($status == 'Selesai')
+                                        <span class="badge bg-success fs-6 px-3 py-2">
+                                            <i class="bi bi-check-circle me-2"></i>{{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Proses')
+                                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                            <i class="bi bi-gear-wide-connected me-2"></i>{{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Konfirmasi Admin')
+                                        <span class="badge bg-secondary fs-6 px-3 py-2">
+                                            <i class="bi bi-person-check me-2"></i>{{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Dalam Pengantaran')
+                                        <span class="badge bg-primary fs-6 px-3 py-2">
+                                            <i class="bi bi-box-seam me-2"></i>{{ $status }}
+                                        </span>
+                                    @elseif ($status == 'Dalam Penjemputan')
+                                        <span class="badge bg-info text-dark fs-6 px-3 py-2">
+                                            <i class="bi bi-truck me-2"></i>{{ $status }}
+                                        </span>
+                                    @else
+                                        <span class="badge bg-light text-dark fs-6 px-3 py-2">
+                                            {{ $status }}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Tutup
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

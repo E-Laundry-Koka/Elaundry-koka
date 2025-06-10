@@ -43,6 +43,7 @@
                         <option value="created_at" {{ $sortBy == 'created_at' ? 'selected' : '' }}>Tanggal</option>
                         <option value="nama_pemesan" {{ $sortBy == 'nama_pemesan' ? 'selected' : '' }}>Nama Pemesan</option>
                         <option value="id_layanan" {{ $sortBy == 'id_layanan' ? 'selected' : '' }}>Layanan</option>
+                        <option value="status" {{ $sortBy == 'status' ? 'selected' : '' }}>Status Pesanan</option>
                     </select>
                 </div>
 
@@ -62,9 +63,9 @@
             </div>
         </form>
 
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead class="table-dark text-center">
+        <div class="table-responsive rounded-3 overflow-hidden">
+            <table class="table align-middle table-hover mb-0">
+                <thead class="bg-primary text-white text-center">
                     <tr>
                         <th style="width: 5%">No</th>
                         <th style="width: 15%">No. Resi</th>
@@ -77,66 +78,70 @@
                         <th style="width: 13%">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white">
                     @forelse ($pesanan as $history => $item)
-                        <tr class="animate__animated animate__fadeIn">
+                        <tr class="border-bottom">
                             <td class="text-center">{{ $pesanan->firstItem() + $history }}</td>
-                            <td>{{$item->nomor_resi }}</td>
+                            <td>{{ $item->nomor_resi }}</td>
                             <td>{{ $item->nama_pemesan }}</td>
                             <td class="text-center">{{ $item->no_hp }}</td>
-                            <td>{{ $item->alamat }}</td>
+                            <td class="text-truncate" style="max-width: 150px;">{{ $item->alamat }}</td>
                             <td class="text-center">{{ $item->berat }}</td>
-                            <td class="text-center">{{ $item->layanan->nama_layanan ?? '-'}}</td>
+                            <td class="text-center">{{ $item->layanan->nama_layanan ?? '-' }}</td>
                             <td class="text-center">
                                 @php
                                     $status = $item->status;
                                 @endphp
                                 @if ($status == 'Selesai')
-                                    <span class="badge bg-success rounded-pill">
+                                    <span class="badge bg-success rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         <i class="bi bi-check-circle me-1"></i> {{ $status }}
                                     </span>
                                 @elseif ($status == 'Proses')
-                                    <span class="badge bg-warning text-dark rounded-pill">
+                                    <span class="badge bg-warning text-dark rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
                                     </span>
                                 @elseif ($status == 'Konfirmasi Admin')
-                                    <span class="badge bg-secondary rounded-pill">
+                                    <span class="badge bg-secondary rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         <i class="bi bi-person-check me-1"></i> {{ $status }}
                                     </span>
                                 @elseif ($status == 'Dalam Pengantaran')
-                                    <span class="badge bg-primary rounded-pill">
+                                    <span class="badge bg-primary rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         <i class="bi bi-box-seam me-1"></i> {{ $status }}
                                     </span>
                                 @elseif ($status == 'Dalam Penjemputan')
-                                    <span class="badge bg-info text-dark rounded-pill">
+                                    <span class="badge bg-info text-dark rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         <i class="bi bi-truck me-1"></i> {{ $status }}
                                     </span>
                                 @else
-                                    <span class="badge bg-light text-dark rounded-pill">
+                                    <span class="badge bg-light text-dark border rounded-pill d-inline-flex align-items-center px-3 py-1">
                                         {{ $status }}
                                     </span>
                                 @endif
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#modalDetailPesanan{{ $item['id'] }}">
+                                <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal"
+                                    data-bs-target="#modalDetailPesanan{{ $item->id }}" title="Lihat Detail">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal" data-bs-target="#modalEditPesanan{{ $item->id }}">
+                                <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal"
+                                    data-bs-target="#modalEditPesanan{{ $item->id }}" title="Edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
-                                <form id="delete-form-{{ $item->id }}" action="{{ route('orders.destroy', $item->id) }}" method="POST" style="display: none;">
+                                <form id="delete-form-{{ $item->id }}" action="{{ route('orders.destroy', $item->id) }}"
+                                    method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('{{ $item->id }}')">
+                                <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus"
+                                    onclick="confirmDelete('{{ $item->id }}')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-4 text-muted">
-                                <i class="bi bi-inbox fs-3 mb-2"></i><br>
+                            <td colspan="9" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-2 mb-2"></i><br>
                                 Belum ada data pesanan.
                             </td>
                         </tr>
@@ -341,92 +346,150 @@
 </div>
 
 <!-- Modal Tambah Pesanan -->
-<div class="modal fade" id="modalTambahPesanan" tabindex="-1" aria-labelledby="modalTambahPesananLabel" aria-hidden="true">
+<div class="modal fade" id="modalTambahPesanan" tabindex="-1"
+    aria-labelledby="modalTambahPesananLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <form action="{{ route('orders.store') }}" method="POST">
                 @csrf
-                <div class="modal-header bg-gradient text-white" style="background: linear-gradient(to right, #007bff, #00c6ff);">
-                    <h5 class="modal-title" id="modalTambahPesananLabel">Buat Pesanan Baru</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTambahPesananLabel">
+                        <i class="bi bi-receipt me-2 text-white"> Buat Pesanan Baru</i>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
+
+                <!-- Body -->
                 <div class="modal-body p-4">
+
+                    <!-- Alert Error -->
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Error!</strong>
-                            <ul class="mb-0">
+                            <ul class="mb-0 ps-3">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="nama_pemesan" class="form-label">Nama Pemesan</label>
-                            <input type="text" class="form-control form-control-lg" id="nama_pemesan" name="nama_pemesan" required>
+                    <!-- Informasi Pelanggan -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-person me-2"></i>Informasi Pelanggan
+                            </h6>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="no_hp" class="form-label">Nomor Handphone</label>
-                            <input type="text" class="form-control form-control-lg" id="no_hp" name="no_hp" placeholder="Nomor Telepon" minlength="12" maxlength="13" pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" rows="3" required></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="id_layanan" class="form-label">Jenis Layanan</label>
-                            <select name="id_layanan" id="id_layanan" class="form-control form-control-lg" required>
-                                <option value="">Pilih Layanan</option>
-                                @foreach ($layanans as $layanan)
-                                    <option value="{{ $layanan->id }}">{{ $layanan->nama_layanan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan</label>
-                            <input type="date" class="form-control form-control-lg" id="tanggal_pemesanan" name="tanggal_pemesanan" required>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nama_pemesan" class="form-label">Nama Pemesan</label>
+                                    <input type="text" class="form-control form-control-lg" id="nama_pemesan"
+                                        name="nama_pemesan" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="no_hp" class="form-label">Nomor Handphone</label>
+                                    <input type="text" class="form-control form-control-lg" id="no_hp" name="no_hp"
+                                        placeholder="e.g. 081234567890" minlength="12" maxlength="13"
+                                        pattern="^08\d{10,11}$" title="Masukkan nomor telepon dengan benar" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="alamat" class="form-label">Alamat</label>
+                                    <textarea name="alamat" id="alamat" class="form-control" rows="3" required></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="berat" class="form-label">Berat (Kg)</label>
-                            <input type="number" class="form-control form-control-lg" id="berat" name="berat" min="0.1" step="0.1" required>
+
+                    <!-- Detail Layanan -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-gear me-2"></i>Detail Layanan
+                            </h6>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="diskon" class="form-label">Diskon (%)</label>
-                            <input type="number" class="form-control form-control-lg" id="diskon" name="diskon" min="0" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
-                            <select name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
-                                <option value="">Pilih Metode</option>
-                                <option value="Tunai">Cash</option>
-                                <option value="Transfer">Transfer</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="id_lokasi" class="form-label">Lokasi Cabang</label>
-                            <select name="id_lokasi" id="id_lokasi" class="form-control" required>
-                                <option value="">Pilih Layanan</option>
-                                @foreach ($lokasiList as $location)
-                                    <option value="{{ $location->id }}">{{ $location->nama_lokasi }}</option>
-                                @endforeach
-                            </select>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="id_layanan" class="form-label">Jenis Layanan</label>
+                                    <select name="id_layanan" id="id_layanan"
+                                        class="form-select form-select-lg" required>
+                                        <option value="">Pilih Layanan</option>
+                                        @foreach ($layanans as $layanan)
+                                            <option value="{{ $layanan->id }}">
+                                                {{ $layanan->nama_layanan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan</label>
+                                    <input type="date" class="form-control form-control-lg" id="tanggal_pemesanan"
+                                        name="tanggal_pemesanan" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="berat" class="form-label">Berat (Kg)</label>
+                                    <input type="number" class="form-control form-control-lg" id="berat" name="berat"
+                                        min="0.1" step="0.1" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="diskon" class="form-label">Diskon (%)</label>
+                                    <input type="number" class="form-control form-control-lg" id="diskon" name="diskon"
+                                        min="0" value="0" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="catatan" class="form-label">Catatan (Opsional)</label>
-                        <textarea name="catatan" id="catatan" class="form-control" rows="2"></textarea>
+
+                    <!-- Informasi Pembayaran & Lokasi -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-info-circle me-2"></i>Lainnya
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
+                                    <select name="metode_pembayaran" id="metode_pembayaran"
+                                        class="form-select form-select-lg" required>
+                                        <option value="">Pilih Metode</option>
+                                        <option value="Tunai">Cash</option>
+                                        <option value="Transfer">Transfer</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="id_lokasi" class="form-label">Lokasi Cabang</label>
+                                    <select name="id_lokasi" id="id_lokasi" class="form-select form-select-lg" required>
+                                        <option value="">Pilih Lokasi</option>
+                                        @foreach ($lokasiList as $location)
+                                            <option value="{{ $location->id }}">{{ $location->nama_lokasi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="catatan" class="form-label">Catatan (Opsional)</label>
+                                    <textarea name="catatan" id="catatan" class="form-control" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Buat Pesanan</button>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Batal
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-cart-plus me-2"></i>Buat Pesanan
+                    </button>
                 </div>
             </form>
         </div>
@@ -436,111 +499,198 @@
 @foreach ($pesanan as $item)
     <!-- Modal Detail Pesanan -->
     <div class="modal fade" id="modalDetailPesanan{{ $item->id }}" tabindex="-1"
-         aria-labelledby="modalDetailPesananLabel{{ $item->id }}" aria-hidden="true">
+     aria-labelledby="modalDetailPesananLabel{{ $item->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header bg-gradient text-white" style="background: linear-gradient(to right, #28a745, #66bb6a);">
-                    <h5 class="modal-title" id="modalDetailPesananLabel{{ $item->id }}">Detail Pesanan</h5>
+                <!-- Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalDetailPesananLabel{{ $item->id }}">
+                        <i class="bi bi-receipt me-2 text-white"> Detail Pesanan</i>
+                    </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Body -->
                 <div class="modal-body p-4">
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
-                        <div class="col-md-6"><strong>Nama Pemesan:</strong> {{ $item->nama_pemesan }}</div>
-                        <div class="col-md-6"><strong>No. Handphone:</strong> {{ $item->no_hp }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Alamat:</strong> {{ $item->alamat }}</div>
-                        <div class="col-md-6">
-                            <strong>Cabang:</strong> 
-                            @if ($item->lokasi)
-                                {{ $item->lokasi->nama_lokasi }}
-                            @else
-                                - Tidak ditemukan -
-                            @endif
+                    <!-- Informasi Pesanan -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-info-circle me-2"></i>Informasi Pesanan
+                            </h6>
                         </div>
-                        <div class="col-md-6"><strong>Catatan:</strong> {{ $item->catatan }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Jenis Layanan:</strong>
-                            @if ($item->layanan)
-                                {{ $item->layanan->nama_layanan }}
-                            @else
-                                - Tidak ditemukan -
-                            @endif
-                        </div>
-                        <div class="col-md-6"><strong>Harga Per Kg:</strong>
-                            @if ($item->layanan)
-                               <b style="color: #28a745;">Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</b>
-                            @else
-                                -
-                            @endif
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Berat:</strong> {{ $item->berat }} Kg</div>
-                        <div class="col-md-6"><strong>Diskon:</strong> {{ $item->diskon ?? '0' }}%</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Total Bayar:</strong>
-                        <b style="color: #28a745;">
-                            @php
-                                if ($item->layanan) {
-                                    $total = $item->berat * $item->layanan->harga;
-                                    $total -= $total * ($item->diskon / 100);
-                                    echo 'Rp ' . number_format($total, 0, ',', '.');
-                                } else {
-                                    echo '-';
-                                }
-                            @endphp
-                        </b>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Metode Pembayaran:</strong>
-                                @if ($item->pembayaran)
-                                    {{ $item->pembayaran->metode_pembayaran }}
-                                @else
-                                    - Belum ada pembayaran -
-                                @endif
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <strong>Nomor Resi:</strong><br>
+                                    <span class="text-primary">{{ $item->nomor_resi }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Tanggal Pemesanan:</strong><br>
+                                    {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
+                                </div>
                             </div>
-                            <div class="col-md-6"><strong>Status Pemesanan:</strong>
+                        </div>
+                    </div>
+
+                    <!-- Informasi Pelanggan -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-person me-2"></i>Informasi Pelanggan
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <strong>Nama Pemesan:</strong><br>
+                                    {{ $item->nama_pemesan }}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>No. Handphone:</strong><br>
+                                    {{ $item->no_hp }}
+                                </div>
+                                <div class="col-12">
+                                    <strong>Alamat:</strong><br>
+                                    {{ $item->alamat }}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Cabang:</strong><br>
+                                    @if ($item->lokasi)
+                                        {{ $item->lokasi->nama_lokasi }}
+                                    @else
+                                        <span class="text-muted">- Tidak ditemukan -</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Catatan:</strong><br>
+                                    {{ $item->catatan ?: '-' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Layanan -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-gear me-2"></i>Detail Layanan
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <strong>Jenis Layanan:</strong><br>
+                                    @if ($item->layanan)
+                                        {{ $item->layanan->nama_layanan }}
+                                    @else
+                                        <span class="text-muted">- Tidak ditemukan -</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Harga Per Kg:</strong><br>
+                                    @if ($item->layanan)
+                                        <span class="text-success fw-bold">
+                                            Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Berat:</strong><br>
+                                    {{ $item->berat }} Kg
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Diskon:</strong><br>
+                                    {{ $item->diskon ?? '0' }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informasi Pembayaran -->
+                    <div class="card mb-4 border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-credit-card me-2"></i>Informasi Pembayaran
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <strong>Metode Pembayaran:</strong><br>
+                                    @if ($item->pembayaran)
+                                        {{ $item->pembayaran->metode_pembayaran }}
+                                    @else
+                                        <span class="text-muted">- Belum ada pembayaran -</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Total Bayar:</strong><br>
+                                    <span class="text-success fw-bold fs-5">
+                                        @php
+                                            if ($item->layanan) {
+                                                $total = $item->berat * $item->layanan->harga;
+                                                $total -= $total * ($item->diskon / 100);
+                                                echo 'Rp ' . number_format($total, 0, ',', '.');
+                                            } else {
+                                                echo '-';
+                                            }
+                                        @endphp
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Pesanan -->
+                    <div class="card border-0 bg-light">
+                        <div class="card-header bg-transparent border-0">
+                            <h6 class="mb-0 text-muted">
+                                <i class="bi bi-flag me-2"></i>Status Pesanan
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
                                 @php
                                     $status = $item->status;
                                 @endphp
                                 @if ($status == 'Selesai')
-                                    <span class="badge bg-success">
-                                        <i class="bi bi-check-circle me-1"></i> {{ $status }}
+                                    <span class="badge bg-success fs-6 px-3 py-2">
+                                        <i class="bi bi-check-circle me-2"></i>{{ $status }}
                                     </span>
                                 @elseif ($status == 'Proses')
-                                    <span class="badge bg-warning text-dark">
-                                        <i class="bi bi-gear-wide-connected me-1"></i> {{ $status }}
+                                    <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                        <i class="bi bi-gear-wide-connected me-2"></i>{{ $status }}
                                     </span>
                                 @elseif ($status == 'Konfirmasi Admin')
-                                    <span class="badge bg-secondary">
-                                        <i class="bi bi-person-check me-1"></i> {{ $status }}
+                                    <span class="badge bg-secondary fs-6 px-3 py-2">
+                                        <i class="bi bi-person-check me-2"></i>{{ $status }}
                                     </span>
                                 @elseif ($status == 'Dalam Pengantaran')
-                                    <span class="badge bg-primary">
-                                        <i class="bi bi-box-seam me-1"></i> {{ $status }}
+                                    <span class="badge bg-primary fs-6 px-3 py-2">
+                                        <i class="bi bi-box-seam me-2"></i>{{ $status }}
                                     </span>
                                 @elseif ($status == 'Dalam Penjemputan')
-                                    <span class="badge bg-info text-dark">
-                                        <i class="bi bi-truck me-1"></i> {{ $status }}
+                                    <span class="badge bg-info text-dark fs-6 px-3 py-2">
+                                        <i class="bi bi-truck me-2"></i>{{ $status }}
                                     </span>
                                 @else
-                                    <span class="badge bg-light text-dark">
+                                    <span class="badge bg-light text-dark fs-6 px-3 py-2">
                                         {{ $status }}
                                     </span>
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-6"><strong>Tanggal Pemesanan:</strong>
-                            {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->format('d M Y') }}
-                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Tutup
+                    </button>
                 </div>
             </div>
         </div>
@@ -550,95 +700,152 @@
 @foreach ($pesanan as $item)
     <!-- Modal Edit Per Pesanan -->
     <div class="modal fade" id="modalEditPesanan{{ $item->id }}" tabindex="-1"
-         aria-labelledby="modalEditPesananLabel{{ $item->id }}" aria-hidden="true">
+    aria-labelledby="modalEditPesananLabel{{ $item->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 <form action="{{ route('orders.update', $item->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="modal-header bg-gradient text-white" style="background: linear-gradient(to right, #ffc107, #fba540);">
-                        <h5 class="modal-title" id="modalEditPesananLabel{{ $item->id }}">Edit Pesanan</h5>
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalEditPesananLabel{{ $item->id }}">
+                            <i class="bi bi-pencil-square me-2 text-white"> Edit Pesanan</i>
+                        </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
+                    <!-- Body -->
                     <div class="modal-body p-4">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nama_pemesan" class="form-label">Nama Pemesan</label>
-                                <input type="text" class="form-control" name="nama_pemesan" value="{{ $item->nama_pemesan }}" required>
+
+                        <!-- Informasi Pelanggan -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-person me-2"></i>Informasi Pelanggan
+                                </h6>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="no_hp" class="form-label">Nomor Handphone</label>
-                                <input type="text" class="form-control" name="no_hp" value="{{ $item->no_hp }}" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat" class="form-control" rows="3" required>{{ $item->alamat }}</textarea>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="lokasi" class="form-label">Lokasi Cabang</label>
-                                <select class="form-select" id="id_lokasi" name="id_lokasi" required>
-                                    <option value="">Pilih Lokasi</option>
-                                    @foreach ($lokasiList as $location)
-                                        <option value="{{ $location->id }}" {{ $item->id_lokasi == $location->id ? 'selected' : '' }}>
-                                            {{ $location->nama_lokasi }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="id_layanan" class="form-label">Jenis Layanan</label>
-                                <select name="id_layanan" id="id_layanan" class="form-select" required>
-                                    <option value="">Pilih Layanan</option>
-                                    @foreach ($layanans as $layanan)
-                                        <option value="{{ $layanan->id }}" {{ $item->id_layanan == $layanan->id ? 'selected' : '' }}>
-                                            {{ $layanan->nama_layanan }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nama_pemesan" class="form-label">Nama Pemesan</label>
+                                        <input type="text" class="form-control form-control-lg" name="nama_pemesan"
+                                            value="{{ $item->nama_pemesan }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="no_hp" class="form-label">Nomor Handphone</label>
+                                        <input type="text" class="form-control form-control-lg" name="no_hp"
+                                            value="{{ $item->no_hp }}" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <textarea name="alamat" class="form-control" rows="3" required>{{ $item->alamat }}</textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="no_hp" class="form-label">Nomor Handphone</label>
-                            <input type="text" class="form-control" name="no_hp" value="{{ $item->no_hp }}" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="berat" class="form-label">Berat (Kg)</label>
-                                <input type="number" class="form-control" name="berat" value="{{ $item->berat }}" min="0.1" step="0.1" required>
+
+                        <!-- Detail Layanan -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-gear me-2"></i>Detail Layanan
+                                </h6>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="diskon" class="form-label">Diskon (%)</label>
-                                <input type="number" class="form-control" name="diskon" value="{{ $item->diskon }}" min="0" required>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="id_lokasi" class="form-label">Lokasi Cabang</label>
+                                        <select class="form-select form-select-lg" id="id_lokasi" name="id_lokasi" required>
+                                            <option value="">Pilih Lokasi</option>
+                                            @foreach ($lokasiList as $location)
+                                                <option value="{{ $location->id }}"
+                                                    {{ $item->id_lokasi == $location->id ? 'selected' : '' }}>
+                                                    {{ $location->nama_lokasi }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_layanan" class="form-label">Jenis Layanan</label>
+                                        <select name="id_layanan" id="id_layanan" class="form-select form-select-lg" required>
+                                            <option value="">Pilih Layanan</option>
+                                            @foreach ($layanans as $layanan)
+                                                <option value="{{ $layanan->id }}"
+                                                    {{ $item->id_layanan == $layanan->id ? 'selected' : '' }}>
+                                                    {{ $layanan->nama_layanan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="berat" class="form-label">Berat (Kg)</label>
+                                        <input type="number" class="form-control form-control-lg" name="berat"
+                                            value="{{ $item->berat }}" min="0.1" step="0.1" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="diskon" class="form-label">Diskon (%)</label>
+                                        <input type="number" class="form-control form-control-lg" name="diskon"
+                                            value="{{ $item->diskon }}" min="0" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
-                            <select name="status_pembayaran" id="status_pembayaran" class="form-control" required>
-                                <option value="">Pilih Status</option>
-                                <option value="Belum Bayar" {{ $item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar' ? 'selected' : '' }}>
-                                    Belum Bayar
-                                </option>
-                                <option value="Lunas" {{ $item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas' ? 'selected' : '' }}>
-                                    Lunas
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" name="status" required>
-                                <option value="Konfirmasi Admin" {{ $item->status == 'Konfirmasi Admin' ? 'selected' : '' }}>Konfirmasi Admin</option>
-                                <option value="Dalam Penjemputan" {{ $item->status == 'Dalam Penjemputan' ? 'selected' : '' }}>Dalam Penjemputan</option>
-                                <option value="Proses" {{ $item->status == 'Proses' ? 'selected' : '' }}>Proses</option>
-                                <option value="Dalam Pengantaran" {{ $item->status == 'Dalam Pengantaran' ? 'selected' : '' }}>Dalam Pengantaran</option>
-                                <option value="Selesai" {{ $item->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                            </select>
+
+                        <!-- Status & Pembayaran -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-flag me-2"></i>Status & Pembayaran
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
+                                        <select name="status_pembayaran" id="status_pembayaran"
+                                            class="form-select form-select-lg" required>
+                                            <option value="">Pilih Status</option>
+                                            <option value="Belum Bayar"
+                                                {{ $item->pembayaran && $item->pembayaran->status_pembayaran == 'Belum Bayar' ? 'selected' : '' }}>
+                                                Belum Bayar
+                                            </option>
+                                            <option value="Lunas"
+                                                {{ $item->pembayaran && $item->pembayaran->status_pembayaran == 'Lunas' ? 'selected' : '' }}>
+                                                Lunas
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select class="form-select form-select-lg" name="status" required>
+                                            <option value="Konfirmasi Admin"
+                                                {{ $item->status == 'Konfirmasi Admin' ? 'selected' : '' }}>Konfirmasi Admin
+                                            </option>
+                                            <option value="Dalam Penjemputan"
+                                                {{ $item->status == 'Dalam Penjemputan' ? 'selected' : '' }}>Dalam Penjemputan
+                                            </option>
+                                            <option value="Proses" {{ $item->status == 'Proses' ? 'selected' : '' }}>Proses
+                                            </option>
+                                            <option value="Dalam Pengantaran"
+                                                {{ $item->status == 'Dalam Pengantaran' ? 'selected' : '' }}>Dalam Pengantaran
+                                            </option>
+                                            <option value="Selesai" {{ $item->status == 'Selesai' ? 'selected' : '' }}>Selesai
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-outline-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-2"></i>Simpan Perubahan
+                        </button>
                     </div>
                 </form>
             </div>

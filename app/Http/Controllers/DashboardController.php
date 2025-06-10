@@ -62,6 +62,26 @@ class DashboardController extends Controller
                 $query->where('id_lokasi', $user->id_lokasi)
                     ->whereDate('tanggal_pemesanan', $today);
             })->sum('jumlah_pembayaran');
+        
+        $statusList = [
+            'totalKonfirmasi'   => 'Konfirmasi Admin',
+            'totalPenjemputan'  => 'Dalam Penjemputan',
+            'totalPengantaran'  => 'Dalam Pengantaran',
+            'totalSelesai'      => 'Selesai',
+            'totalProses'       => 'Proses'
+        ];
+
+        $data = [];
+
+        foreach ($statusList as $key => $status) {
+            $data[$key] = $isSupervisor
+                ? Pesanan::where('status', $status)->count()
+                : Pesanan::where('status', $status)
+                    ->where('id_lokasi', $user->id_lokasi)
+                    ->count();
+        }
+
+        extract($data);
 
         return view('admin.dashboard', compact(
             'admin',
@@ -69,7 +89,12 @@ class DashboardController extends Controller
             'totalPesanan',
             'totalPenjualan',
             'totalpendapatanhariini',
-            'estimasitotalPendapatanPerHari'
+            'estimasitotalPendapatanPerHari',
+            'totalKonfirmasi',
+            'totalPenjemputan',
+            'totalPengantaran',
+            'totalSelesai',
+            'totalProses'
         ));
     }
 }

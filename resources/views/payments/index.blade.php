@@ -58,61 +58,66 @@
             </div>
         </form>
         <!-- Table Section -->
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead class="table-dark text-center">
+        <div class="table-responsive rounded-3 overflow-hidden">
+            <table class="table align-middle table-hover mb-0">
+                <thead class="bg-primary text-white text-center">
                     <tr>
                         <th>No</th>
                         <th>Nomor Resi</th>
-                        <th>Tanggal Pembayaran</th>
+                        <th>Tanggal Bayar</th>
                         <th>Nama Pemesan</th>
-                        <th>Metode Pembayaran</th>
+                        <th>Metode</th>
                         <th>Jumlah Bayar</th>
-                        <th>Status Pembayaran</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                @forelse ($payments as $index => $item)
-                    @if ($item->pembayaran) {{-- Pastikan pesanan memiliki pembayaran --}}
-                        <tr class="animate__animated animate__fadeIn">
-                            <td class="text-center">{{ $payments->firstItem() + $index }}</td>
-                            <td class="text-center">{{ $item->nomor_resi }}</td>
-                            <td>
-                                @if ($item->pembayaran && 
-                                    $item->pembayaran->status_pembayaran == 'Lunas' && 
-                                    $item->pembayaran->tanggal_pembayaran)
-                                    {{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
-                            <td>{{ $item->nama_pemesan }}</td>
-                            <td class="text-center">{{ $item->pembayaran->metode_pembayaran }}</td>
-                            <td class="text-end">Rp {{ number_format($item->pembayaran->jumlah_pembayaran, 0, ',', '.') }}</td>
-                            <td class="text-center">
-                                @if ($item->pembayaran->status_pembayaran == 'Lunas')
-                                    <span class="badge bg-success rounded-pill">Lunas</span>
-                                @else
-                                    <span class="badge bg-warning text-dark rounded-pill">Pending</span>
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#modalDetailPembayaran{{ $item->id }}">
-                                    <i class="bi bi-eye"></i>
-                                </button>
+                <tbody class="bg-white">
+                    @forelse ($payments as $index => $item)
+                        @if ($item->pembayaran) {{-- Pastikan pesanan memiliki pembayaran --}}
+                            <tr class="border-bottom">
+                                <td class="text-center">{{ $payments->firstItem() + $index }}</td>
+                                <td class="text-center">{{ $item->nomor_resi }}</td>
+                                <td class="text-center">
+                                    @if ($item->pembayaran && 
+                                        $item->pembayaran->status_pembayaran == 'Lunas' && 
+                                        $item->pembayaran->tanggal_pembayaran)
+                                        {{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                <td>{{ $item->nama_pemesan }}</td>
+                                <td class="text-center">{{ $item->pembayaran->metode_pembayaran }}</td>
+                                <td class="text-end">Rp {{ number_format($item->pembayaran->jumlah_pembayaran, 0, ',', '.') }}</td>
+                                <td class="text-center">
+                                    @if ($item->pembayaran->status_pembayaran == 'Lunas')
+                                        <span class="badge bg-success rounded-pill d-inline-flex align-items-center px-3 py-1">
+                                            <i class="bi bi-check-circle me-1"></i> Lunas
+                                        </span>
+                                    @else
+                                        <span class="badge bg-warning text-dark rounded-pill d-inline-flex align-items-center px-3 py-1">
+                                            <i class="bi bi-hourglass-split me-1"></i> Pending
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                        data-bs-target="#modalDetailPembayaran{{ $item->id }}" title="Lihat Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endif
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-2 mb-2"></i><br>
+                                Belum ada riwayat pembayaran.
                             </td>
                         </tr>
-                    @endif
-                @empty
-                    <tr>
-                        <td colspan="8" class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox fs-3 mb-2"></i><br>
-                            Belum ada riwayat pembayaran.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
+                    @endforelse
+                </tbody>
             </table>
         </div>
         </div>    
@@ -371,38 +376,71 @@
 
 @foreach ($payments as $item)
     @if ($item->pembayaran) {{-- Pastikan pesanan memiliki pembayaran --}}
-        <div class="modal fade" id="modalDetailPembayaran{{ $item->id }}" tabindex="-1" ...>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Detail Pembayaran</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="modal fade" id="modalDetailPembayaran{{ $item->id }}" tabindex="-1"
+        aria-labelledby="modalDetailPembayaranLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalDetailPembayaranLabel{{ $item->id }}">
+                            <i class="bi bi-credit-card me-2 text-white"> Detail Pembayaran</i>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Nama Pemesan:</strong> {{ $item->nama_pemesan }}</div>
-                            <div class="col-md-6"><strong>Tanggal:</strong> 
-                                {{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}
+                    <!-- Body -->
+                    <div class="modal-body p-4">
+                        <!-- Informasi Pembayaran -->
+                        <div class="card mb-4 border-0 bg-light">
+                            <div class="card-header bg-transparent border-0">
+                                <h6 class="mb-0 text-muted">
+                                    <i class="bi bi-info-circle me-2"></i>Informasi Pembayaran
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <strong>Nama Pemesan:</strong><br>
+                                        {{ $item->nama_pemesan }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Tanggal Pembayaran:</strong><br>
+                                        {{ \Carbon\Carbon::parse($item->pembayaran->tanggal_pembayaran)->format('d M Y') }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Metode Pembayaran:</strong><br>
+                                        {{ $item->pembayaran->metode_pembayaran }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Jumlah Bayar:</strong><br>
+                                        <span class="text-success fw-bold">
+                                            Rp {{ number_format($item->pembayaran->jumlah_pembayaran, 0, ',', '.') }}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Status Pembayaran:</strong><br>
+                                        @if ($item->pembayaran->status_pembayaran == 'Lunas')
+                                            <span class="badge bg-success">Lunas</span>
+                                        @else
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>ID Transaksi:</strong><br>
+                                        {{ $item->id }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Nomor Resi:</strong><br>
+                                        {{ $item->nomor_resi }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Metode:</strong> {{ $item->pembayaran->metode_pembayaran }}</div>
-                            <div class="col-md-6"><strong>Jumlah Bayar:</strong> Rp {{ number_format($item->pembayaran->jumlah_pembayaran, 0, ',', '.') }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6"><strong>Status Pembayaran:</strong>
-                                @if ($item->pembayaran->status_pembayaran == 'Lunas')
-                                    <span class="badge bg-success">Lunas</span>
-                                @else
-                                    <span class="badge bg-warning text-dark">Pending</span>
-                                @endif
-                            </div>
-                            <div class="col-md-6"><strong>ID Transaksi:</strong> {{ $item->id }}</div>
-                            <div class="col-md-6"><strong>Nomor Resi:</strong> {{ $item->nomor_resi }}</div>
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Tutup
+                        </button>
                     </div>
                 </div>
             </div>
