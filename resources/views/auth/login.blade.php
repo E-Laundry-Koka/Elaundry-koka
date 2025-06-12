@@ -97,15 +97,15 @@
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
+                <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email"
-                       value="{{ old('email') }}" placeholder="Enter email" required autofocus>
+                       value="{{ old('email') }}" placeholder="Masukkan Email" required autofocus>
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password"
-                       placeholder="Password" required>
+                       placeholder="Masukkan Password" required>
             </div>
 
             <div class="mb-3 form-check">
